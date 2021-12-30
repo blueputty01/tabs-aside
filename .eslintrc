@@ -1,23 +1,22 @@
 {
-  "parser": "@babel/eslint-parser",
-  "extends": ["react", "prettier"],
   "env": {
+    "es6": true,
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
-  "settings": {
-    "react": {
-      "version": "detect"
+  "extends": ["airbnb", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2016,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
     }
   },
-  "ignorePatterns": ["/dist"],
+  "plugins": ["prettier", "react"],
+  "parser": "@babel/eslint-parser",
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "auto"
-      }
-    ]
-  },
-  "plugins": ["prettier"]
+    "no-param-reassign": 0
+  }
 }

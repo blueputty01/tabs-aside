@@ -1,16 +1,23 @@
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.jsx',
   devtool: 'inline-source-map',
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
     filename: 'bundle.js',
     clean: true,
   },
+  resolve: { extensions: ['.js', '.jsx'] },
   module: {
     rules: [
       {
@@ -35,6 +42,14 @@ module.exports = {
     new ESLintPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve('./public/index.html'),
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: './src/manifest.json',
+          to: 'manifest.json',
+        },
+      ],
     }),
   ],
 };
