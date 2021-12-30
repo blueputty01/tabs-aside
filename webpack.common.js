@@ -3,8 +3,10 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+console.log(this.mode);
+
 module.exports = {
-  entry: './src/index.jsx',
+  entry: './src/popup.jsx',
   devtool: 'inline-source-map',
   performance: {
     hints: false,
@@ -12,8 +14,8 @@ module.exports = {
     maxAssetSize: 512000,
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, './build'),
+    publicPath: '/build/',
     filename: 'bundle.js',
     clean: true,
   },
@@ -41,7 +43,7 @@ module.exports = {
   plugins: [
     new ESLintPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve('./public/index.html'),
+      template: path.resolve('./src/popup.html'),
     }),
     new CopyPlugin({
       patterns: [

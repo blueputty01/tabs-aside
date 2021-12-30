@@ -18,5 +18,6 @@
   "parser": "@babel/eslint-parser",
   "rules": {
     "no-param-reassign": 0
-  }
+  },
+  "ignorePatterns": ["./build/*"]
 }
