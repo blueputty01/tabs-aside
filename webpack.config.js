@@ -9,7 +9,7 @@ module.exports = (env, options) => {
   }/`;
   // const icons = ['icon16.png', 'icon48.png', 'icon128.png'];
   return {
-    entry: './src/popup.jsx',
+    entry: './src/popup.tsx',
     devtool: 'inline-source-map',
     performance: {
       hints: false,
@@ -22,9 +22,14 @@ module.exports = (env, options) => {
       filename: 'bundle.js',
       clean: true,
     },
-    resolve: { extensions: ['.js', '.jsx'] },
+    resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     module: {
       rules: [
+        {
+          test: /\.tsx?$/,
+          use: 'ts-loader',
+          exclude: /node_modules/,
+        },
         {
           test: /\.(js|jsx)$/,
           exclude: /node_modules/,
@@ -47,6 +52,7 @@ module.exports = (env, options) => {
       new ESLintPlugin(),
       new HtmlWebpackPlugin({
         template: path.resolve('./src/popup.html'),
+        filename: 'popup.html',
       }),
       new CopyPlugin({
         patterns: [
