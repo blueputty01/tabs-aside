@@ -1,5 +1,6 @@
 import React from 'react';
+import './Header.scss';
 
-export default function App() {
+export default function Header() {
   return <header>Tabs Aside</header>;
 }

@@ -3,35 +3,33 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const pages = ['app', 'options'];
+
 module.exports = (env, options) => {
-  const iconPath = `./src/img/branding/${
+  const iconPath = `./src/shared/img/branding/${
     options.mode === 'production' ? 'prod' : 'dev'
   }/`;
-  // const icons = ['icon16.png', 'icon48.png', 'icon128.png'];
+
   return {
-    entry: './src/popup.tsx',
+    entry: pages.reduce((config, page) => {
+      config[page] = `./src/${page}/index`;
+      return config;
+    }, {}),
     devtool: 'inline-source-map',
-    performance: {
-      hints: false,
-      maxEntrypointSize: 512000,
-      maxAssetSize: 512000,
-    },
     output: {
+      filename: '[name].js',
       path: path.resolve(__dirname, './build'),
-      publicPath: '/build/',
-      filename: 'bundle.js',
-      clean: true,
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
     },
     resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          use: 'ts-loader',
-          exclude: /node_modules/,
-        },
-        {
-          test: /\.(js|jsx)$/,
+          test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
           use: ['babel-loader'],
         },
@@ -50,10 +48,6 @@ module.exports = (env, options) => {
     },
     plugins: [
       new ESLintPlugin(),
-      new HtmlWebpackPlugin({
-        template: path.resolve('./src/popup.html'),
-        filename: 'popup.html',
-      }),
       new CopyPlugin({
         patterns: [
           {
@@ -66,6 +60,16 @@ module.exports = (env, options) => {
           },
         ],
       }),
-    ],
+    ].concat(
+      pages.map(
+        (page) =>
+          new HtmlWebpackPlugin({
+            inject: true,
+            template: `./src/${page}/index.html`,
+            filename: `${page}.html`,
+            chunks: [page],
+          })
+      )
+    ),
   };
 };
