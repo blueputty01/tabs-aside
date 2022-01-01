@@ -15,10 +15,11 @@ module.exports = (env, options) => {
       config[page] = `./src/${page}/index`;
       return config;
     }, {}),
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     output: {
       filename: '[name].js',
       path: path.resolve(__dirname, './build'),
+      clean: true,
     },
     optimization: {
       splitChunks: {

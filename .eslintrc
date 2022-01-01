@@ -19,5 +19,5 @@
   "rules": {
     "no-param-reassign": 0
   },
-  "ignorePatterns": ["./build/*"]
+  "ignorePatterns": ["/build", "/node_modules"]
 }
