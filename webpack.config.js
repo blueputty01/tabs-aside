@@ -6,16 +6,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pages = ['app', 'options'];
 
 module.exports = (env, options) => {
-  const iconPath = `./src/shared/img/branding/${
-    options.mode === 'production' ? 'prod' : 'dev'
-  }/`;
+  const prod = options.mode === 'production';
+  const iconPath = `./src/shared/img/branding/${prod ? 'prod' : 'dev'}/`;
 
   return {
     entry: pages.reduce((config, page) => {
       config[page] = `./src/${page}/index`;
       return config;
     }, {}),
-    devtool: 'source-map',
+    devtool: prod ? 'source-map' : 'inline-source-map',
     output: {
       filename: '[name].js',
       path: path.resolve(__dirname, './build'),
