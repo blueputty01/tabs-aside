@@ -1,0 +1,10 @@
+@import '../../shared/scss/global.scss';
+
+html,
+body {
+  background: var(--main-background);
+  color: var(--main-text-color);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  user-select: none;
+}

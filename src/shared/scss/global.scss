@@ -1,0 +1,51 @@
+@import 'colors.scss';
+
+a {
+  color: var(--accent-color);
+}
+
+a:visited {
+  color: var(--accent-color);
+}
+
+button {
+  background: transparent;
+  border: transparent solid 2px;
+  outline: none;
+  color: var(--button-color);
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--hover);
+}
+
+button:active {
+  background: var(--gray);
+}
+
+button:focus {
+  border: var(--light-gray) solid 2px;
+}
+
+button.accent {
+  color: var(--accent-color);
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+}
+
+button.accent:hover {
+  background: var(--accent-hover) !important;
+}
+
+button.accent:active {
+  background: var(--accent-active) !important;
+}
+
+button.accent:active {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+button.accent:focus {
+  border: var(--accent-color) solid 2px !important;
+}

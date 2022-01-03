@@ -1,3 +1,39 @@
+@import '../../shared/scss/global.scss';
+@import '../../shared/scss/utilities.scss';
+
 header {
+  background-color: var(--main-background);
+  border-bottom: var(--light-gray) solid 1px;
   padding: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: -0.01rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 0;
+  @include vertically-centered;
+}
+
+body {
+  padding: 60px 0 0 0;
+}
+
+#logo {
+  margin-right: 0.8rem;
+  width: 1.3rem;
+}
+
+header > button {
+  float: right;
+  margin: 0 0 0 10px;
+  padding: 10.5px;
+  height: 40px;
+  width: 40px;
+  border-radius: 25px;
+}
+
+header > button > img {
+  height: 15px;
+  width: 15px;
 }
