@@ -13,7 +13,7 @@ export default function Header({ fullscreen }: props) {
       <Logo></Logo>
       <div className="button-container">
         <Button type="settings"></Button>
-        <Button type="fullscreen"></Button>
+        {fullscreen && <Button type="fullscreen"></Button>}
       </div>
     </header>
   );
