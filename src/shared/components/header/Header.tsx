@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.scss';
 import Logo from './Logo';
+import Button from './Button';
 
 interface props {
   fullscreen: boolean;
@@ -11,17 +12,8 @@ export default function Header({ fullscreen }: props) {
     <header>
       <Logo></Logo>
       <div className="button-container">
-        <button id="fullscreen-button" title="Open this pop-up in a new window">
-          <img
-            src="/img/icons/fullscreen.svg"
-            alt="fullscreen"
-            draggable="false"
-          />
-        </button>
-
-        <button id="settings-button" title="Settings">
-          <img src="/img/icons/settings.svg" alt="settings" draggable="false" />
-        </button>
+        <Button type="settings"></Button>
+        <Button type="fullscreen"></Button>
       </div>
     </header>
   );

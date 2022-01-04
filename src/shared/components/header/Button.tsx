@@ -3,26 +3,13 @@ import './Header.scss';
 import Logo from './Logo';
 
 interface props {
-  fullscreen: boolean;
+  type: string;
 }
 
-export default function Button({ fullscreen }: props) {
+export default function Button({ type }: props) {
   return (
-    <header>
-      <Logo></Logo>
-      <div className="button-container">
-        <button id="fullscreen-button" title="Open this pop-up in a new window">
-          <img
-            src="/img/icons/fullscreen.svg"
-            alt="fullscreen"
-            draggable="false"
-          />
-        </button>
-
-        <button id="settings-button" title="Settings">
-          <img src="/img/icons/settings.svg" alt="settings" draggable="false" />
-        </button>
-      </div>
-    </header>
+    <button id={type} title={type}>
+      <img src={`/img/icons/${type}.svg`} alt={type} draggable="false" />
+    </button>
   );
 }
