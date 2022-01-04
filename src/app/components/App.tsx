@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import Header from './Header';
+import Header from '../../shared/components/header/Header';
 
 export default function App() {
   function fullscreen(): boolean {
