@@ -1,11 +1,28 @@
 import React from 'react';
 import './Header.scss';
+import Logo from './Logo';
 
-export default function Header() {
+interface props {
+  fullscreen: boolean;
+}
+
+export default function Header({ fullscreen }: props) {
   return (
     <header>
-      <img src="./icon48.png" alt="logo" id="logo" />
-      Tabs Aside
+      <Logo></Logo>
+      <div className="button-container">
+        <button id="fullscreen-button" title="Open this pop-up in a new window">
+          <img
+            src="/img/icons/fullscreen.svg"
+            alt="fullscreen"
+            draggable="false"
+          />
+        </button>
+
+        <button id="settings-button" title="Settings">
+          <img src="/img/icons/settings.svg" alt="settings" draggable="false" />
+        </button>
+      </div>
     </header>
   );
 }

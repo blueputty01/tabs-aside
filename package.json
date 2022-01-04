@@ -7,12 +7,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --watch --mode=development",
-    "build:production": "webpack --mode=production"
+    "type-check": "tsc",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run type-check && npm run build:js",
+    "build:js": "webpack --mode=production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/preset-typescript": "^7.16.7",
     "@types/node-sass": "^4.11.2",
     "copy-webpack-plugin": "^10.2.0",
     "eslint-webpack-plugin": "^3.1.1",

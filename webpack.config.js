@@ -58,6 +58,10 @@ module.exports = (env, options) => {
             from: iconPath,
             to: './',
           },
+          {
+            from: './src/shared/img/icons',
+            to: './img/icons',
+          },
         ],
       }),
     ].concat(

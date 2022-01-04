@@ -3,17 +3,22 @@ import './App.scss';
 import Header from './Header';
 
 export default function App() {
-  const queryString = window.location.search;
-  console.log(queryString);
-  if (queryString.length > 0) {
-    import('./App-popup.scss').then(() => {
-      console.log();
-    });
+  function fullscreen(): boolean {
+    const urlParams = new URLSearchParams(window.location.search);
+    const popup = urlParams.get('popup') === 'true';
+    return popup;
   }
+
+  const full = fullscreen();
+
+  if (full) {
+    import('../styles/popup.scss');
+  }
+
   return (
-    <div>
-      <Header></Header>
+    <React.Fragment>
+      <Header fullscreen={full}></Header>
       <main></main>
-    </div>
+    </React.Fragment>
   );
 }
