@@ -33,7 +33,6 @@
     "jest",
     "src/setupTests.ts"
   ],
-  "typeAcquisition": { "include": ["chrome"] },
-  "types": ["typePatches"],
+  "types": ["typePatches", "chrome"],
   "include": ["src"]
 }
