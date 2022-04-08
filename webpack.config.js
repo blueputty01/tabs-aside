@@ -47,6 +47,7 @@ module.exports = (env, options) => {
       ],
     },
     plugins: [
+      // @ts-ignore
       new ESLintPlugin(),
       new CopyPlugin({
         patterns: [
