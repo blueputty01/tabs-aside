@@ -39,7 +39,17 @@ module.exports = (env, options) => {
             // Creates `style` nodes from JS strings
             'style-loader',
             // Translates CSS into CommonJS
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  // getLocalIdent: getCSSModuleLocalIdent,
+                  localIdentName: '[name]_[local]_[hash:base64]',
+                },
+                importLoaders: 2,
+                sourceMap: true,
+              },
+            },
             // Compiles Sass to CSS
             'sass-loader',
           ],
