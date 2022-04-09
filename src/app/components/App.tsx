@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Header from '../../shared/components/header/Header';
+import Create from './Create';
 
 export default function App() {
   function fullscreen(): boolean {
@@ -18,7 +19,9 @@ export default function App() {
   return (
     <React.Fragment>
       <Header fullscreen={full}></Header>
-      <main></main>
+      <main>
+        <Create></Create>
+      </main>
     </React.Fragment>
   );
 }

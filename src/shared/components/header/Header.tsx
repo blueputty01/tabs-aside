@@ -1,7 +1,7 @@
-import React from 'react';
-import './Header.scss';
+import React, { MouseEventHandler } from 'react';
+import styles from './Header.scss';
 import Logo from './Logo';
-import Button from './Button';
+import Button from '../Button';
 
 interface props {
   fullscreen: boolean;
@@ -23,13 +23,30 @@ export default function Header({ fullscreen }: props) {
     });
   };
 
+  interface Icon {
+    type?: string;
+    onClick: MouseEventHandler;
+  }
+
+  const Icon = (props: Icon) => {
+    return (
+      <Button alt={props.type} onClick={props.onClick}>
+        <img
+          src={`/img/icons/${props.type}.svg`}
+          alt={props.type}
+          draggable="false"
+        />
+      </Button>
+    );
+  };
+
   return (
     <header>
       <Logo></Logo>
-      <div className="button-container">
-        <Button type="settings" onClick={settingsHandler}></Button>
+      <div className={styles.buttonContainer}>
+        <Icon type="settings" onClick={settingsHandler}></Icon>
         {fullscreen && (
-          <Button type="fullscreen" onClick={fullscreenHandler}></Button>
+          <Icon type="fullscreen" onClick={fullscreenHandler}></Icon>
         )}
       </div>
     </header>

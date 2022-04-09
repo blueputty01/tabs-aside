@@ -9,3 +9,15 @@ body {
   margin: 0;
   display: flex;
 }
+
+main {
+  width: 100vw;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+button {
+  border-radius: 10px;
+}

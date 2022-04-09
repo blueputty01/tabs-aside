@@ -1,5 +1,9 @@
 @import 'colors.scss';
 
+* {
+  box-sizing: border-box;
+}
+
 a {
   color: var(--accent-color);
 }
@@ -48,4 +52,44 @@ button.accent:active {
 
 button.accent:focus {
   border: var(--accent-color) solid 2px !important;
+}
+
+:root {
+  --main-background: hsl(0, 0%, 100%);
+  --main-text-color: #143052;
+  --accent-hs: 205, 83%;
+  --color: #158ee5;
+  --light-accent-color: hsl(var(--accent-hs), 90%);
+  --accent-color: hsl(var(--accent-hs), 49%);
+  --accent-hover: hsl(var(--accent-hs), 90%);
+  --accent-active: hsl(var(--accent-hs), 80%);
+  --accent-selected: hsl(var(--accent-hs), 75%);
+  --hover: hsla(216, 10%, 80%, 40%);
+  --light-gray: hsl(216, 10%, 90%);
+  --gray: hsl(216, 10%, 80%);
+  --dark-gray: hsl(216, 10%, 40%);
+  --button-color: #5c6470;
+  /* --shadow: 0 1px 2px 0 hsla(206, 6%, 25%, 0.3), 0 2px 6px 2px hsla(206, 6%, 25%, 0.1); */
+  --shadow: 0 1px 2px 0 hsla(206, 6%, 25%, 0.3),
+    0 2px 6px 2px hsla(206, 6%, 25%, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-background: hsl(213, 5%, 10%);
+    --main-text-color: hsl(0, 0%, 60%);
+    --accent-hs: 205, 33%;
+    --hover: hsla(216, 10%, 30%, 40%);
+    --light-accent-color: hsl(var(--accent-hs), 20%);
+    --accent-color: hsl(var(--accent-hs), 49%);
+    --accent-hover: hsl(var(--accent-hs), 15%);
+    --accent-active: hsl(var(--accent-hs), 20%);
+    --accent-selected: hsl(var(--accent-hs), 25%);
+    --light-gray: hsl(216, 10%, 20%);
+    --gray: hsl(216, 10%, 25%);
+    --dark-gray: hsl(216, 10%, 45%);
+    --button-color: #5c6470;
+    --shadow: 0 1px 2px 0 hsla(206, 6%, 55%, 0.3),
+      0 2px 6px 2px hsla(206, 6%, 55%, 0.1);
+  }
 }

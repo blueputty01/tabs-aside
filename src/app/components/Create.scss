@@ -1,0 +1,15 @@
+.add {
+  display: flex;
+  column-gap: 0.8rem;
+  height: 3.5rem;
+  font-size: 1rem;
+
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    height: 1rem;
+    fill: currentColor;
+    width: 1rem;
+  }
+}
