@@ -1,14 +1,40 @@
-import React from 'react';
-import Button from '../../shared/components/Button';
+import React, {
+  MutableRefObject,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styles from './Create.scss';
+import utils from '../../shared/scss/utils.scss';
 
-import Add from './add.svg';
+import AddIcon from './add.svg';
 
-export default function Header() {
+interface props {
+  autoFocus?: boolean;
+}
+
+export default function CreateButton(props: props) {
+  const ref = useRef() as MutableRefObject<HTMLInputElement>;
+  const [hasFocus, setFocus] = useState(false);
+
+  useEffect(() => {
+    if (document.hasFocus() && ref.current?.contains(document.activeElement)) {
+      setFocus(true);
+    }
+  }, []);
+
   return (
-    <Button alt="add" className={[styles.add].join('')} onClick={() => {}}>
-      <Add />
+    <button
+      title="Crate a session"
+      className={[styles.add, utils.accent].join(' ')}
+      onClick={() => {}}
+      onFocus={() => setFocus(true)}
+      onBlur={() => setFocus(false)}
+      autoFocus={props.autoFocus}
+    >
+      <AddIcon />
       Add Session
-    </Button>
+    </button>
   );
 }

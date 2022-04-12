@@ -20,7 +20,7 @@ export default function App() {
     <React.Fragment>
       <Header fullscreen={full}></Header>
       <main>
-        <Create></Create>
+        <Create autoFocus={true}></Create>
       </main>
     </React.Fragment>
   );

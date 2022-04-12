@@ -1,0 +1,29 @@
+@mixin vertically-centered {
+  display: flex;
+  align-items: center;
+}
+
+.hidden {
+  display: hidden;
+}
+
+.accent {
+  color: var(--accent-color);
+  box-shadow: var(--shadow);
+}
+
+.accent:hover {
+  background: var(--accent-hover);
+}
+
+.accent:active {
+  background: var(--accent-active);
+}
+
+.accent:active {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.accent:focus {
+  border: var(--accent-color) solid 2px;
+}

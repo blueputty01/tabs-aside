@@ -1,7 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import styles from './Header.scss';
 import Logo from './Logo';
-import Button from '../Button';
 
 interface props {
   fullscreen: boolean;
@@ -30,13 +29,13 @@ export default function Header({ fullscreen }: props) {
 
   const Icon = (props: Icon) => {
     return (
-      <Button alt={props.type} onClick={props.onClick}>
+      <button title={props.type} onClick={props.onClick}>
         <img
           src={`/img/icons/${props.type}.svg`}
           alt={props.type}
           draggable="false"
         />
-      </Button>
+      </button>
     );
   };
 
