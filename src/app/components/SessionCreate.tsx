@@ -24,19 +24,31 @@ export default function SessionCreate(props: props) {
       overlayClassName={styles.overlay}
       closeTimeoutMS={100}
     >
-      <button onClick={props.closeModal} className={styles.close}>
-        <CloseIcon />
-      </button>
-      <input type="text" className={styles.title} />
-      <span>Select tabs:</span>
-      <div className={styles.openTabs}></div>
-      <label htmlFor="" className={styles.closeCreate}>
-        <input type="checkbox" />
-        <span>Close selected tabs</span>
-      </label>
-      <button onClick={props.onSubmit} className={styles.doneCreate}>
-        Done
-      </button>
+      <div className={styles.row1}>
+        <input
+          type="text"
+          placeholder="Session name"
+          className={styles.title}
+        />
+        <button onClick={props.closeModal} className={styles.close}>
+          <CloseIcon />
+        </button>
+      </div>
+
+      <div>
+        <span>Select tabs:</span>
+        <div className={styles.openTabs}></div>
+      </div>
+
+      <div className={styles.lastRow}>
+        <label className={styles.closeCreate}>
+          <input type="checkbox" className={styles.closeCreate} />
+          <span className={styles.closeCreate}>Close selected tabs</span>
+        </label>
+        <button onClick={props.onSubmit} className={styles.doneCreate}>
+          Done
+        </button>
+      </div>
     </Modal>
   );
 }
