@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import Header from '../../shared/components/header/Header';
+import Header from './Header';
 import Create from './Create';
 
 export default function App() {
