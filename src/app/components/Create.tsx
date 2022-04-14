@@ -1,4 +1,5 @@
 import React, {
+  MouseEventHandler,
   MutableRefObject,
   ReactElement,
   useEffect,
@@ -12,6 +13,7 @@ import AddIcon from './add.svg';
 
 interface props {
   autoFocus?: boolean;
+  onClick?: MouseEventHandler;
 }
 
 export default function CreateButton(props: props) {
@@ -28,7 +30,7 @@ export default function CreateButton(props: props) {
     <button
       title="Crate a session"
       className={[styles.add, utils.accent].join(' ')}
-      onClick={() => {}}
+      onClick={props.onClick}
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
       autoFocus={props.autoFocus}
