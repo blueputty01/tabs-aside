@@ -22,12 +22,14 @@ export default function PopupHeader(props: props) {
     });
   };
 
-  const buttons = <Icon type="settings" onClick={settingsHandler}></Icon>;
-  {
-    props.fullscreen && (
-      <Icon type="fullscreen" onClick={fullscreenHandler}></Icon>
-    );
-  }
+  const buttons = (
+    <React.Fragment>
+      <Icon type="settings" onClick={settingsHandler}></Icon>
+      {props.fullscreen && (
+        <Icon type="fullscreen" onClick={fullscreenHandler}></Icon>
+      )}
+    </React.Fragment>
+  );
 
   return <Header buttons={buttons}></Header>;
 }
