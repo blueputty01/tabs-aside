@@ -2,8 +2,10 @@ import React, { MouseEventHandler } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from './SessionCreate.scss';
+import utils from '../../shared/scss/utils.scss';
 
 import CloseIcon from '../../shared/img/icons/close.svg';
+import OpenTabs from './OpenTabs';
 
 interface props {
   isOpen: boolean;
@@ -35,9 +37,9 @@ export default function SessionCreate(props: props) {
         </button>
       </div>
 
-      <div>
+      <div className={styles.openTabContainer}>
         <span>Select tabs:</span>
-        <div className={styles.openTabs}></div>
+        <OpenTabs className={styles.openTabs}></OpenTabs>
       </div>
 
       <div className={styles.lastRow}>
@@ -45,7 +47,10 @@ export default function SessionCreate(props: props) {
           <input type="checkbox" className={styles.closeCreate} />
           <span className={styles.closeCreate}>Close selected tabs</span>
         </label>
-        <button onClick={props.onSubmit} className={styles.doneCreate}>
+        <button
+          onClick={props.onSubmit}
+          className={[styles.doneCreate, utils.accent].join(' ')}
+        >
           Done
         </button>
       </div>

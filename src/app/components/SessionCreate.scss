@@ -2,11 +2,12 @@
 
 .modal {
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
   row-gap: 1rem;
 
   max-width: 80rem;
   width: 90vw;
+  max-height: 90vh;
 
   border-radius: 10px;
   padding: 1rem;
@@ -129,10 +130,16 @@ label.closeCreate > input:active {
 }
 
 .openTabs {
-  margin: 0 0 20px 0;
+  width: 100%;
   border: var(--gray) solid 2px;
   border-radius: 10px;
   overflow-y: auto;
+}
+
+.openTabContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .select-all {

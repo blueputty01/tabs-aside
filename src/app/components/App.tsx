@@ -31,6 +31,8 @@ export default function App() {
     setOpen(false);
   };
 
+  console.log('loaded');
+
   return (
     <React.Fragment>
       <Header fullscreen={full}></Header>

@@ -3,6 +3,10 @@
   align-items: center;
 }
 
+.grow {
+  flex-grow: 1;
+}
+
 .hidden {
   display: hidden;
 }
