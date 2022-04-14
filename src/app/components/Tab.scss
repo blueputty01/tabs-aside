@@ -1,0 +1,77 @@
+.tab {
+  overflow: hidden;
+  height: 2rem;
+  /* fit to w/ or w/o scrollbar */
+  width: auto;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tab:hover,
+.hover-blue {
+  background-color: var(--accent-hover);
+}
+
+.tab:active,
+.active-blue {
+  background-color: var(--accent-active);
+}
+
+.tab.gray:hover {
+  background-color: var(--hover);
+}
+
+.tab.gray:active {
+  background-color: var(--gray);
+}
+
+.selected {
+  background-color: var(--accent-selected) !important;
+}
+
+.title {
+  flex-grow: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  background: linear-gradient(
+    90deg,
+    var(--main-text-color) calc(100% - 20px),
+    transparent
+  );
+  background-clip: initial;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.title.shortened {
+  width: calc(100% - 35px - 10px - 30px);
+  background: linear-gradient(
+    90deg,
+    var(--main-text-color) calc(100% - 20px),
+    transparent
+  );
+  background-clip: initial;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tab .close {
+  float: right;
+  margin: 7.5px 10px 7.5px 0px;
+  padding: 5px;
+  height: 20px;
+  width: 20px;
+}
+
+.tab .close img {
+  height: 8px;
+  width: 8px;
+}
+
+.icon {
+  flex-shrink: 0;
+  margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
