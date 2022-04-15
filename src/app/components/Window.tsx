@@ -10,20 +10,16 @@ interface WindowProps extends chrome.windows.Window {
 export default function Window(props: WindowProps) {
   const [hover, setHover] = useState(false);
 
-  const mouseEnterHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    setHover(true);
-  };
-
-  const mouseExitHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    setHover(false);
+  const hoverHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+    setHover(!hover);
   };
 
   return (
     <React.Fragment>
       <span
         className={styles.windowLabel}
-        onMouseEnter={mouseEnterHandler}
-        onMouseLeave={mouseExitHandler}
+        onMouseEnter={hoverHandler}
+        onMouseLeave={hoverHandler}
       >
         {props.i == 0 ? 'Current Window' : `Window ${props.i + 1}`}
       </span>
