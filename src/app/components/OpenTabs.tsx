@@ -7,58 +7,53 @@ import React, {
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from './SessionCreate.scss';
-import Tab from './Tab';
-
-interface props {
+import Window from './Window';
+interface OpenTabProps {
   className: string;
 }
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
 
-function Window() {}
-
-export default function OpenTabs(props: props) {
+export default function OpenTabs(props: OpenTabProps) {
   const def: chrome.windows.Window[] = [];
   const [windows, setWindows] = useState(def);
+  const [currWin, setCurr] = useState(-1);
 
   const getWindows = () => {
-    chrome.windows.getCurrent({}, (currWin: chrome.windows.Window) => {
+    chrome.windows.getCurrent({}, (curr) => {
       chrome.windows.getAll(
         { populate: true },
         (windows: chrome.windows.Window[]) => {
-          console.log(windows);
           setWindows(windows);
+          setCurr(curr.id!);
         }
       );
     });
   };
 
   useEffect(() => {
-    console.log('hi');
-
     if (windows == []) {
       return;
     }
     getWindows();
   }, []);
 
-  const windowElements = windows.map((window) => {
-    return (
-      <div key={window.id}>
-        {window.tabs!.map((tab) => {
-          return (
-            <Tab
-              title={tab.title!}
-              url={tab.url!}
-              faviconUrl={tab.favIconUrl!}
-              key={tab.id?.toString()}
-            ></Tab>
-          );
-        })}
-      </div>
-    );
-  });
+  const reordered = [...windows];
+
+  if (typeof windows[0] != 'undefined') {
+    const curr = windows.findIndex((window) => window.id === currWin);
+
+    //to, from
+
+    reordered.splice(0, 0, reordered.splice(curr, 1)[0]);
+  }
+
+  console.log(reordered);
+
+  const windowElements = reordered.map((window, i) => (
+    <Window {...window} key={window.id} i={i}></Window>
+  ));
 
   return <div className={props.className}>{windowElements}</div>;
 }

@@ -17,7 +17,7 @@ export default function App() {
     import('../styles/popup.scss');
   }
 
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(true);
 
   const addHandler = () => {
     setOpen(true);

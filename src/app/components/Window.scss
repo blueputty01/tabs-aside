@@ -1,4 +1,17 @@
+.window {
+  // border-radius: 10px 10px 0 0;
+  // overflow: hidden;
+}
+
 .windowLabel {
+  position: sticky;
+  top: 0;
+  width: 100%;
   display: inline-block;
   padding: 0.5rem;
+  background-color: var(--main-background);
+
+  &:hover {
+    background-color: var(--accent-hover);
+  }
 }
