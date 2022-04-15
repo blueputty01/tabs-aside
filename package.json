@@ -7,8 +7,6 @@
   "scripts": {
     "browser:check": "npx browserslist",
     "browser:update": "npx browserslist@latest --update-db",
-    "test": "jest",
-    "test:watch": "jest --watch",
     "dev": "webpack --watch --mode=development",
     "type-check": "tsc",
     "type-check:watch": "npm run type-check -- --watch",
@@ -35,9 +33,6 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@svgr/webpack": "^6.2.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^14.0.4",
     "@types/chrome": "0.0.180",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
