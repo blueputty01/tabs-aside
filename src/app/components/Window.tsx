@@ -14,6 +14,10 @@ export default function Window(props: WindowProps) {
     setHover(!hover);
   };
 
+  const tabClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+    console.log(event.currentTarget);
+  };
+
   return (
     <React.Fragment>
       <span
@@ -31,6 +35,7 @@ export default function Window(props: WindowProps) {
             faviconUrl={tab.favIconUrl!}
             key={tab.id?.toString()}
             hover={hover}
+            onClick={tabClickHandler}
           ></Tab>
         );
       })}
