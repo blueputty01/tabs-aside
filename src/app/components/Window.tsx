@@ -18,7 +18,13 @@ export default function Window(props: WindowProps) {
     hover: boolean;
   }
 
-  const defSel: { [key: string]: { hover: boolean; selected: boolean } } = {};
+  interface tabStatesI {
+    [key: string]: { hover: boolean; selected: boolean };
+  }
+
+  const [windowSelected, setWindowSelection] = useState(false);
+
+  const defSel: tabStatesI = {};
 
   const [tabStates, setTabStates] = useState(defSel);
 
@@ -36,31 +42,79 @@ export default function Window(props: WindowProps) {
   });
 
   const hoverHandler = (event: React.MouseEvent) => {
-    const newSel = { ...tabStates };
-    for (const key in newSel) {
-      flipState(key, 'hover');
-    }
+    const newStates = { ...tabStates };
+    tabData.forEach((tab) => {
+      flipState(newStates, tab.key, 'hover');
+    });
+
+    setTabStates(newStates);
   };
 
-  const flipState = (key: string, state: string) => {
-    const newSel = { ...tabStates };
+  const clickHandler = (event: React.MouseEvent) => {
+    const newStates = { ...tabStates };
+    tabData.forEach((tab) => {
+      flipState(newStates, tab.key, 'selected', !windowSelected);
+    });
+    setTabStates(newStates);
+    setWindowSelection(!windowSelected);
+  };
+
+  const flipState = (
+    states: tabStatesI,
+    key: string,
+    state: string,
+    def?: boolean
+  ): boolean => {
+    const defNull = typeof def === 'undefined';
+    let newState: boolean = defNull ? true : def;
     if (typeof tabStates[key] == 'undefined') {
       const newObj = { selected: false, hover: false };
-      newObj[state as keyof typeof newObj] = true;
-      newSel[key] = newObj;
+      newObj[state as keyof typeof newObj] = newState;
+      states[key] = newObj;
     } else {
-      const obj = newSel[key];
-      obj[state as keyof typeof obj] = !obj[state as keyof typeof obj];
+      const obj = states[key];
+      if (defNull) {
+        newState = !obj[state as keyof typeof obj];
+      }
+      obj[state as keyof typeof obj] = newState;
     }
-    setTabStates(newSel);
+    return newState;
   };
 
   const tabClickHandler = (event: React.MouseEvent, key: string) => {
-    flipState(key, 'selected');
+    const newStates = { ...tabStates };
+    const selected = flipState(newStates, key, 'selected');
+    setTabStates(newStates);
+
+    if (windowSelected) {
+      if (!selected) {
+        setWindowSelection(false);
+      }
+    } else {
+      if (selected) {
+        const stateKeys = Object.keys(newStates);
+
+        if (tabData.length === stateKeys.length) {
+          let all = true;
+
+          for (const key of stateKeys) {
+            if (!newStates[key].selected) {
+              all = false;
+              break;
+            }
+          }
+          if (all) {
+            setWindowSelection(true);
+          }
+        }
+      }
+    }
   };
 
   const tabHoverHandler = (event: React.MouseEvent, key: string) => {
-    flipState(key, 'hover');
+    const newStates = { ...tabStates };
+    const selected = flipState(newStates, key, 'hover');
+    setTabStates(newStates);
   };
 
   const TabList = tabData.map((tab) => {
@@ -81,9 +135,12 @@ export default function Window(props: WindowProps) {
   return (
     <React.Fragment>
       <span
-        className={styles.windowLabel}
+        className={[styles.windowLabel, windowSelected && styles.selected].join(
+          ' '
+        )}
         onMouseEnter={hoverHandler}
         onMouseLeave={hoverHandler}
+        onClick={clickHandler}
       >
         {props.i == 0 ? 'Current Window' : `Window ${props.i + 1}`}
       </span>

@@ -9,4 +9,8 @@
   &:hover {
     background-color: var(--accent-hover);
   }
+
+  &.selected {
+    background-color: var(--accent-active);
+  }
 }
