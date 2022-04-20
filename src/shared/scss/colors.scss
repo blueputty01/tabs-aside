@@ -23,7 +23,7 @@
   :root {
     --main-background: hsl(213, 5%, 10%);
     --main-text-color: hsl(0, 0%, 60%);
-    --accent-hs: 205, 33%;
+    --accent-hs: 205, 25%;
     --hover: hsla(216, 10%, 30%, 40%);
     --light-accent-color: hsl(var(--accent-hs), 20%);
     --accent-color: hsl(var(--accent-hs), 49%);
@@ -34,7 +34,7 @@
     --gray: hsl(216, 10%, 25%);
     --dark-gray: hsl(216, 10%, 45%);
     --button-color: #5c6470;
-    --overlay-color: hsla(205, 13%, 20%, 75%);
+    --overlay-color: hsla(205, 13%, 2%, 75%);
     --shadow: 0 1px 2px 0 hsla(206, 6%, 55%, 0.3),
       0 2px 6px 2px hsla(206, 6%, 55%, 0.1);
   }
