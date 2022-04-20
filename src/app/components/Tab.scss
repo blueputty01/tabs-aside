@@ -8,12 +8,10 @@
   cursor: pointer;
 }
 
-.tab:hover,
 .hoverBlue {
   background-color: var(--accent-hover);
 }
 
-.tab:active,
 .active {
   background-color: var(--accent-active);
 }

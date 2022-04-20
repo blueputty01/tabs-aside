@@ -8,15 +8,75 @@ interface WindowProps extends chrome.windows.Window {
 }
 
 export default function Window(props: WindowProps) {
-  const [hover, setHover] = useState(false);
+  interface tabObj {
+    title: string;
+    url: string;
+    favIconUrl: string;
+    id: number;
+    key: string;
+    selected: boolean;
+    hover: boolean;
+  }
 
-  const hoverHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    setHover(!hover);
+  const defSel: { [key: string]: { hover: boolean; selected: boolean } } = {};
+
+  const [tabStates, setTabStates] = useState(defSel);
+
+  const tabData: tabObj[] = props.tabs!.map((tab): tabObj => {
+    const key = tab.id!.toString();
+    return {
+      title: tab.title!,
+      url: tab.url!,
+      favIconUrl: tab.favIconUrl!,
+      id: tab.id!,
+      key: key,
+      selected: tabStates[key]?.selected || false,
+      hover: tabStates[key]?.hover || false,
+    };
+  });
+
+  const hoverHandler = (event: React.MouseEvent) => {
+    const newSel = { ...tabStates };
+    for (const key in newSel) {
+      flipState(key, 'hover');
+    }
   };
 
-  const tabClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
-    console.log(event.currentTarget);
+  const flipState = (key: string, state: string) => {
+    const newSel = { ...tabStates };
+    if (typeof tabStates[key] == 'undefined') {
+      const newObj = { selected: false, hover: false };
+      newObj[state as keyof typeof newObj] = true;
+      newSel[key] = newObj;
+    } else {
+      const obj = newSel[key];
+      obj[state as keyof typeof obj] = !obj[state as keyof typeof obj];
+    }
+    setTabStates(newSel);
   };
+
+  const tabClickHandler = (event: React.MouseEvent, key: string) => {
+    flipState(key, 'selected');
+  };
+
+  const tabHoverHandler = (event: React.MouseEvent, key: string) => {
+    flipState(key, 'hover');
+  };
+
+  const TabList = tabData.map((tab) => {
+    return (
+      <Tab
+        hoverHandler={(event) => {
+          tabHoverHandler(event, tab.key);
+        }}
+        {...tab}
+        hover={tab.hover}
+        onClick={(event) => {
+          tabClickHandler(event, tab.key);
+        }}
+      ></Tab>
+    );
+  });
 
   return (
     <React.Fragment>
@@ -27,18 +87,7 @@ export default function Window(props: WindowProps) {
       >
         {props.i == 0 ? 'Current Window' : `Window ${props.i + 1}`}
       </span>
-      {props.tabs!.map((tab) => {
-        return (
-          <Tab
-            title={tab.title!}
-            url={tab.url!}
-            faviconUrl={tab.favIconUrl!}
-            key={tab.id?.toString()}
-            hover={hover}
-            onClick={tabClickHandler}
-          ></Tab>
-        );
-      })}
+      {TabList}
     </React.Fragment>
   );
 }
