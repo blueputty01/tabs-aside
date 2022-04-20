@@ -13,6 +13,7 @@ Chrome Extension to save tabs for later. Check it out on the [Chrome Web Store](
 Project is created with:
 
 - React
+- SASS
 
 ## Setup
 
