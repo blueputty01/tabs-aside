@@ -81,7 +81,7 @@ export default function Window(props: WindowProps) {
     return newState;
   };
 
-  const tabClickHandler = (event: React.MouseEvent, key: string) => {
+  const tabClickHandler = (event: React.MouseEvent, key: string, i: number) => {
     const newStates = { ...tabStates };
     const selected = flipState(newStates, key, 'selected');
     setTabStates(newStates);
@@ -117,7 +117,7 @@ export default function Window(props: WindowProps) {
     setTabStates(newStates);
   };
 
-  const TabList = tabData.map((tab) => {
+  const TabList = tabData.map((tab, i) => {
     return (
       <Tab
         hoverHandler={(event) => {
@@ -126,7 +126,7 @@ export default function Window(props: WindowProps) {
         {...tab}
         hover={tab.hover}
         onClick={(event) => {
-          tabClickHandler(event, tab.key);
+          tabClickHandler(event, tab.key, i);
         }}
       ></Tab>
     );
