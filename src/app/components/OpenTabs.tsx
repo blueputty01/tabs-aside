@@ -45,11 +45,8 @@ export default function OpenTabs(props: OpenTabProps) {
     const curr = windows.findIndex((window) => window.id === currWin);
 
     //to, from
-
     reordered.splice(0, 0, reordered.splice(curr, 1)[0]);
   }
-
-  console.log(reordered);
 
   const windowElements = reordered.map((window, i) => (
     <Window {...window} key={window.id} i={i}></Window>

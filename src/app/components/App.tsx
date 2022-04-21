@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
 import Header from './Header';
-import CreateButton from './Create';
-import SessionCreate from './SessionCreate';
+import SessionManager from './SessionManager';
 
 export default function App() {
   function fullscreen(): boolean {
@@ -16,34 +15,12 @@ export default function App() {
   if (full) {
     import('../styles/popup.scss');
   }
-
-  const [isOpen, setOpen] = useState(true);
-
-  const addHandler = () => {
-    setOpen(true);
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-  };
-
-  const submitNewSession = () => {
-    setOpen(false);
-  };
-
   console.log('loaded');
 
   return (
     <React.Fragment>
       <Header fullscreen={full}></Header>
-      <main>
-        <CreateButton autoFocus={true} onClick={addHandler}></CreateButton>
-        <SessionCreate
-          isOpen={isOpen}
-          closeModal={closeModal}
-          onSubmit={submitNewSession}
-        ></SessionCreate>
-      </main>
+      <SessionManager></SessionManager>
     </React.Fragment>
   );
 }

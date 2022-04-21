@@ -7,7 +7,8 @@ interface props {
   hover?: boolean;
   selected?: boolean;
   onClick?: MouseEventHandler;
-  hoverHandler: MouseEventHandler;
+  onMouseEnter: MouseEventHandler;
+  onMouseLeave: MouseEventHandler;
   url: string;
   favIconUrl: string;
 }
@@ -17,12 +18,12 @@ export default function Tab(props: props) {
     <div
       className={[
         styles.tab,
-        props.hover && !props.selected && styles.hoverBlue,
-        props.selected && styles.active,
+        props.hover && !props.selected ? styles.hoverBlue : null,
+        props.selected ? styles.active : null,
       ].join(' ')}
       onClick={props.onClick}
-      onMouseEnter={props.hoverHandler}
-      onMouseLeave={props.hoverHandler}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
     >
       <img className={styles.icon} src={`chrome://favicon/${props.url}`}></img>
       <span className={styles.title}>{props.title}</span>

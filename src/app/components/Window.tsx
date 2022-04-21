@@ -111,17 +111,24 @@ export default function Window(props: WindowProps) {
     }
   };
 
-  const tabHoverHandler = (event: React.MouseEvent, key: string) => {
+  const onTabMouseHover = (
+    event: React.MouseEvent,
+    key: string,
+    hover: boolean
+  ) => {
     const newStates = { ...tabStates };
-    const selected = flipState(newStates, key, 'hover');
+    const selected = flipState(newStates, key, 'hover', hover);
     setTabStates(newStates);
   };
 
   const TabList = tabData.map((tab, i) => {
     return (
       <Tab
-        hoverHandler={(event) => {
-          tabHoverHandler(event, tab.key);
+        onMouseEnter={(event) => {
+          onTabMouseHover(event, tab.key, true);
+        }}
+        onMouseLeave={(event) => {
+          onTabMouseHover(event, tab.key, false);
         }}
         {...tab}
         hover={tab.hover}

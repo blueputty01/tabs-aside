@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { FormEventHandler, MouseEventHandler } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from './SessionCreate.scss';
@@ -8,12 +8,15 @@ import CloseIcon from '../../shared/img/icons/close.svg';
 import OpenTabs from './OpenTabs';
 
 interface props {
+  title: string;
+  closeAll: boolean;
   isOpen: boolean;
+  nameChangeHandler: FormEventHandler;
+  checkChangeHandler: FormEventHandler;
   closeModal: MouseEventHandler;
   onSubmit: MouseEventHandler;
 }
 
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
 
 export default function SessionCreate(props: props) {
@@ -30,6 +33,8 @@ export default function SessionCreate(props: props) {
         <input
           type="text"
           placeholder="Session name"
+          value={props.title}
+          onChange={props.nameChangeHandler}
           className={styles.title}
         />
         <button onClick={props.closeModal} className={styles.close}>
@@ -44,7 +49,12 @@ export default function SessionCreate(props: props) {
 
       <div className={styles.lastRow}>
         <label className={styles.closeCreate}>
-          <input type="checkbox" className={styles.closeCreate} />
+          <input
+            type="checkbox"
+            className={styles.closeCreate}
+            checked={props.closeAll}
+            onChange={props.checkChangeHandler}
+          />
           <span className={styles.closeCreate}>Close selected tabs</span>
         </label>
         <button
