@@ -1,4 +1,5 @@
 {
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "javascript.updateImportsOnFileMove.enabled": "always"
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true
 }
