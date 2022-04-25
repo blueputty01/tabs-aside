@@ -10,6 +10,7 @@ import styles from './SessionCreate.scss';
 import Window from './Window';
 interface OpenTabProps {
   className: string;
+  onSelectionChange: Function;
 }
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)

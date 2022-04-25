@@ -12,41 +12,19 @@ interface props {
 }
 
 export default function SessionManager(props: props) {
-  const defaultTitle = '';
-  const defaultChecked = false;
-
   const [isOpen, setOpen] = useState(true);
-  const [title, setTitle] = useState(defaultTitle);
-  const [checked, setChecked] = useState(defaultChecked);
 
   const addHandler = () => {
     setOpen(true);
   };
 
-  const clear = () => {
-    setTitle(defaultTitle);
-    setChecked(defaultChecked);
-  };
-
   const closeModal = () => {
     setOpen(false);
-    clear();
   };
 
   const submitNewSession = () => {
     // save(title, checked, null);
     setOpen(false);
-    clear();
-  };
-
-  const nameChangeHandler = (event: FormEvent<HTMLInputElement>) => {
-    const inputEle = event.target as HTMLInputElement;
-    setTitle(inputEle.value);
-  };
-
-  const checkHandler = (event: FormEvent<HTMLInputElement>) => {
-    const inputEle = event.target as HTMLInputElement;
-    setChecked(inputEle.checked);
   };
 
   return (
@@ -55,11 +33,7 @@ export default function SessionManager(props: props) {
       <CreateModal
         isOpen={isOpen}
         closeModal={closeModal}
-        onSubmit={submitNewSession}
-        title={title}
-        closeAll={checked}
-        nameChangeHandler={nameChangeHandler}
-        checkChangeHandler={checkHandler}
+        save={submitNewSession}
       ></CreateModal>
     </React.Fragment>
   );

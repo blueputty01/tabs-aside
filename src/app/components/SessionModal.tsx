@@ -1,25 +1,61 @@
-import React, { FormEventHandler, MouseEventHandler } from 'react';
+import React, {
+  FormEvent,
+  FormEventHandler,
+  MouseEventHandler,
+  useEffect,
+  useState,
+} from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import styles from './SessionCreate.scss';
+import styles from './SessionModal.scss';
 import utils from '../../shared/scss/utils.scss';
 
 import CloseIcon from '../../shared/img/icons/close.svg';
 import OpenTabs from './OpenTabs';
 
-interface props {
+interface tabData {
   title: string;
-  closeAll: boolean;
+  url: string;
+}
+interface props {
   isOpen: boolean;
-  nameChangeHandler: FormEventHandler;
-  checkChangeHandler: FormEventHandler;
   closeModal: MouseEventHandler;
-  onSubmit: MouseEventHandler;
+  save: (title: string, checked: boolean, tabs: tabData[]) => void;
 }
 
 Modal.setAppElement('#root');
 
 export default function SessionCreate(props: props) {
+  const defaultTitle = '';
+  const defaultChecked = false;
+
+  const [title, setTitle] = useState(defaultTitle);
+  const [closeAll, setChecked] = useState(defaultChecked);
+  const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    if (!props.isOpen) {
+      setTitle(defaultTitle);
+      setChecked(defaultChecked);
+    }
+  }, [props.isOpen]);
+
+  const nameChangeHandler = (event: FormEvent<HTMLInputElement>) => {
+    const inputEle = event.target as HTMLInputElement;
+    setTitle(inputEle.value);
+  };
+
+  const checkChangeHandler = (event: FormEvent<HTMLInputElement>) => {
+    const inputEle = event.target as HTMLInputElement;
+    setChecked(inputEle.checked);
+  };
+
+  const onSelectionChange = () => {};
+
+  const save = () => {
+    props.save(title, closeAll, selected);
+  };
+
   return (
     <Modal
       isOpen={props.isOpen}
@@ -33,8 +69,8 @@ export default function SessionCreate(props: props) {
         <input
           type="text"
           placeholder="Session name"
-          value={props.title}
-          onChange={props.nameChangeHandler}
+          value={title}
+          onChange={nameChangeHandler}
           className={styles.title}
         />
         <button onClick={props.closeModal} className={styles.close}>
@@ -44,7 +80,10 @@ export default function SessionCreate(props: props) {
 
       <div className={styles.openTabContainer}>
         <span>Select tabs:</span>
-        <OpenTabs className={styles.openTabs}></OpenTabs>
+        <OpenTabs
+          className={styles.openTabs}
+          onSelectionChange={onSelectionChange}
+        ></OpenTabs>
       </div>
 
       <div className={styles.lastRow}>
@@ -52,13 +91,13 @@ export default function SessionCreate(props: props) {
           <input
             type="checkbox"
             className={styles.closeCreate}
-            checked={props.closeAll}
-            onChange={props.checkChangeHandler}
+            checked={closeAll}
+            onChange={checkChangeHandler}
           />
           <span className={styles.closeCreate}>Close selected tabs</span>
         </label>
         <button
-          onClick={props.onSubmit}
+          onClick={save}
           className={[styles.doneCreate, utils.accent].join(' ')}
         >
           Done
