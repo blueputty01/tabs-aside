@@ -5,6 +5,7 @@ import styles from './Window.scss';
 
 interface WindowProps extends chrome.windows.Window {
   i: number;
+  onSelectionChange: Function;
 }
 
 export default function Window(props: WindowProps) {

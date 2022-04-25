@@ -49,8 +49,17 @@ export default function OpenTabs(props: OpenTabProps) {
     reordered.splice(0, 0, reordered.splice(curr, 1)[0]);
   }
 
+  const onSelectionChange = () => {
+    props.onSelectionChange();
+  };
+
   const windowElements = reordered.map((window, i) => (
-    <Window {...window} key={window.id} i={i}></Window>
+    <Window
+      {...window}
+      key={window.id}
+      i={i}
+      onSelectionChange={onSelectionChange}
+    ></Window>
   ));
 
   return <div className={props.className}>{windowElements}</div>;
