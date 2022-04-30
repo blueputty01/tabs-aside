@@ -15,6 +15,7 @@ interface Props {
 interface TabData {
   title: string;
   url: string;
+  id: number;
 }
 
 export default function Tab(props: Props) {

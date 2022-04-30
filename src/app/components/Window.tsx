@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Tab from './Tab';
 import styles from './Window.scss';
 
 import { TabData } from './Tab';
+import { useIsMount } from '../../shared/utils';
 
 type WindowSelectionHandler = (tabs: TabData[]) => void;
 interface WindowProps extends chrome.windows.Window {
   i: number;
-  onSelectionChange: WindowSelectionHandler;
+  selectionHandler: WindowSelectionHandler;
 }
 
 export default function Window(props: WindowProps) {
@@ -25,6 +26,10 @@ export default function Window(props: WindowProps) {
   interface tabStatesI {
     [key: string]: boolean;
   }
+
+  const isMount = useIsMount();
+
+  const selectionsRef = useRef([] as TabData[]);
 
   const getDefault = () => {
     const defSel: tabStatesI = {};
@@ -71,7 +76,7 @@ export default function Window(props: WindowProps) {
   const windowClickHandler = (event: React.MouseEvent) => {
     const newStates = { ...selected };
     tabData.forEach((tab) => {
-      newStates[tab.key] = windowSelected;
+      newStates[tab.key] = !windowSelected;
     });
     setSelected(newStates);
     setWindowSelection(!windowSelected);
@@ -79,10 +84,10 @@ export default function Window(props: WindowProps) {
 
   const tabClickHandler = (event: React.MouseEvent, key: string, i: number) => {
     const newStates = { ...selected };
-    newStates[key] = !newStates[key];
-    setSelected(newStates);
+    const newState = !newStates[key];
+    newStates[key] = newState;
 
-    if (selected) {
+    if (newState) {
       if (!windowSelected) {
         const stateKeys = Object.keys(newStates);
 
@@ -118,6 +123,15 @@ export default function Window(props: WindowProps) {
       return { ...prevState, [key]: hover };
     });
   };
+
+  useEffect(() => {
+    if (!isMount) {
+      //possibly inefficient (requires remap every selection)
+      const tabs: TabData[] = tabData.filter((tab) => tab.selected);
+      selectionsRef.current = tabs;
+      props.selectionHandler(tabs);
+    }
+  }, [selected]);
 
   const TabList = tabData.map((tab, i) => {
     return (

@@ -58,9 +58,9 @@ export default function OpenTabs(props: OpenTabProps) {
     reordered.splice(0, 0, reordered.splice(curr, 1)[0]);
   }
 
-  const onSelectionChange: WindowSelectionHandler = (id: number) => {
-    // selRef.current = ;
-    props.onSelectionChange(tabs);
+  const onSelectionChange: WindowSelectionHandler = (tabs) => {
+    selRef.current = [...selRef.current, ...tabs];
+    props.onSelectionChange(selRef.current);
   };
 
   const windowElements = reordered.map((window, i) => (
@@ -68,7 +68,7 @@ export default function OpenTabs(props: OpenTabProps) {
       {...window}
       key={window.id}
       i={i}
-      onSelectionChange={onSelectionChange}
+      selectionHandler={onSelectionChange}
     ></Window>
   ));
 
