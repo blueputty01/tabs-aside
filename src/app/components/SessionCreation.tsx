@@ -2,13 +2,10 @@ import React, { FormEvent, useState } from 'react';
 import CreateButton from './Create';
 import CreateModal from './SessionModal';
 
-interface tabData {
-  title: string;
-  url: string;
-}
+import { TabData } from './Tab';
 
 interface props {
-  save: (title: string, checked: boolean, tabs: tabData[]) => void;
+  save: (title: string, checked: boolean, tabs: TabData[]) => void;
 }
 
 export default function SessionManager(props: props) {
@@ -22,8 +19,12 @@ export default function SessionManager(props: props) {
     setOpen(false);
   };
 
-  const submitNewSession = () => {
-    // save(title, checked, null);
+  const submitNewSession = (
+    title: string,
+    checked: boolean,
+    tabs: TabData[]
+  ) => {
+    props.save(title, checked, tabs);
     setOpen(false);
   };
 

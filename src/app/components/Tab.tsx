@@ -2,7 +2,7 @@ import React, { MouseEventHandler } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './Tab.scss';
 
-interface props {
+interface Props {
   title: string;
   hover?: boolean;
   selected?: boolean;
@@ -12,8 +12,12 @@ interface props {
   url: string;
   favIconUrl: string;
 }
+interface TabData {
+  title: string;
+  url: string;
+}
 
-export default function Tab(props: props) {
+export default function Tab(props: Props) {
   return (
     <div
       className={[
@@ -30,3 +34,5 @@ export default function Tab(props: props) {
     </div>
   );
 }
+
+export type { TabData };

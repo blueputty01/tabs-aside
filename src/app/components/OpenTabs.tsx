@@ -2,15 +2,22 @@ import React, {
   MouseEventHandler,
   ReactNode,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from './SessionCreate.scss';
 import Window from './Window';
+
+import { WindowSelectionHandler } from './Window';
+import { TabData } from './Tab';
+
+type SelectionHandler = (tabs: TabData[]) => void;
+
 interface OpenTabProps {
   className: string;
-  onSelectionChange: Function;
+  onSelectionChange: SelectionHandler;
 }
 
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
@@ -20,6 +27,8 @@ export default function OpenTabs(props: OpenTabProps) {
   const def: chrome.windows.Window[] = [];
   const [windows, setWindows] = useState(def);
   const [currWin, setCurr] = useState(-1);
+
+  const selRef = useRef([] as TabData[]);
 
   const getWindows = () => {
     chrome.windows.getCurrent({}, (curr) => {
@@ -49,8 +58,9 @@ export default function OpenTabs(props: OpenTabProps) {
     reordered.splice(0, 0, reordered.splice(curr, 1)[0]);
   }
 
-  const onSelectionChange = () => {
-    props.onSelectionChange();
+  const onSelectionChange: WindowSelectionHandler = (id: number) => {
+    // selRef.current = ;
+    props.onSelectionChange(tabs);
   };
 
   const windowElements = reordered.map((window, i) => (
@@ -64,3 +74,5 @@ export default function OpenTabs(props: OpenTabProps) {
 
   return <div className={props.className}>{windowElements}</div>;
 }
+
+export type { SelectionHandler };

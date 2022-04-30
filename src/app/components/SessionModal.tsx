@@ -13,14 +13,13 @@ import utils from '../../shared/scss/utils.scss';
 import CloseIcon from '../../shared/img/icons/close.svg';
 import OpenTabs from './OpenTabs';
 
-interface tabData {
-  title: string;
-  url: string;
-}
+import { TabData } from './Tab';
+import { SelectionHandler } from './OpenTabs';
+
 interface props {
   isOpen: boolean;
   closeModal: MouseEventHandler;
-  save: (title: string, checked: boolean, tabs: tabData[]) => void;
+  save: (title: string, checked: boolean, tabs: TabData[]) => void;
 }
 
 Modal.setAppElement('#root');
@@ -31,7 +30,7 @@ export default function SessionCreate(props: props) {
 
   const [title, setTitle] = useState(defaultTitle);
   const [closeAll, setChecked] = useState(defaultChecked);
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState([] as TabData[]);
 
   useEffect(() => {
     if (!props.isOpen) {
@@ -50,7 +49,9 @@ export default function SessionCreate(props: props) {
     setChecked(inputEle.checked);
   };
 
-  const onSelectionChange = () => {};
+  const onSelectionChange: SelectionHandler = (tabs: TabData[]) => {
+    setSelected(tabs);
+  };
 
   const save = () => {
     props.save(title, closeAll, selected);
