@@ -10,11 +10,9 @@ import Modal from 'react-modal';
 import styles from './SessionCreate.scss';
 import Window from './Window';
 
-import { WindowSelectionHandler } from './Window';
 import { TabData } from './Tab';
 
-type SelectionHandler = (tabs: TabData[]) => void;
-
+type SelectionHandler = (tabs: TabData[][]) => void;
 interface OpenTabProps {
   className: string;
   onSelectionChange: SelectionHandler;
@@ -28,7 +26,7 @@ export default function OpenTabs(props: OpenTabProps) {
   const [windows, setWindows] = useState(def);
   const [currWin, setCurr] = useState(-1);
 
-  const selRef = useRef([] as TabData[]);
+  const selRef = useRef([] as TabData[][]);
 
   const getWindows = () => {
     chrome.windows.getCurrent({}, (curr) => {
@@ -58,8 +56,8 @@ export default function OpenTabs(props: OpenTabProps) {
     reordered.splice(0, 0, reordered.splice(curr, 1)[0]);
   }
 
-  const onSelectionChange: WindowSelectionHandler = (tabs) => {
-    selRef.current = [...selRef.current, ...tabs];
+  const onSelectionChange = (tabs: TabData[], id: number) => {
+    selRef.current[id] = tabs;
     props.onSelectionChange(selRef.current);
   };
 

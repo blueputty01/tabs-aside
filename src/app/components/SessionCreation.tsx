@@ -5,7 +5,7 @@ import CreateModal from './SessionModal';
 import { TabData } from './Tab';
 
 interface props {
-  save: (title: string, checked: boolean, tabs: TabData[]) => void;
+  save: (title: string, checked: boolean, tabs: TabData[][]) => void;
 }
 
 export default function SessionManager(props: props) {
@@ -22,7 +22,7 @@ export default function SessionManager(props: props) {
   const submitNewSession = (
     title: string,
     checked: boolean,
-    tabs: TabData[]
+    tabs: TabData[][]
   ) => {
     props.save(title, checked, tabs);
     setOpen(false);

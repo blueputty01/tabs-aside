@@ -6,10 +6,9 @@ import styles from './Window.scss';
 import { TabData } from './Tab';
 import { useIsMount } from '../../shared/utils';
 
-type WindowSelectionHandler = (tabs: TabData[]) => void;
 interface WindowProps extends chrome.windows.Window {
   i: number;
-  selectionHandler: WindowSelectionHandler;
+  selectionHandler: (tabs: TabData[], id: number) => void;
 }
 
 export default function Window(props: WindowProps) {
@@ -129,7 +128,7 @@ export default function Window(props: WindowProps) {
       //possibly inefficient (requires remap every selection)
       const tabs: TabData[] = tabData.filter((tab) => tab.selected);
       selectionsRef.current = tabs;
-      props.selectionHandler(tabs);
+      props.selectionHandler(tabs, props.i);
     }
   }, [selected]);
 
@@ -167,5 +166,3 @@ export default function Window(props: WindowProps) {
     </React.Fragment>
   );
 }
-
-export type { WindowSelectionHandler };

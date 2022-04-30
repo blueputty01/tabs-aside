@@ -19,7 +19,7 @@ import { SelectionHandler } from './OpenTabs';
 interface props {
   isOpen: boolean;
   closeModal: MouseEventHandler;
-  save: (title: string, checked: boolean, tabs: TabData[]) => void;
+  save: (title: string, checked: boolean, tabs: TabData[][]) => void;
 }
 
 Modal.setAppElement('#root');
@@ -30,7 +30,7 @@ export default function SessionCreate(props: props) {
 
   const [title, setTitle] = useState(defaultTitle);
   const [closeAll, setChecked] = useState(defaultChecked);
-  const [selected, setSelected] = useState([] as TabData[]);
+  const [selected, setSelected] = useState([] as TabData[][]);
 
   useEffect(() => {
     if (!props.isOpen) {
@@ -49,7 +49,7 @@ export default function SessionCreate(props: props) {
     setChecked(inputEle.checked);
   };
 
-  const onSelectionChange: SelectionHandler = (tabs: TabData[]) => {
+  const onSelectionChange: SelectionHandler = (tabs: TabData[][]) => {
     setSelected(tabs);
   };
 
