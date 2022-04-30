@@ -2,6 +2,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const pages = ['app', 'options'];
 
@@ -25,7 +26,12 @@ module.exports = (env, options) => {
         chunks: 'all',
       },
     },
-    resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      alias: {
+        shared: path.resolve(__dirname, 'src/shared'),
+      },
+    },
     module: {
       rules: [
         {
@@ -61,6 +67,10 @@ module.exports = (env, options) => {
       ],
     },
     plugins: [
+      // @ts-ignore
+      new TsconfigPathsPlugin({
+        /* options: see below */
+      }),
       // @ts-ignore
       new ESLintPlugin(),
       new CopyPlugin({

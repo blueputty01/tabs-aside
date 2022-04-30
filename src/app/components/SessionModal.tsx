@@ -8,13 +8,13 @@ import React, {
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from './SessionModal.scss';
-import utils from '../../shared/scss/utils.scss';
+import utils from 'shared/scss/utils.scss';
 
 import CloseIcon from '../../shared/img/icons/close.svg';
-import OpenTabs from './OpenTabs';
+import OpenTabs from './SessionCreation/OpenTabs';
 
 import { TabData } from './Tab';
-import { SelectionHandler } from './OpenTabs';
+import { SelectionHandler } from './SessionCreation/OpenTabs';
 
 interface props {
   isOpen: boolean;

@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import styles from './Create.scss';
-import utils from '../../shared/scss/utils.scss';
+import utils from 'shared/scss/utils.scss';
 
 import AddIcon from './add.svg';
 

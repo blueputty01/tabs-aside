@@ -8,9 +8,9 @@ import React, {
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import styles from './SessionCreate.scss';
-import Window from './Window';
+import Window from '../Window';
 
-import { TabData } from './Tab';
+import { TabData } from '../Tab';
 
 type SelectionHandler = (tabs: TabData[][]) => void;
 interface OpenTabProps {

@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from '../../shared/components/header/Header';
-import Icon from '../../shared/components/Icon';
+import Header from 'shared/components/header/Header';
+import Icon from 'shared/components/Icon';
 
 interface props {
   fullscreen: boolean;

@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
-import { useChromeStorageLocal } from '../../shared/utils/chrome.storage';
-import SessionCreation from './SessionCreation';
+import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
+import SessionCreation from './SessionCreation/SessionCreation';
 
 interface TabStore {
   title: string;

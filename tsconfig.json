@@ -22,7 +22,11 @@
     "resolveJsonModule": true,
     "importHelpers": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "shared/*": ["src/shared/*"]
+    }
   },
   "exclude": [
     "node_modules",
