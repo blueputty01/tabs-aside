@@ -28,6 +28,33 @@ export default function OpenTabs(props: OpenTabProps) {
 
   const selRef = useRef([] as TabData[][]);
 
+  const addListeners = () => {
+    chrome.tabs.onUpdated.addListener(
+      (
+        tabId: number,
+        changeInfo: chrome.tabs.TabChangeInfo,
+        tab: chrome.tabs.Tab
+      ) => {
+        if (changeInfo.title || changeInfo.url) {
+          getWindows();
+        }
+      }
+    );
+
+    chrome.tabs.onAttached.addListener(
+      (tabId: number, attachInfo: chrome.tabs.TabAttachInfo) => {
+        getWindows();
+      }
+    );
+
+    chrome.tabs.onRemoved.addListener((tabId: number) => {
+      getWindows();
+    });
+  };
+
+  //TODO: check perf of this
+  addListeners();
+
   const getWindows = () => {
     chrome.windows.getCurrent({}, (curr) => {
       chrome.windows.getAll(
