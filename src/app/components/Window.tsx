@@ -29,14 +29,12 @@ export default function Window(props: WindowProps) {
       const key = tab.id!.toString();
       defSel[key] = false;
     });
-    console.log('ran');
-
     return defSel;
   };
 
   const [windowSelected, setWindowSelection] = useState(false);
-  const [hovered, setHovered] = useState({ ...getDefault() });
-  const [selected, setSelected] = useState({ ...getDefault() });
+  const [hovered, setHovered] = useState(getDefault);
+  const [selected, setSelected] = useState(getDefault);
 
   const tabData: TabData[] = props.tabs!.map((tab): TabData => {
     const key = tab.id!.toString();
