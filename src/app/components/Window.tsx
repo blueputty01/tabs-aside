@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Tab from './Tab';
 import styles from './Window.scss';
@@ -9,7 +9,7 @@ interface WindowProps extends chrome.windows.Window {
 }
 
 export default function Window(props: WindowProps) {
-  interface tabObj {
+  interface TabData {
     title: string;
     url: string;
     favIconUrl: string;
@@ -20,16 +20,25 @@ export default function Window(props: WindowProps) {
   }
 
   interface tabStatesI {
-    [key: string]: { hover: boolean; selected: boolean };
+    [key: string]: boolean;
   }
 
+  const getDefault = () => {
+    const defSel: tabStatesI = {};
+    props.tabs!.forEach((tab) => {
+      const key = tab.id!.toString();
+      defSel[key] = false;
+    });
+    console.log('ran');
+
+    return defSel;
+  };
+
   const [windowSelected, setWindowSelection] = useState(false);
+  const [hovered, setHovered] = useState({ ...getDefault() });
+  const [selected, setSelected] = useState({ ...getDefault() });
 
-  const defSel: tabStatesI = {};
-
-  const [tabStates, setTabStates] = useState(defSel);
-
-  const tabData: tabObj[] = props.tabs!.map((tab): tabObj => {
+  const tabData: TabData[] = props.tabs!.map((tab): TabData => {
     const key = tab.id!.toString();
     return {
       title: tab.title!,
@@ -37,55 +46,42 @@ export default function Window(props: WindowProps) {
       favIconUrl: tab.favIconUrl!,
       id: tab.id!,
       key: key,
-      selected: tabStates[key]?.selected || false,
-      hover: tabStates[key]?.hover || false,
+      selected: selected[key],
+      hover: hovered[key],
     };
   });
 
-  const hoverHandler = (event: React.MouseEvent) => {
-    const newStates = { ...tabStates };
-    tabData.forEach((tab) => {
-      flipState(newStates, tab.key, 'hover');
-    });
+  // console.log(tabData);
 
-    setTabStates(newStates);
+  const windowMouseEnterHandler = (event: React.MouseEvent) => {
+    windowHoverHandler(true);
   };
 
-  const clickHandler = (event: React.MouseEvent) => {
-    const newStates = { ...tabStates };
+  const windowMouseLeaveHandler = (event: React.MouseEvent) => {
+    windowHoverHandler(false);
+  };
+
+  const windowHoverHandler = (mouse: boolean) => {
+    const newStates = { ...hovered };
     tabData.forEach((tab) => {
-      flipState(newStates, tab.key, 'selected', !windowSelected);
+      newStates[tab.key] = mouse;
     });
-    setTabStates(newStates);
+    setHovered(newStates);
+  };
+
+  const windowClickHandler = (event: React.MouseEvent) => {
+    const newStates = { ...selected };
+    tabData.forEach((tab) => {
+      newStates[tab.key] = windowSelected;
+    });
+    setSelected(newStates);
     setWindowSelection(!windowSelected);
   };
 
-  const flipState = (
-    states: tabStatesI,
-    key: string,
-    state: string,
-    def?: boolean
-  ): boolean => {
-    const defNull = typeof def === 'undefined';
-    let newState: boolean = defNull ? true : def;
-    if (typeof tabStates[key] == 'undefined') {
-      const newObj = { selected: false, hover: false };
-      newObj[state as keyof typeof newObj] = newState;
-      states[key] = newObj;
-    } else {
-      const obj = states[key];
-      if (defNull) {
-        newState = !obj[state as keyof typeof obj];
-      }
-      obj[state as keyof typeof obj] = newState;
-    }
-    return newState;
-  };
-
   const tabClickHandler = (event: React.MouseEvent, key: string, i: number) => {
-    const newStates = { ...tabStates };
-    const selected = flipState(newStates, key, 'selected');
-    setTabStates(newStates);
+    const newStates = { ...selected };
+    newStates[key] = !newStates[key];
+    setSelected(newStates);
 
     if (windowSelected) {
       if (!selected) {
@@ -95,41 +91,43 @@ export default function Window(props: WindowProps) {
       if (selected) {
         const stateKeys = Object.keys(newStates);
 
-        if (tabData.length === stateKeys.length) {
-          let all = true;
+        let all = true;
 
-          for (const key of stateKeys) {
-            if (!newStates[key].selected) {
-              all = false;
-              break;
-            }
+        for (const key of stateKeys) {
+          if (!newStates[key]) {
+            all = false;
+            break;
           }
-          if (all) {
-            setWindowSelection(true);
-          }
+        }
+        if (all) {
+          setWindowSelection(true);
         }
       }
     }
   };
 
-  const onTabMouseHover = (
+  const tabHoverHandler = (
     event: React.MouseEvent,
     key: string,
     hover: boolean
   ) => {
-    const newStates = { ...tabStates };
-    const selected = flipState(newStates, key, 'hover', hover);
-    setTabStates(newStates);
+    const newStates = { ...hovered };
+    // console.log(key, hover);
+
+    newStates[key] = hover;
+    setHovered(newStates);
   };
 
   const TabList = tabData.map((tab, i) => {
+    // console.log(tab.key, tab.hover);
+
     return (
       <Tab
         onMouseEnter={(event) => {
-          onTabMouseHover(event, tab.key, true);
+          tabHoverHandler(event, tab.key, true);
         }}
         onMouseLeave={(event) => {
-          onTabMouseHover(event, tab.key, false);
+          tabHoverHandler(event, tab.key, false);
         }}
         {...tab}
         hover={tab.hover}
@@ -146,9 +144,9 @@ export default function Window(props: WindowProps) {
         className={[styles.windowLabel, windowSelected && styles.selected].join(
           ' '
         )}
-        onMouseEnter={hoverHandler}
-        onMouseLeave={hoverHandler}
-        onClick={clickHandler}
+        onMouseEnter={windowMouseEnterHandler}
+        onMouseLeave={windowMouseLeaveHandler}
+        onClick={windowClickHandler}
       >
         {props.i == 0 ? 'Current Window' : `Window ${props.i + 1}`}
       </span>
