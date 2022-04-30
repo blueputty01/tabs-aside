@@ -1,4 +1,7 @@
-Portions of this project contain code inspired by the use-chrome-storage package. It contains the license below:
+Portions of this project contain code inspired by the use-chrome-storage package 
+found here: https://github.com/onikienko/use-chrome-storage.
+
+use-chrome-storage contains the license below:
 
 MIT License
 
