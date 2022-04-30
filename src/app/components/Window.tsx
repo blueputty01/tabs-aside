@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom';
 import Tab from './Tab';
 import styles from './Window.scss';
 
+import { TabData } from './Tab';
+
+type WindowSelectionHandler = (tabs: TabData[]) => void;
 interface WindowProps extends chrome.windows.Window {
   i: number;
-  onSelectionChange: Function;
+  onSelectionChange: WindowSelectionHandler;
 }
 
 export default function Window(props: WindowProps) {
@@ -49,8 +52,6 @@ export default function Window(props: WindowProps) {
     };
   });
 
-  // console.log(tabData);
-
   const windowMouseEnterHandler = (event: React.MouseEvent) => {
     windowHoverHandler(true);
   };
@@ -81,12 +82,8 @@ export default function Window(props: WindowProps) {
     newStates[key] = !newStates[key];
     setSelected(newStates);
 
-    if (windowSelected) {
-      if (!selected) {
-        setWindowSelection(false);
-      }
-    } else {
-      if (selected) {
+    if (selected) {
+      if (!windowSelected) {
         const stateKeys = Object.keys(newStates);
 
         let all = true;
@@ -101,7 +98,15 @@ export default function Window(props: WindowProps) {
           setWindowSelection(true);
         }
       }
+    } else {
+      if (windowSelected) {
+        setWindowSelection(false);
+      }
     }
+
+    setSelected((prevStates) => {
+      return { ...prevStates, ...newStates };
+    });
   };
 
   const tabHoverHandler = (
@@ -109,16 +114,12 @@ export default function Window(props: WindowProps) {
     key: string,
     hover: boolean
   ) => {
-    const newStates = { ...hovered };
-    // console.log(key, hover);
-
-    newStates[key] = hover;
-    setHovered(newStates);
+    setHovered((prevState) => {
+      return { ...prevState, [key]: hover };
+    });
   };
 
   const TabList = tabData.map((tab, i) => {
-    // console.log(tab.key, tab.hover);
-
     return (
       <Tab
         onMouseEnter={(event) => {
@@ -152,3 +153,5 @@ export default function Window(props: WindowProps) {
     </React.Fragment>
   );
 }
+
+export type { WindowSelectionHandler };
