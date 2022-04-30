@@ -6,6 +6,8 @@
   padding: 0.5rem;
   background-color: var(--main-background);
 
+  cursor: pointer;
+
   &:hover {
     background-color: var(--accent-hover);
   }
