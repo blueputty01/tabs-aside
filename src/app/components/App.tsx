@@ -15,7 +15,6 @@ export default function App() {
   if (full) {
     import('../styles/popup.scss');
   }
-  console.log('loaded');
 
   return (
     <React.Fragment>
