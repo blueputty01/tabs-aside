@@ -1,20 +1,12 @@
-import React, { FormEvent, useState } from 'react';
-import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
-import SessionCreation from './SessionCreation/SessionCreation';
+import React, { FormEvent, useState } from "react";
+import { useChromeStorageLocal } from "shared/utils/chrome.storage";
+import SessionCreation from "./SessionCreation/SessionCreation";
 
-interface TabStore {
-  title: string;
-  url: string;
-}
-
-interface Session {
-  title: string;
-  tabs: TabStore[];
-}
+import { TabStore, SessionI } from "./Session";
 
 export default function SessionManager() {
   const [value, setValue, isPersistent, error] = useChromeStorageLocal(
-    'sessions',
+    "sessions",
     [] as Session[]
   );
 
@@ -30,7 +22,7 @@ export default function SessionManager() {
       },
       []
     );
-    setValue((prev: Session[]): Session[] => {
+    setValue((prev: SessionI[]): SessionI[] => {
       return [...prev, { title, tabs: flatTabs }];
     });
   };
