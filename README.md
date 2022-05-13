@@ -17,7 +17,13 @@ Project is created with:
 
 ## Setup
 
-To run this project, install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/tabs-aside/nboikgnmjgjcnnhencinblbaikdccdlb) or by loading it unpacked into Chrome:
+To run this project, install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/tabs-aside/nboikgnmjgjcnnhencinblbaikdccdlb) or by loading the live build:
+
+### Building
+
+1. Run `npm build` on source code
+
+### Installation
 
 1. Navigate to <chrome:extensions>
 2. Check "Developer Mode" in the top right corner
