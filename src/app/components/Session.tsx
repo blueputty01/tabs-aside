@@ -8,6 +8,8 @@ interface SessionStore {
 }
 interface SessionComponentProps extends SessionStore {
   deleteHandler: MouseEventHandler;
+  rightClickHandler: MouseEventHandler;
+  overflowClickHandler: MouseEventHandler;
 }
 
 interface TabStore {

@@ -1,9 +1,9 @@
-import React, { FormEvent, useState } from 'react';
+import React from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
-import { TabStore, SessionComponentProps, SessionStore } from './Session';
+import { TabStore, SessionStore } from './Session';
 
 export default function SessionManager() {
   const [sessionData, setSessions, isPersistent, error] = useChromeStorageLocal(
@@ -25,13 +25,15 @@ export default function SessionManager() {
     });
   };
 
+  const handler = (e: React.MouseEvent) => {
+    console.log((e.target as HTMLDivElement).key);
+  };
+
   const Sessions = sessionData.map((session: SessionStore) => (
     <Session
-      deleteHandler={function (
-        event: React.MouseEvent<Element, MouseEvent>
-      ): void {
-        throw new Error('Function not implemented.');
-      }}
+      deleteHandler={handler}
+      rightClickHandler={handler}
+      overflowClickHandler={handler}
       title={session.title}
       tabs={session.tabs}
       key={session.title}
