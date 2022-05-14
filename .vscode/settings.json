@@ -1,9 +1,5 @@
 {
   "typescript.updateImportsOnFileMove.enabled": "always",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
-  "typescript.tsserver.watchOptions": {
-    "watchFile": "useFsEvents",
-    "excludeDirectories": ["node_modules"]
-  }
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true
 }
