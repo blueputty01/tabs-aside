@@ -1,13 +1,5 @@
-import React, {
-  MouseEventHandler,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import ReactDOM from 'react-dom';
+import { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
-import styles from './SessionCreate.scss';
 import Window from '../Window';
 
 import { TabData } from '../Tab';
@@ -68,9 +60,6 @@ export default function OpenTabs(props: OpenTabProps) {
   };
 
   useEffect(() => {
-    if (windows == []) {
-      return;
-    }
     getWindows();
   }, []);
 
@@ -88,7 +77,7 @@ export default function OpenTabs(props: OpenTabProps) {
     props.onSelectionChange(selRef.current);
   };
 
-  const windowElements = reordered.map((window, i) => (
+  const Windows = reordered.map((window, i) => (
     <Window
       {...window}
       key={window.id}
@@ -97,7 +86,7 @@ export default function OpenTabs(props: OpenTabProps) {
     ></Window>
   ));
 
-  return <div className={props.className}>{windowElements}</div>;
+  return <div className={props.className}>{Windows}</div>;
 }
 
 export type { SelectionHandler };

@@ -2,12 +2,12 @@ import React from 'react';
 import './App.scss';
 import Header from 'shared/components/header/Header';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
-import { Session } from '../../app/components/SessionManager';
+import { SessionStore } from '../../app/components/Session';
 
 export default function App() {
   const [value, setValue, isPersistent, error] = useChromeStorageLocal(
     'sessions',
-    [] as Session[]
+    [] as SessionStore[]
   );
   return (
     <div>
