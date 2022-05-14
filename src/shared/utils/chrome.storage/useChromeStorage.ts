@@ -61,7 +61,7 @@ export default function useChromeStorage(
       areaName: 'sync' | 'local' | 'managed'
     ) => {
       if (areaName === STORAGE_AREA && key in changes) {
-        setState(changes[key]);
+        setState(changes[key].newValue);
         setIsPersistent(true);
         setError('');
       }
