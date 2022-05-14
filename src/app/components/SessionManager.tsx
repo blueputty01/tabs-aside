@@ -4,18 +4,23 @@ import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
 import { TabStore, SessionStore } from './Session';
+import { TabData } from './Tab';
+
+type SessionKeys = string[];
 
 export default function SessionManager() {
   const [sessionData, setSessions, isPersistent, error] = useChromeStorageLocal(
     'sessions',
-    [] as SessionStore[]
+    [] as SessionKeys[]
   );
 
   console.log(sessionData);
 
-  const saveSession = (title: string, checked: boolean, tabs: TabStore[][]) => {
-    const flatTabs = tabs.map((curr: TabStore[]): TabStore[] => {
-      const lean = curr.map((tab: TabStore): TabStore => {
+  const saveSession = (title: string, checked: boolean, tabs: TabData[][]) => {
+    const ids: number[] = [];
+    const flatTabs = tabs.map((curr: TabData[]): TabStore[] => {
+      const lean = curr.map((tab: TabData): TabStore => {
+        ids.push(tab.id);
         return { title: tab.title, url: tab.url };
       });
       return lean;
@@ -23,20 +28,22 @@ export default function SessionManager() {
     setSessions((prev: SessionStore[]): SessionStore[] => {
       return [...prev, { title, tabs: flatTabs } as SessionStore];
     });
+
+    if (checked) {
+      chrome.tabs.remove(ids);
+    }
   };
 
   const handler = (e: React.MouseEvent) => {
     console.log((e.target as HTMLDivElement).key);
   };
 
-  const Sessions = sessionData.map((session: SessionStore) => (
+  const Sessions = sessionData.map((key: string) => (
     <Session
       deleteHandler={handler}
       rightClickHandler={handler}
       overflowClickHandler={handler}
-      title={session.title}
-      tabs={session.tabs}
-      key={session.title}
+      key={key}
     ></Session>
   ));
 
