@@ -33,6 +33,11 @@ const generateConfig: WebpackConfigFunction = (env: any, options: any) => {
       alias: {
         shared: path.resolve(__dirname, 'src/shared'),
       },
+      plugins: [
+        new TsconfigPathsPlugin({
+          /* options: see below */
+        }),
+      ],
     },
     module: {
       rules: [
@@ -69,10 +74,6 @@ const generateConfig: WebpackConfigFunction = (env: any, options: any) => {
       ],
     },
     plugins: [
-      // @ts-ignore
-      new TsconfigPathsPlugin({
-        /* options: see below */
-      }),
       // @ts-ignore
       new ESLintPlugin(),
       new CopyPlugin({
