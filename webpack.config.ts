@@ -1,3 +1,5 @@
+import type { WebpackConfigFunction } from './webpack.types';
+
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -6,12 +8,12 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 const pages = ['app', 'options'];
 
-module.exports = (env, options) => {
+const generateConfig: WebpackConfigFunction = (env: any, options: any) => {
   const prod = options.mode === 'production';
   const iconPath = `./src/shared/img/branding/${prod ? 'prod' : 'dev'}/`;
 
   return {
-    entry: pages.reduce((config, page) => {
+    entry: pages.reduce((config: { [key: string]: string }, page: string) => {
       config[page] = `./src/${page}/index`;
       return config;
     }, {}),
@@ -102,3 +104,5 @@ module.exports = (env, options) => {
     ),
   };
 };
+
+export default generateConfig;

@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "./build/",
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
     "allowJs": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "rootDir": ".",
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
@@ -25,7 +25,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "shared/*": ["src/shared/*"]
+      "shared/*": ["./src/shared/*"]
     }
   },
   "exclude": [
@@ -37,6 +37,6 @@
     "jest",
     "src/setupTests.ts"
   ],
-  "types": ["typePatches", "chrome"],
+  "types": ["typePatches", "chrome", "webpack"],
   "include": ["src"]
 }
