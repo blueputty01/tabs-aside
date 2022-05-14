@@ -9,7 +9,7 @@ interface props {
 }
 
 export default function SessionManager(props: props) {
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
 
   const addHandler = () => {
     setOpen(true);

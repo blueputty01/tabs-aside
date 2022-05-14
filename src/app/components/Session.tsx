@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
-import Tab from "./Tab";
-import styles from "./Session.scss";
+import { MouseEventHandler } from 'react';
+import { TabData } from './Tab';
+import styles from './Session.scss';
 
-interface SessionI {
+interface SessionStore {
   title: string;
-  tabs: TabData[];
+  tabs: TabData[][];
+}
+interface SessionComponentProps extends SessionStore {
   deleteHandler: MouseEventHandler;
 }
 
@@ -14,13 +15,25 @@ interface TabStore {
   url: string;
 }
 
-export default function Session(props: SessionI) {
+export default function Session(props: SessionComponentProps) {
+  const openAll = () => {
+    props.tabs.forEach((savedWindow: TabStore[]) => {
+      const urls = savedWindow.map((tab: TabStore) => {
+        return tab.url;
+      });
+      chrome.windows.create({ url: urls });
+    });
+  };
+
   return (
-    <div className={styles.session}>
+    <div className={[styles.session, styles.collapsed].join(' ')}>
       <div className={styles.title}>{props.title}</div>
-      <div className={styles.buttonContainer}>⋮</div>
+      <div className={styles.buttonContainer}>
+        <button onClick={openAll}>Open All</button>
+        <button>⋮</button>
+      </div>
     </div>
   );
 }
 
-export type { SessionI, TabStore };
+export type { SessionComponentProps, TabStore, SessionStore };
