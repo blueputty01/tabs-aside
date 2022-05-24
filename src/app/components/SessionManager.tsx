@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation/SessionCreation';
 
@@ -9,12 +9,28 @@ import { TabData } from './Tab';
 type SessionKeys = string[];
 
 export default function SessionManager() {
-  const [sessionData, setSessions, isPersistent, error] = useChromeStorageLocal(
+  const [keys, setKeys, isPersistent, error] = useChromeStorageLocal(
     'sessions',
     [] as SessionKeys[]
   );
 
-  console.log(sessionData);
+  const [sessions, setSessions] = useState([] as SessionStore[]);
+
+  const newSess: SessionStore[] = [];
+  console.log('hi');
+
+  keys.forEach((key: string) => {
+    console.log('ff');
+
+    const [session, setSession, isPersistent, error] = useChromeStorageLocal(
+      'sessions',
+      [] as SessionStore[]
+    );
+    newSess.push(session);
+  });
+  useEffect(() => {
+    setSessions(newSess);
+  }, [sessions, keys]);
 
   const saveSession = (title: string, checked: boolean, tabs: TabData[][]) => {
     const ids: number[] = [];
@@ -25,7 +41,8 @@ export default function SessionManager() {
       });
       return lean;
     });
-    setSessions((prev: SessionStore[]): SessionStore[] => {
+
+    setKeys((prev: SessionStore[]): SessionStore[] => {
       return [...prev, { title, tabs: flatTabs } as SessionStore];
     });
 
@@ -38,12 +55,14 @@ export default function SessionManager() {
     console.log((e.target as HTMLDivElement).key);
   };
 
-  const Sessions = sessionData.map((key: string) => (
+  const Sessions = keys.map((key: string) => (
     <Session
       deleteHandler={handler}
       rightClickHandler={handler}
       overflowClickHandler={handler}
       key={key}
+      title={''}
+      tabs={[]}
     ></Session>
   ));
 
