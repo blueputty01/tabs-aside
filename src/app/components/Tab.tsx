@@ -1,5 +1,4 @@
-import React, { MouseEventHandler } from 'react';
-import ReactDOM from 'react-dom';
+import { MouseEventHandler } from 'react';
 import styles from './Tab.scss';
 
 interface Props {
@@ -11,11 +10,6 @@ interface Props {
   onMouseLeave: MouseEventHandler;
   url: string;
   favIconUrl: string;
-}
-interface TabData {
-  title: string;
-  url: string;
-  id: number;
 }
 
 export default function Tab(props: Props) {
@@ -35,5 +29,3 @@ export default function Tab(props: Props) {
     </div>
   );
 }
-
-export type { TabData };

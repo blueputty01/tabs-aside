@@ -1,11 +1,7 @@
 import { MouseEventHandler } from 'react';
-import { TabData } from './Tab';
 import styles from './Session.scss';
+import SessionStore from 'shared/types/Session';
 
-interface SessionStore {
-  title: string;
-  tabs: TabData[][];
-}
 interface SessionComponentProps extends SessionStore {
   deleteHandler: MouseEventHandler;
   rightClickHandler: MouseEventHandler;

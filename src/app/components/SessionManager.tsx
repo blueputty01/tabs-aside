@@ -4,7 +4,7 @@ import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
 import { TabStore, SessionStore } from './Session';
-import { TabData } from './Tab';
+import TabData from 'shared/types/TabData';
 
 type SessionKeys = string[];
 

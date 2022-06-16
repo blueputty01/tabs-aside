@@ -13,8 +13,8 @@ import utils from 'shared/scss/utils.scss';
 import CloseIcon from '../../shared/img/icons/close.svg';
 import OpenTabs from './SessionCreation/OpenTabs';
 
-import { TabData } from './Tab';
 import { SelectionHandler } from './SessionCreation/OpenTabs';
+import TabData from 'shared/types/TabData';
 
 interface props {
   isOpen: boolean;
