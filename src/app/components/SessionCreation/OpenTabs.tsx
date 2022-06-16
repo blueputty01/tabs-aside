@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
+import TabData from 'shared/types/TabData';
 import Window from '../Window';
-
-import { TabData } from '../Tab';
 
 type SelectionHandler = (tabs: TabData[][]) => void;
 interface OpenTabProps {
