@@ -1,40 +1,68 @@
-import React, { FormEvent, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
-import { TabStore, SessionComponentProps, SessionStore } from './Session';
+import { TabStore, SessionStore } from './Session';
+import TabData from 'shared/types/TabData';
+
+type SessionKeys = string[];
 
 export default function SessionManager() {
-  const [sessionData, setSessions, isPersistent, error] = useChromeStorageLocal(
+  const [keys, setKeys, isPersistent, error] = useChromeStorageLocal(
     'sessions',
-    [] as SessionStore[]
+    [] as SessionKeys[]
   );
 
-  console.log(sessionData);
+  const [sessions, setSessions] = useState([] as SessionStore[]);
 
-  const saveSession = (title: string, checked: boolean, tabs: TabStore[][]) => {
-    const flatTabs = tabs.map((curr: TabStore[]): TabStore[] => {
-      const lean = curr.map((tab: TabStore): TabStore => {
+  const newSess: SessionStore[] = [];
+  console.log('hi');
+
+  keys.forEach((key: string) => {
+    console.log('ff');
+
+    const [session, setSession, isPersistent, error] = useChromeStorageLocal(
+      'sessions',
+      [] as SessionStore[]
+    );
+    newSess.push(session);
+  });
+  useEffect(() => {
+    setSessions(newSess);
+  }, [sessions, keys]);
+
+  const saveSession = (title: string, checked: boolean, tabs: TabData[][]) => {
+    const ids: number[] = [];
+    const flatTabs = tabs.map((curr: TabData[]): TabStore[] => {
+      const lean = curr.map((tab: TabData): TabStore => {
+        ids.push(tab.id);
         return { title: tab.title, url: tab.url };
       });
       return lean;
     });
-    setSessions((prev: SessionStore[]): SessionStore[] => {
+
+    setKeys((prev: SessionStore[]): SessionStore[] => {
       return [...prev, { title, tabs: flatTabs } as SessionStore];
     });
+
+    if (checked) {
+      chrome.tabs.remove(ids);
+    }
   };
 
-  const Sessions = sessionData.map((session: SessionStore) => (
+  const handler = (e: React.MouseEvent) => {
+    console.log((e.target as HTMLDivElement).key);
+  };
+
+  const Sessions = keys.map((key: string) => (
     <Session
-      deleteHandler={function (
-        event: React.MouseEvent<Element, MouseEvent>
-      ): void {
-        throw new Error('Function not implemented.');
-      }}
-      title={session.title}
-      tabs={session.tabs}
-      key={session.title}
+      deleteHandler={handler}
+      rightClickHandler={handler}
+      overflowClickHandler={handler}
+      key={key}
+      title={''}
+      tabs={[]}
     ></Session>
   ));
 

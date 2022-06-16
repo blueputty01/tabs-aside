@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import Tab from './Tab';
 import styles from './Window.scss';
 
-import { TabData } from './Tab';
 import { useIsMount } from 'shared/utils/utils';
+import TabData from 'shared/types/TabData';
 
 interface WindowProps extends chrome.windows.Window {
   i: number;
