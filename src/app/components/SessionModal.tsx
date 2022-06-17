@@ -14,7 +14,7 @@ import CloseIcon from '../../shared/img/icons/close.svg';
 import OpenTabs from './SessionCreation/OpenTabs';
 
 import { SelectionHandler } from './SessionCreation/OpenTabs';
-import TabData from 'shared/types/TabData';
+import TabData from 'shared/types/Tab';
 
 interface props {
   isOpen: boolean;

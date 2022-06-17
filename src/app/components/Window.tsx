@@ -4,7 +4,7 @@ import Tab from './Tab';
 import styles from './Window.scss';
 
 import { useIsMount } from 'shared/utils/utils';
-import TabData from 'shared/types/TabData';
+import TabData from 'shared/types/Tab';
 
 interface WindowProps extends chrome.windows.Window {
   i: number;

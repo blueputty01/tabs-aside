@@ -1,4 +1,4 @@
-import TabData from './TabData';
+import TabData from './Tab';
 
 export default interface SessionStore {
   title: string;
