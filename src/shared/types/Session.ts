@@ -1,6 +1,6 @@
-import TabData from './Tab';
+import { TabStore } from './Tab';
 
 export default interface SessionStore {
-  title: string;
-  tabs: TabData[][];
+    title: string;
+    tabs: TabStore[][];
 }
