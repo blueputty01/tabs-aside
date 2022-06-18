@@ -4,17 +4,17 @@ import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
 import { TabStore, SessionStore } from './Session';
-import TabData from 'shared/types/TabData';
+import { TabData } from 'shared/types/Tab';
 
 type SessionKeys = string[];
 
 export default function SessionManager() {
-  const [sessionData, setSessions, isPersistent, error] = useChromeStorageLocal(
-    'sessions',
-    [] as SessionKeys[]
-  );
+    const [keys, setKeys, isPersistent, error] = useChromeStorageLocal(
+        'sessions',
+        [] as SessionKeys[]
+    );
 
-  console.log(sessionData);
+    const [sessions, setSessions] = useState([] as SessionStore[]);
 
   const saveSession = (title: string, checked: boolean, tabs: TabData[][]) => {
     const ids: number[] = [];
@@ -29,14 +29,14 @@ export default function SessionManager() {
       return [...prev, { title, tabs: flatTabs } as SessionStore];
     });
 
-    if (checked) {
-      chrome.tabs.remove(ids);
-    }
-  };
+        setKeys((prev: SessionStore[]): SessionStore[] => {
+            return [...prev, { title, tabs: flatTabs } as SessionStore];
+        });
 
-  const handler = (e: React.MouseEvent) => {
-    console.log((e.target as HTMLDivElement).key);
-  };
+        if (checked) {
+            chrome.tabs.remove(ids);
+        }
+    };
 
   const Sessions = sessionData.map((key: string) => (
     <Session
@@ -47,12 +47,23 @@ export default function SessionManager() {
     ></Session>
   ));
 
-  return (
-    <main>
-      <SessionCreation save={saveSession}></SessionCreation>
-      <div>{Sessions}</div>
-    </main>
-  );
+    const Sessions = keys.map((key: string) => (
+        <Session
+            deleteHandler={handler}
+            rightClickHandler={handler}
+            overflowClickHandler={handler}
+            key={key}
+            title={''}
+            tabs={[]}
+        ></Session>
+    ));
+
+    return (
+        <main>
+            <SessionCreation save={saveSession}></SessionCreation>
+            <div>{Sessions}</div>
+        </main>
+    );
 }
 
 export type { TabStore };
