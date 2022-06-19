@@ -1,60 +1,82 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
-import { TabStore, SessionStore } from './Session';
-import { TabData } from 'shared/types/Tab';
+import { SessionData, SessionStore } from 'shared/types/Session';
+import { TabData, TabStore } from 'shared/types/Tab';
 
-type SessionKeys = string[];
+import { v4 as uuidv4 } from 'uuid';
 
 export default function SessionManager() {
     const [keys, setKeys, isPersistent, error] = useChromeStorageLocal(
         'sessions',
-        [] as SessionKeys[]
+        [] as string[]
     );
 
-    const [sessions, setSessions] = useState([] as SessionStore[]);
+    const [sessions, setSessions] = useState([] as SessionData[]);
 
-  const saveSession = (title: string, checked: boolean, tabs: TabData[][]) => {
-    const ids: number[] = [];
-    const flatTabs = tabs.map((curr: TabData[]): TabStore[] => {
-      const lean = curr.map((tab: TabData): TabStore => {
-        ids.push(tab.id);
-        return { title: tab.title, url: tab.url };
-      });
-      return lean;
-    });
-    setSessions((prev: SessionStore[]): SessionStore[] => {
-      return [...prev, { title, tabs: flatTabs } as SessionStore];
-    });
+    useEffect(() => {
+        sessions.forEach((session: SessionData) => {
+            chrome.storage.local.set({ id: session.id, session });
+        });
+    }, [sessions]);
 
-        setKeys((prev: SessionStore[]): SessionStore[] => {
-            return [...prev, { title, tabs: flatTabs } as SessionStore];
+    useEffect(() => {
+        keys.forEach((key: string) => {
+            chrome.storage.local.get(key, (res) => {
+                setSessions((prev) => {
+                    return [...prev, { ...res, id: key } as SessionData];
+                });
+            });
+        });
+        console.log(keys, sessions);
+    }, [keys]);
+
+    const saveSession = (
+        title: string,
+        checked: boolean,
+        tabs: TabData[][]
+    ) => {
+        const sessionId = uuidv4();
+
+        const tabIds: number[] = [];
+        const filtTabs = tabs.map((curr: TabData[]): TabStore[] => {
+            const lean = curr.map((tab: TabData): TabStore => {
+                tabIds.push(tab.id);
+                return { title: tab.title, url: tab.url };
+            });
+            return lean;
+        });
+
+        setSessions((prev: SessionData[]): SessionData[] => {
+            return [
+                ...prev,
+                { title, tabs: filtTabs, id: sessionId } as SessionData,
+            ];
+        });
+
+        setKeys((prev: string[]): string[] => {
+            console.log('hi');
+
+            return [...prev, sessionId];
         });
 
         if (checked) {
-            chrome.tabs.remove(ids);
+            chrome.tabs.remove(tabIds);
         }
     };
 
-  const Sessions = sessionData.map((key: string) => (
-    <Session
-      deleteHandler={handler}
-      rightClickHandler={handler}
-      overflowClickHandler={handler}
-      key={key}
-    ></Session>
-  ));
+    const handler = () => {};
 
-    const Sessions = keys.map((key: string) => (
+    const Sessions = sessions.map((session: SessionData) => (
         <Session
             deleteHandler={handler}
             rightClickHandler={handler}
             overflowClickHandler={handler}
-            key={key}
-            title={''}
-            tabs={[]}
+            key={session.id}
+            title={session.title}
+            tabs={session.tabs}
         ></Session>
     ));
 
