@@ -1,6 +1,6 @@
 import { MouseEventHandler } from 'react';
 import styles from './Session.scss';
-import SessionStore from 'shared/types/Session';
+import { SessionStore } from 'shared/types/Session';
 import { TabStore } from 'shared/types/Tab';
 
 interface SessionComponentProps extends SessionStore {
@@ -29,5 +29,3 @@ export default function Session(props: SessionComponentProps) {
         </div>
     );
 }
-
-export type { SessionComponentProps, TabStore, SessionStore };
