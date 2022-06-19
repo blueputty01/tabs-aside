@@ -18,20 +18,20 @@ export default function SessionManager() {
     const saveSession = (
         title: string,
         checked: boolean,
-        tabs: TabData[][]
+        windows: TabData[][]
     ) => {
         const ids: number[] = [];
-        const flatTabs = tabs.map((curr: TabData[]): TabStore[] => {
-            const lean = curr.map((tab: TabData): TabStore => {
+        const cleanWindows = windows.map((window: TabData[]): TabStore[] => {
+            const cleanWindow = window.map((tab: TabData): TabStore => {
                 ids.push(tab.id);
                 return { title: tab.title, url: tab.url };
             });
-            return lean;
+            return cleanWindow;
         });
         setSessions((prev: SessionData[]): SessionData[] => {
             return [
                 ...prev,
-                { title, tabs: flatTabs, id: uuidv4() } as SessionData,
+                { title, windows: cleanWindows, id: uuidv4() } as SessionData,
             ];
         });
 

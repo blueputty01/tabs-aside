@@ -11,7 +11,7 @@ interface SessionComponentProps extends SessionData {
 
 export default function Session(props: SessionComponentProps) {
     const openAll = () => {
-        props.tabs.forEach((savedWindow: TabStore[]) => {
+        props.windows.forEach((savedWindow: TabStore[]) => {
             const urls = savedWindow.map((tab: TabStore) => {
                 return tab.url;
             });
