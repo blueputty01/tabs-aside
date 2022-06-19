@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
-import SessionCreation from './SessionCreation/SessionCreation';
+import SessionCreation from './SessionCreation';
 
 import Session from './Session';
 import { TabData, TabStore } from 'shared/types/Tab';

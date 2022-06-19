@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import CreateButton from './Create';
-import CreateModal from '../SessionModal';
+import CreateModal from './CreateModal';
 import { TabData } from 'shared/types/Tab';
 
 interface props {

@@ -1,39 +1,39 @@
-@import 'src/shared/scss/utils.scss';
+@import 'shared/scss/utils.scss';
 
 header {
-  font-size: 1.2rem;
-  font-weight: 500;
-  letter-spacing: -0.01rem;
-  background-color: var(--main-background);
-  border-bottom: var(--light-gray) solid 1px;
-  width: 100%;
-  box-sizing: border-box;
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin: 0;
-  height: 4rem;
-  padding: 0 1rem 0 1rem;
-  @include vertically-centered;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: -0.01rem;
+    background-color: var(--main-background);
+    border-bottom: var(--light-gray) solid 1px;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    height: 4rem;
+    padding: 0 1rem 0 1rem;
+    @include vertically-centered;
 }
 
 body {
-  margin-top: 4rem;
+    margin-top: 4rem;
 }
 
 .buttonContainer {
-  margin-left: auto;
+    margin-left: auto;
 
-  button {
-    margin: 0 0 0 10px;
-    padding: 10.5px;
-    height: 40px;
-    width: 40px;
-    border-radius: 25px;
+    button {
+        margin: 0 0 0 10px;
+        padding: 10.5px;
+        height: 40px;
+        width: 40px;
+        border-radius: 25px;
 
-    img {
-      height: 15px;
-      width: 15px;
+        img {
+            height: 15px;
+            width: 15px;
+        }
     }
-  }
 }
