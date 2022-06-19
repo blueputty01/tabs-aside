@@ -4,17 +4,16 @@ import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
 import { TabData, TabStore } from 'shared/types/Tab';
-import { SessionStore } from 'shared/types/Session';
-
-type SessionKeys = string[];
+import SessionData from 'shared/types/Session';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function SessionManager() {
-    const [keys, setKeys, isPersistent, error] = useChromeStorageLocal(
+    const [sessions, setSessions, isPersistent, error] = useChromeStorageLocal(
         'sessions',
-        [] as SessionKeys[]
+        [] as SessionData[]
     );
 
-    const [sessions, setSessions] = useState([] as SessionStore[]);
+    console.log(sessions);
 
     const saveSession = (
         title: string,
@@ -29,12 +28,11 @@ export default function SessionManager() {
             });
             return lean;
         });
-        setSessions((prev: SessionStore[]): SessionStore[] => {
-            return [...prev, { title, tabs: flatTabs } as SessionStore];
-        });
-
-        setKeys((prev: SessionStore[]): SessionStore[] => {
-            return [...prev, { title, tabs: flatTabs } as SessionStore];
+        setSessions((prev: SessionData[]): SessionData[] => {
+            return [
+                ...prev,
+                { title, tabs: flatTabs, id: uuidv4() } as SessionData,
+            ];
         });
 
         if (checked) {
@@ -42,14 +40,15 @@ export default function SessionManager() {
         }
     };
 
-    const Sessions = keys.map((key: string) => (
+    const handler = () => {};
+
+    const Sessions = sessions.map((session: SessionData) => (
         <Session
             deleteHandler={handler}
             rightClickHandler={handler}
             overflowClickHandler={handler}
-            key={key}
-            title={''}
-            tabs={[]}
+            key={session.id}
+            {...session}
         ></Session>
     ));
 
