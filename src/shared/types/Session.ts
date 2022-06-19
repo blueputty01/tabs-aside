@@ -1,6 +1,7 @@
 import { TabStore } from './Tab';
 
-export interface SessionStore {
+export default interface SessionData {
+    id: string;
     title: string;
     tabs: TabStore[][];
 }

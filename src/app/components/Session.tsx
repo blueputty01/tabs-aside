@@ -1,9 +1,9 @@
 import { MouseEventHandler } from 'react';
 import styles from './Session.scss';
-import { SessionStore } from 'shared/types/Session';
+import SessionData from 'shared/types/Session';
 import { TabStore } from 'shared/types/Tab';
 
-interface SessionComponentProps extends SessionStore {
+interface SessionComponentProps extends SessionData {
     deleteHandler: MouseEventHandler;
     rightClickHandler: MouseEventHandler;
     overflowClickHandler: MouseEventHandler;

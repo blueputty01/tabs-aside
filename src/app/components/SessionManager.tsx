@@ -1,34 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation/SessionCreation';
 
 import Session from './Session';
-import { TabStore, SessionStore } from './Session';
-import { TabData } from 'shared/types/Tab';
-
-type SessionKeys = string[];
+import { TabData, TabStore } from 'shared/types/Tab';
+import SessionData from 'shared/types/Session';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function SessionManager() {
-    const [keys, setKeys, isPersistent, error] = useChromeStorageLocal(
+    const [sessions, setSessions, isPersistent, error] = useChromeStorageLocal(
         'sessions',
-        [] as SessionKeys[]
+        [] as SessionData[]
     );
 
-    const [sessions, setSessions] = useState([] as SessionStore[]);
-
-    const newSess: SessionStore[] = [];
-    console.log('hi');
-
-    keys.forEach((key: string) => {
-        console.log('ff');
-
-        const [session, setSession, isPersistent, error] =
-            useChromeStorageLocal('sessions', [] as SessionStore[]);
-        newSess.push(session);
-    });
-    useEffect(() => {
-        setSessions(newSess);
-    }, [sessions, keys]);
+    console.log(sessions);
 
     const saveSession = (
         title: string,
@@ -43,9 +28,11 @@ export default function SessionManager() {
             });
             return lean;
         });
-
-        setKeys((prev: SessionStore[]): SessionStore[] => {
-            return [...prev, { title, tabs: flatTabs } as SessionStore];
+        setSessions((prev: SessionData[]): SessionData[] => {
+            return [
+                ...prev,
+                { title, tabs: flatTabs, id: uuidv4() } as SessionData,
+            ];
         });
 
         if (checked) {
@@ -53,18 +40,15 @@ export default function SessionManager() {
         }
     };
 
-    const handler = (e: React.MouseEvent) => {
-        console.log((e.target as HTMLDivElement).key);
-    };
+    const handler = () => {};
 
-    const Sessions = keys.map((key: string) => (
+    const Sessions = sessions.map((session: SessionData) => (
         <Session
             deleteHandler={handler}
             rightClickHandler={handler}
             overflowClickHandler={handler}
-            key={key}
-            title={''}
-            tabs={[]}
+            key={session.id}
+            {...session}
         ></Session>
     ));
 
