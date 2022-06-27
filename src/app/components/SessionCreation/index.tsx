@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import CreateButton from './Create';
 import CreateModal from './CreateModal';
 import { TabData } from 'shared/types/Tab';
+import React from 'react';
 
 interface props {
   save: (title: string, checked: boolean, tabs: TabData[][]) => void;
