@@ -1,40 +1,42 @@
 @import 'shared/scss/global';
 
 .session {
-  display: flex;
-  align-items: center;
-
-  margin: 10px 0 0 0;
-  padding: 0.5rem;
-
   overflow: hidden;
+  border: var(--light-gray) solid 2px;
   border-radius: 10px;
 
-  .title {
-    padding: 1rem 0 1rem 0;
-  }
+  cursor: pointer;
 
-  .buttonContainer {
+  .titleBar {
     display: flex;
-    column-gap: 0.25rem;
-    margin-left: auto;
+    align-items: center;
+    padding: 0.5rem;
 
-    button {
-      padding: 0.5rem;
+    .title {
+      padding: 1rem 0 1rem 0;
+    }
+
+    .buttonContainer {
+      display: flex;
+      column-gap: 0.25rem;
+      margin-left: auto;
+
+      button {
+        padding: 0.5rem;
+      }
+    }
+
+    &.hover {
+      background: var(--hover);
     }
   }
 
-  & .hover {
-    background: var(--hover);
+  &.collapsed {
+    border-radius: 10px 10px 5px 5px;
   }
-}
 
-.collapsed {
-  border-radius: 10px 10px 5px 5px;
-  border: var(--light-gray) solid 2px;
-}
-
-.selected {
-  box-shadow: var(--shadow);
-  border: none;
+  &.selected {
+    box-shadow: var(--shadow);
+    border: none;
+  }
 }
