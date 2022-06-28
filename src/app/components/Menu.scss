@@ -1,0 +1,16 @@
+.menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: var(--main-background);
+  box-shadow: var(--shadow);
+  border-radius: 10px;
+  overflow: hidden;
+
+  * {
+    padding: 1rem;
+    &:hover {
+      background: var(--hover);
+    }
+  }
+}

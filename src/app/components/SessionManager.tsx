@@ -2,16 +2,20 @@ import { useState } from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation';
 
-import Session from './Session';
+import Session, { actionHandler } from './Session';
 import { TabData, TabStore } from 'shared/types/Tab';
 import SessionData from 'shared/types/Session';
 import { v4 as uuidv4 } from 'uuid';
+import Menu, { Point } from './Menu';
 
 export default function SessionManager() {
   const [sessions, setSessions, isPersistent, error] = useChromeStorageLocal(
     'sessions',
     [] as SessionData[]
   );
+
+  const [menuVisibility, setMenuVisibility] = useState(false);
+  const [menuLoc, setMenuLoc] = useState([0, 0] as Point);
 
   console.log(sessions);
 
@@ -40,7 +44,13 @@ export default function SessionManager() {
     }
   };
 
-  const handler = () => {};
+  const handler: actionHandler = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    setMenuLoc([e.clientX, e.clientY]);
+    setMenuVisibility(true);
+  };
 
   const Sessions = sessions.map((session: SessionData) => (
     <Session
@@ -52,10 +62,19 @@ export default function SessionManager() {
     ></Session>
   ));
 
+  const onMenuExit = () => {
+    setMenuVisibility(false);
+  };
+
   return (
     <main>
       <SessionCreation save={saveSession}></SessionCreation>
       <div>{Sessions}</div>
+      <Menu
+        loc={menuLoc}
+        visibility={menuVisibility}
+        onExit={onMenuExit}
+      ></Menu>
     </main>
   );
 }
