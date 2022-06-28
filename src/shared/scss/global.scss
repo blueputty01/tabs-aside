@@ -30,44 +30,45 @@ a:visited {
   color: var(--accent-color);
 }
 
-button {
+@mixin button {
   background: transparent;
   border: transparent solid 2px;
   outline: none;
   color: var(--button-color);
   cursor: pointer;
+
+  &:hover {
+    background: var(--hover);
+  }
+
+  &:active {
+    background: var(--gray);
+  }
+
+  &:focus {
+    border: var(--light-gray) solid 2px;
+  }
 }
 
-button:hover {
-  background: var(--hover);
-}
-
-button:active {
-  background: var(--gray);
-}
-
-button:focus {
-  border: var(--light-gray) solid 2px;
+button {
+  @include button;
 }
 
 button.accent {
   color: var(--accent-color);
   box-shadow: var(--shadow);
   border-radius: 10px;
-}
 
-button.accent:hover {
-  background: var(--accent-hover) !important;
-}
+  &:hover {
+    background: var(--accent-hover) !important;
+  }
 
-button.accent:active {
-  background: var(--accent-active) !important;
-}
+  &:active {
+    background: var(--accent-active) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
 
-button.accent:active {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-button.accent:focus {
-  border: var(--accent-color) solid 2px !important;
+  &:focus {
+    border: var(--light-accent-color) solid 2px !important;
+  }
 }
