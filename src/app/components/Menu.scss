@@ -1,3 +1,5 @@
+@import 'shared/scss/global.scss';
+
 .menu {
   position: absolute;
   display: flex;
@@ -6,11 +8,10 @@
   box-shadow: var(--shadow);
   border-radius: 10px;
   overflow: hidden;
+  padding: 0.7rem 0 0.7rem 0;
 
   * {
-    padding: 1rem;
-    &:hover {
-      background: var(--hover);
-    }
+    padding: 0.7rem 1.5rem 0.7rem 1.5rem;
+    @include button;
   }
 }

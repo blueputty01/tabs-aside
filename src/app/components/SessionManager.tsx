@@ -16,6 +16,7 @@ export default function SessionManager() {
 
   const [menuVisibility, setMenuVisibility] = useState(false);
   const [menuLoc, setMenuLoc] = useState([0, 0] as Point);
+  const [triggerElement, setTrigger] = useState(null as unknown as HTMLElement);
 
   console.log(sessions);
 
@@ -48,7 +49,15 @@ export default function SessionManager() {
     e: React.MouseEvent<HTMLButtonElement>,
     id: string
   ) => {
-    setMenuLoc([e.clientX, e.clientY]);
+    const target = e.target as HTMLElement;
+
+    const rect = target.getBoundingClientRect();
+
+    let snapX = rect.right - rect.width / 2;
+    let snapY = rect.bottom - rect.height / 2;
+
+    setTrigger(target);
+    setMenuLoc([snapX, snapY]);
     setMenuVisibility(true);
   };
 
@@ -73,6 +82,7 @@ export default function SessionManager() {
       <Menu
         loc={menuLoc}
         visibility={menuVisibility}
+        triggerElement={triggerElement}
         onExit={onMenuExit}
       ></Menu>
     </main>

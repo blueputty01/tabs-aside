@@ -4,7 +4,7 @@ import styles from './Menu.scss';
 interface MenuProps {
   visibility: boolean;
   loc: Point;
-  triggerElement: HTMLElement;
+  triggerElement: HTMLElement | null;
   onExit: () => void;
 }
 
@@ -44,20 +44,20 @@ export default function Menu(props: MenuProps) {
 
   useLayoutEffect(() => {
     if (menu.current !== null) {
-      const divBox = (menu.current as HTMLDivElement).getBoundingClientRect();
+      const rect = (menu.current as HTMLDivElement).getBoundingClientRect();
 
       let newLeft = clickX;
-      if (clickX + divBox.width > pageW) {
-        while (newLeft + divBox.width > pageW) {
-          newLeft -= divBox.width;
+      if (clickX + rect.width > pageW) {
+        while (newLeft + rect.width > pageW) {
+          newLeft -= rect.width;
         }
       }
       setLeft(newLeft);
 
       let newTop = clickY;
-      if (clickY + divBox.height > pageH) {
-        while (newTop + divBox.height > pageH) {
-          newTop -= divBox.height;
+      if (clickY + rect.height > pageH) {
+        while (newTop + rect.height > pageH) {
+          newTop -= rect.height;
         }
       }
       setTop(newTop);
@@ -71,7 +71,7 @@ export default function Menu(props: MenuProps) {
   };
 
   const windowHandler = (e: MouseEvent) => {
-    if (!(e.clientX === clickX && e.clientY == clickY)) {
+    if (e.target !== props.triggerElement) {
       props.onExit();
     }
   };
