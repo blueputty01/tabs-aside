@@ -4,6 +4,7 @@ import styles from './Menu.scss';
 interface MenuProps {
   visibility: boolean;
   loc: Point;
+  triggerElement: HTMLElement;
   onExit: () => void;
 }
 
@@ -41,33 +42,27 @@ export default function Menu(props: MenuProps) {
   const [left, setLeft] = useState(clickX);
   const [top, setTop] = useState(clickY);
 
-  console.log(clickX, clickY, left, top, props.visibility);
-
-  useEffect(() => {
-    setLeft(clickX);
-  }, [clickX]);
-
-  useEffect(() => {
-    setTop(clickY);
-  }, [clickY]);
-
   useLayoutEffect(() => {
     if (menu.current !== null) {
       const divBox = (menu.current as HTMLDivElement).getBoundingClientRect();
 
-      if (divBox.right > pageW) {
-        setLeft((left) => {
-          return left - divBox.width;
-        });
+      let newLeft = clickX;
+      if (clickX + divBox.width > pageW) {
+        while (newLeft + divBox.width > pageW) {
+          newLeft -= divBox.width;
+        }
       }
+      setLeft(newLeft);
 
-      if (divBox.bottom > pageH) {
-        setTop((top) => {
-          return top - divBox.height;
-        });
+      let newTop = clickY;
+      if (clickY + divBox.height > pageH) {
+        while (newTop + divBox.height > pageH) {
+          newTop -= divBox.height;
+        }
       }
+      setTop(newTop);
     }
-  });
+  }, [clickX, clickY]);
 
   let locStyles = {
     top,
