@@ -14,12 +14,6 @@ export interface WindowProps {
   index: number;
   tabClickHandler: (event: React.MouseEvent, key: string) => void;
   windowClickHandler: (event: React.MouseEvent) => void;
-  tabHoverHandler: (
-    event: React.MouseEvent,
-    key: string,
-    hoverState: boolean
-  ) => void;
-  windowHoverHandler: (hoverState: boolean) => void;
   tabs: TabProps[];
   spanClasses?: string[];
 }
@@ -42,12 +36,30 @@ export default function Window(props: WindowProps) {
     });
   }, [props.tabs]);
 
+  const windowHoverHandler = (mouse: boolean) => {
+    const newStates = { ...hover };
+    tabData.forEach((tab) => {
+      newStates[tab.key] = mouse;
+    });
+    setHover(newStates);
+  };
+
+  const tabHoverHandler = (
+    event: React.MouseEvent,
+    key: string,
+    hover: boolean
+  ) => {
+    setHover((prevState) => {
+      return { ...prevState, [key]: hover };
+    });
+  };
+
   const windowMouseEnterHandler = (event: React.MouseEvent) => {
     windowHoverHandler(true);
   };
 
   const windowMouseLeaveHandler = (event: React.MouseEvent) => {
-    props.windowHoverHandler(false);
+    windowHoverHandler(false);
   };
 
   const getTabComps = () =>
@@ -55,10 +67,10 @@ export default function Window(props: WindowProps) {
       return (
         <Tab
           onMouseEnter={(event) => {
-            props.tabHoverHandler(event, tab.key, true);
+            tabHoverHandler(event, tab.key, true);
           }}
           onMouseLeave={(event) => {
-            props.tabHoverHandler(event, tab.key, false);
+            tabHoverHandler(event, tab.key, false);
           }}
           {...tab}
           onClick={(event) => {
