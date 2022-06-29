@@ -12,11 +12,8 @@ interface WindowProps extends chrome.windows.Window {
 }
 
 export default function Window(props: WindowProps) {
-  interface TabData {
-    title: string;
-    url: string;
+  interface TabProps extends TabData {
     favIconUrl: string;
-    id: number;
     key: string;
     selected: boolean;
     hover: boolean;
@@ -28,7 +25,7 @@ export default function Window(props: WindowProps) {
 
   const isMount = useIsMount();
 
-  const selectionsRef = useRef([] as TabData[]);
+  const selectionsRef = useRef([] as TabProps[]);
 
   const getDefault = () => {
     const defSel: tabStatesI = {};
@@ -43,8 +40,13 @@ export default function Window(props: WindowProps) {
   const [hovered, setHovered] = useState(getDefault);
   const [selected, setSelected] = useState(getDefault);
 
-  const tabData: TabData[] = props.tabs!.map((tab): TabData => {
+  const tabData: TabProps[] = props.tabs!.map((tab): TabProps => {
     const key = tab.id!.toString();
+
+    if (tab.favIconUrl === undefined) {
+      tab.favIconUrl = `chrome://favicon/${tab.url}`;
+    }
+
     return {
       title: tab.title!,
       url: tab.url!,
@@ -126,7 +128,7 @@ export default function Window(props: WindowProps) {
   useEffect(() => {
     if (!isMount) {
       //possibly inefficient (requires remap every selection)
-      const tabs: TabData[] = tabData.filter((tab) => tab.selected);
+      const tabs: TabProps[] = tabData.filter((tab) => tab.selected);
       selectionsRef.current = tabs;
       props.selectionHandler(tabs, props.i);
     }

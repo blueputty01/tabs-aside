@@ -1,7 +1,8 @@
 export interface TabData {
   title: string;
   url: string;
-  id: number;
+  id: number | string;
+  favIconUrl?: string;
 }
 
 export interface TabStore {
