@@ -2,28 +2,28 @@
 
 Chrome Extension to save tabs for later. Check it out on the [Chrome Web Store](https://chrome.google.com/webstore/detail/tabs-aside/nboikgnmjgjcnnhencinblbaikdccdlb)!
 
-## Table of contents
+## 📃 Table of contents
 
 - [Technologies](#technologies)
 
 - [Setup](#setup)
 
-## Technologies
+## ⚙️ Technologies
 
 Project is created with:
 
 - React
 - SASS
 
-## Setup
+## 📦 Setup
 
 To run this project, install it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/tabs-aside/nboikgnmjgjcnnhencinblbaikdccdlb) or by loading the live build:
 
-### Building
+### 🔨 Building
 
 1. Run `npm build` on source code
 
-### Installation
+### 🔨 Installation
 
 1. Navigate to <chrome:extensions>
 2. Check "Developer Mode" in the top right corner
