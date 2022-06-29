@@ -4,7 +4,7 @@ import Window, { TabStatesI } from '../shared/Window';
 export default function SessionWindow() {
   return (
     <Window
-      i={0}
+      index={0}
       tabClickHandler={function (
         event: MouseEvent<Element, MouseEvent>,
         key: string,

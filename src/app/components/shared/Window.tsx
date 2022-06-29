@@ -14,16 +14,16 @@ export interface TabProps extends TabData {
 }
 
 export interface WindowProps {
-  i: number;
+  index: number;
   tabClickHandler: (event: React.MouseEvent, key: string, i: number) => void;
   windowClickHandler: (event: React.MouseEvent) => void;
-  tabs: TabProps[];
+  tabs: TabData[];
   defaultTabPropHandler: (tabs: TabStatesI) => void;
   spanClassName: string;
 }
 
 export default function Window(props: WindowProps) {
-    const getDefault = () => {
+  const getDefault = () => {
     const defSel: TabStatesI = {};
     props.tabs!.forEach((tab) => {
       const key = tab.id!.toString();
@@ -89,7 +89,7 @@ export default function Window(props: WindowProps) {
         onMouseLeave={windowMouseLeaveHandler}
         onClick={props.windowClickHandler}
       >
-        {props.i == 0 ? 'Current Window' : `Window ${props.i + 1}`}
+        {props.index == 0 ? 'Current Window' : `Window ${props.index + 1}`}
       </span>
       {TabList}
     </Fragment>

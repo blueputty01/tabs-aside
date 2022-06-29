@@ -6,7 +6,7 @@ import { useIsMount } from 'shared/utils/utils';
 import { TabData } from 'shared/types/Tab';
 
 interface SelectableWindowProps extends WindowProps {
-  i: number;
+  index: number;
   selectionHandler: (tabs: TabData[], id: number) => void;
 }
 
@@ -89,13 +89,13 @@ export default function SelectableWindow(props: SelectableWindowProps) {
       //possibly inefficient (requires remap every selection)
       const tabs: TabData[] = tabData.filter((tab) => tab.selected);
       selectionsRef.current = tabs;
-      props.selectionHandler(tabs, props.i);
+      props.selectionHandler(tabs, props.index);
     }
   }, [selected]);
 
   return (
     <Window
-      i={0}
+      index={0}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
       defaultTabPropHandler={(tabs) => {}}
