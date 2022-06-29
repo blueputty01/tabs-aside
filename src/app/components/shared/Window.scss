@@ -1,0 +1,18 @@
+.windowLabel {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: inline-block;
+  padding: 0.5rem;
+  background-color: var(--main-background);
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--accent-hover);
+  }
+
+  &.selected {
+    background-color: var(--accent-active);
+  }
+}
