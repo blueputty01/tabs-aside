@@ -52,7 +52,7 @@ export default function SelectableWindow(props: SelectableWindowProps) {
     setWindowSelection(!windowSelected);
   };
 
-  const tabClickHandler = (event: React.MouseEvent, key: string, i: number) => {
+  const tabClickHandler = (event: React.MouseEvent, key: string) => {
     const newStates = { ...selected };
     const newState = !newStates[key];
     newStates[key] = newState;
@@ -95,10 +95,13 @@ export default function SelectableWindow(props: SelectableWindowProps) {
 
   return (
     <Window
-      index={0}
+      tabs={props.tabs}
+      index={props.index}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
-      defaultTabPropHandler={(tabs) => {}}
+      tabHoverHandler={tabHoverHandler}
+      windowHoverHandler={windowHoverHandler}
+      spanClasses={windowSelected && styles.selected}
     ></Window>
   );
 }

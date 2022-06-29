@@ -1,11 +1,8 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import Tab from './Tab';
 import styles from './Window.scss';
 
 import { TabData } from 'shared/types/Tab';
-export interface TabStatesI {
-  [key: string]: boolean;
-}
 
 export interface TabProps extends TabData {
   favIconUrl: string;
@@ -15,76 +12,68 @@ export interface TabProps extends TabData {
 
 export interface WindowProps {
   index: number;
-  tabClickHandler: (event: React.MouseEvent, key: string, i: number) => void;
+  tabClickHandler: (event: React.MouseEvent, key: string) => void;
   windowClickHandler: (event: React.MouseEvent) => void;
-  tabs: TabData[];
-  defaultTabPropHandler: (tabs: TabStatesI) => void;
-  spanClassName: string;
+  tabHoverHandler: (
+    event: React.MouseEvent,
+    key: string,
+    hoverState: boolean
+  ) => void;
+  windowHoverHandler: (hoverState: boolean) => void;
+  tabs: TabProps[];
+  spanClasses?: string[];
+}
+
+interface tabStatesI {
+  [key: string]: boolean;
 }
 
 export default function Window(props: WindowProps) {
-  const getDefault = () => {
-    const defSel: TabStatesI = {};
-    props.tabs!.forEach((tab) => {
+  const [hover, setHover] = useState({} as tabStatesI);
+
+  const tabData = useMemo(() => {
+    return props.tabs.map((tab) => {
       const key = tab.id!.toString();
-      defSel[key] = false;
+
+      return {
+        ...tab,
+        hover: hover[key] || false,
+      };
     });
-    return defSel;
-  };
-
-  useEffect(() => {
-    props.defaultTabPropHandler(getDefault());
   }, [props.tabs]);
-
-  const [hovered, setHovered] = useState(getDefault);
 
   const windowMouseEnterHandler = (event: React.MouseEvent) => {
     windowHoverHandler(true);
   };
 
   const windowMouseLeaveHandler = (event: React.MouseEvent) => {
-    windowHoverHandler(false);
+    props.windowHoverHandler(false);
   };
 
-  const windowHoverHandler = (mouse: boolean) => {
-    const newStates = { ...hovered };
-    props.tabs.forEach((tab) => {
-      newStates[tab.key] = mouse;
+  const getTabComps = () =>
+    tabData.map((tab) => {
+      return (
+        <Tab
+          onMouseEnter={(event) => {
+            props.tabHoverHandler(event, tab.key, true);
+          }}
+          onMouseLeave={(event) => {
+            props.tabHoverHandler(event, tab.key, false);
+          }}
+          {...tab}
+          onClick={(event) => {
+            props.tabClickHandler(event, tab.key);
+          }}
+        ></Tab>
+      );
     });
-    setHovered(newStates);
-  };
 
-  const tabHoverHandler = (
-    event: React.MouseEvent,
-    key: string,
-    hover: boolean
-  ) => {
-    setHovered((prevState) => {
-      return { ...prevState, [key]: hover };
-    });
-  };
-
-  const TabList = props.tabs.map((tab, i) => {
-    return (
-      <Tab
-        onMouseEnter={(event) => {
-          tabHoverHandler(event, tab.key, true);
-        }}
-        onMouseLeave={(event) => {
-          tabHoverHandler(event, tab.key, false);
-        }}
-        {...tab}
-        onClick={(event) => {
-          props.tabClickHandler(event, tab.key, i);
-        }}
-      ></Tab>
-    );
-  });
+  const TabList = useMemo(getTabComps, [props.tabs]);
 
   return (
     <Fragment>
       <span
-        className={[styles.windowLabel, props.spanClassName].join(' ')}
+        className={[styles.windowLabel, props.spanClasses].join(' ')}
         onMouseEnter={windowMouseEnterHandler}
         onMouseLeave={windowMouseLeaveHandler}
         onClick={props.windowClickHandler}
