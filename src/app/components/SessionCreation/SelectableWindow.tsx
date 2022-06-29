@@ -1,4 +1,11 @@
-import { Fragment, MouseEvent, useEffect, useRef, useState } from 'react';
+import {
+  Fragment,
+  MouseEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Window, { TabProps, TabStatesI, WindowProps } from '../shared/Window';
 import styles from './SelectableWindow.scss';
 
@@ -13,12 +20,15 @@ interface SelectableWindowProps extends WindowProps {
 interface SelectableTabProps extends TabProps {
   favIconUrl: string;
   key: string;
-  hover: boolean;
+  selected: boolean;
 }
 
 export default function SelectableWindow(props: SelectableWindowProps) {
-  const tabData: SelectableTabProps[] = props.tabs!.map(
-    (tab): SelectableTabProps => {
+  const [windowSelected, setWindowSelection] = useState(false);
+  const [selected, setSelected] = useState({} as TabStatesI);
+
+  const addSelectedProp = () =>
+    props.tabs!.map((tab): SelectableTabProps => {
       const key = tab.id!.toString();
 
       if (tab.favIconUrl === undefined) {
@@ -30,18 +40,16 @@ export default function SelectableWindow(props: SelectableWindowProps) {
         url: tab.url!,
         favIconUrl: tab.favIconUrl!,
         id: tab.id!,
+        selected: selected[key] || false,
         key: key,
-        hover: hovered[key],
       };
-    }
-  );
+    });
+
+  const tabData = useMemo(addSelectedProp, [props.tabs, selected]);
 
   const isMount = useIsMount();
 
   const selectionsRef = useRef([] as TabData[]);
-
-  const [windowSelected, setWindowSelection] = useState(false);
-  const [selected, setSelected] = useState({} as TabStatesI);
 
   const windowClickHandler = (event: React.MouseEvent) => {
     const newStates = { ...selected };
@@ -93,15 +101,15 @@ export default function SelectableWindow(props: SelectableWindowProps) {
     }
   }, [selected]);
 
+  console.log(windowSelected);
+
   return (
     <Window
-      tabs={props.tabs}
+      tabs={tabData}
       index={props.index}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
-      tabHoverHandler={tabHoverHandler}
-      windowHoverHandler={windowHoverHandler}
-      spanClasses={windowSelected && styles.selected}
+      spanClasses={windowSelected ? styles.selected : ''}
     ></Window>
   );
 }

@@ -7,6 +7,9 @@ import { TabData } from 'shared/types/Tab';
 export interface TabProps extends TabData {
   favIconUrl: string;
   key: string;
+}
+
+interface TabState extends TabProps {
   hover: boolean;
 }
 
@@ -18,23 +21,26 @@ export interface WindowProps {
   spanClasses?: string[];
 }
 
-interface tabStatesI {
+export interface TabStatesI {
   [key: string]: boolean;
 }
 
 export default function Window(props: WindowProps) {
-  const [hover, setHover] = useState({} as tabStatesI);
+  const [hover, setHover] = useState({} as TabStatesI);
 
-  const tabData = useMemo(() => {
-    return props.tabs.map((tab) => {
+  const addHoverProp = (): TabState[] => {
+    return props.tabs.map((tab): TabState => {
       const key = tab.id!.toString();
-
+      const hoverState = hover[key];
+      let hoverProp = typeof hoverState === 'undefined' ? false : hoverState;
       return {
         ...tab,
-        hover: hover[key] || false,
+        hover: hoverProp,
       };
     });
-  }, [props.tabs]);
+  };
+
+  const tabData = useMemo(addHoverProp, [props.tabs, hover]);
 
   const windowHoverHandler = (mouse: boolean) => {
     const newStates = { ...hover };
@@ -80,7 +86,7 @@ export default function Window(props: WindowProps) {
       );
     });
 
-  const TabList = useMemo(getTabComps, [props.tabs]);
+  const TabList = useMemo(getTabComps, [tabData]);
 
   return (
     <Fragment>

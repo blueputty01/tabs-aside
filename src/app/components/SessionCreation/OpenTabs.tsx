@@ -19,8 +19,6 @@ export default function OpenTabs(props: OpenTabProps) {
 
   const selRef = useRef([] as TabData[][]);
 
-  console.log(chrome.tabs.onUpdated.hasListeners());
-
   const addListeners = () => {
     chrome.tabs.onUpdated.addListener(
       (
@@ -45,7 +43,7 @@ export default function OpenTabs(props: OpenTabProps) {
     });
   };
 
-  //TODO: check perf of this
+  // TODO: check perf of this
   useEffect(() => {
     addListeners();
   }, []);
