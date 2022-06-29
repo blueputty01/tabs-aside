@@ -1,4 +1,4 @@
-<img align="left" width="40" height="40" src="src\shared\img\branding\prod\icon128.png" alt="Resume application project app icon">
+<img align="left" width="80" height="80" src="src\shared\img\branding\prod\icon128.png" alt="Resume application project app icon">
 
 # Tabs Aside
 
