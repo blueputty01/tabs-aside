@@ -70,8 +70,6 @@ export default function Window(props: WindowChildProps) {
 
   const getTabComps = () =>
     tabData.map((tab) => {
-      console.log(tab.top);
-
       return (
         <Tab
           onMouseEnter={(event) => {
