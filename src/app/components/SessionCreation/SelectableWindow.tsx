@@ -23,18 +23,30 @@ interface SelectableTabProps extends TabData {
   favIconUrl: string;
   key: string;
   selected: boolean;
+  top: boolean;
+  bottom: boolean;
 }
 
 export default function SelectableWindow(props: SelectableWindowProps) {
   const [windowSelected, setWindowSelection] = useState(false);
   const [selected, setSelected] = useState({} as TabStatesI);
 
-  const addSelectedProp = () =>
-    props.tabs!.map((tab): SelectableTabProps => {
+  const addSelectedProp = () => {
+    return props.tabs!.map((tab, i): SelectableTabProps => {
       const key = tab.id!.toString();
 
       if (tab.favIconUrl === undefined) {
         tab.favIconUrl = `chrome://favicon/${tab.url}`;
+      }
+      let top = false;
+      let bottom = false;
+      const prevTab = props.tabs![i - 1];
+      if (!selected[prevTab?.id.toString()]) {
+        top = true;
+      }
+      const nextTab = props.tabs![i + 1];
+      if (!selected[nextTab?.id.toString()]) {
+        bottom = true;
       }
 
       return {
@@ -43,9 +55,12 @@ export default function SelectableWindow(props: SelectableWindowProps) {
         favIconUrl: tab.favIconUrl!,
         id: tab.id!,
         selected: selected[key] || false,
+        top,
+        bottom,
         key: key,
       };
     });
+  };
 
   const tabData = useMemo(addSelectedProp, [props.tabs, selected]);
 

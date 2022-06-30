@@ -21,7 +21,6 @@ export default function Session(props: SessionComponentProps) {
   const [hover, setHover] = useState(false);
 
   const openAll = () => {
-    console.log(props);
     props.windows.forEach((savedWindow: TabStore[]) => {
       openWindow(savedWindow);
     });
