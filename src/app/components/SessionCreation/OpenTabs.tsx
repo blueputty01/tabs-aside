@@ -13,8 +13,7 @@ interface OpenTabProps {
 Modal.setAppElement('#root');
 
 export default function OpenTabs(props: OpenTabProps) {
-  const def: chrome.windows.Window[] = [];
-  const [windows, setWindows] = useState(def);
+  const [windows, setWindows] = useState([] as chrome.windows.Window[]);
   const [currWin, setCurr] = useState(-1);
 
   const selRef = useRef([] as TabData[][]);
@@ -43,11 +42,6 @@ export default function OpenTabs(props: OpenTabProps) {
     });
   };
 
-  // TODO: check perf of this
-  useEffect(() => {
-    addListeners();
-  }, []);
-
   const getWindows = () => {
     chrome.windows.getCurrent({}, (curr) => {
       chrome.windows.getAll(
@@ -61,6 +55,7 @@ export default function OpenTabs(props: OpenTabProps) {
   };
 
   useEffect(() => {
+    addListeners();
     getWindows();
   }, []);
 
@@ -78,14 +73,16 @@ export default function OpenTabs(props: OpenTabProps) {
     props.onSelectionChange(selRef.current);
   };
 
-  const Windows = reordered.map((window, i) => (
-    <SelectableWindow
-      {...window}
-      key={window.id}
-      index={i}
-      selectionHandler={onSelectionChange}
-    ></SelectableWindow>
-  ));
+  const Windows = reordered.map((window, i) => {
+    return (
+      <SelectableWindow
+        key={window.id}
+        index={i}
+        selectionHandler={onSelectionChange}
+        tabs={window.tabs as unknown as TabData[]}
+      ></SelectableWindow>
+    );
+  });
 
   return <div className={props.className}>{Windows}</div>;
 }

@@ -6,18 +6,19 @@ import {
   useRef,
   useState,
 } from 'react';
-import Window, { TabProps, TabStatesI, WindowProps } from '../shared/Window';
+import Window, { TabStatesI, WindowProps } from '../shared/Window';
 import styles from './SelectableWindow.scss';
 
 import { useIsMount } from 'shared/utils/utils';
 import { TabData } from 'shared/types/Tab';
 
 interface SelectableWindowProps extends WindowProps {
+  tabs: TabData[];
   index: number;
   selectionHandler: (tabs: TabData[], id: number) => void;
 }
 
-interface SelectableTabProps extends TabProps {
+interface SelectableTabProps extends TabData {
   favIconUrl: string;
   key: string;
   selected: boolean;
@@ -107,7 +108,8 @@ export default function SelectableWindow(props: SelectableWindowProps) {
       index={props.index}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
-      spanClasses={windowSelected ? styles.selected : ''}
+      spanClasses={windowSelected && styles.selected}
+      hoverClass={!windowSelected && styles.hover}
     ></Window>
   );
 }

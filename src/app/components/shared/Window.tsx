@@ -4,50 +4,54 @@ import styles from './Window.scss';
 
 import { TabData } from 'shared/types/Tab';
 
-export interface TabProps extends TabData {
-  favIconUrl: string;
+interface TabState extends TabData {
   key: string;
-}
-
-interface TabState extends TabProps {
   hover: boolean;
 }
 
 export interface WindowProps {
   index: number;
+  tabs: TabData[];
+}
+
+interface WindowChildProps extends WindowProps {
   tabClickHandler: (event: React.MouseEvent, key: string) => void;
   windowClickHandler: (event: React.MouseEvent) => void;
-  tabs: TabProps[];
   spanClasses?: string[];
+  hoverClass?: string;
 }
 
 export interface TabStatesI {
   [key: string]: boolean;
 }
 
-export default function Window(props: WindowProps) {
-  const [hover, setHover] = useState({} as TabStatesI);
+export default function Window(props: WindowChildProps) {
+  const [tabHoverStates, setTabHoverStates] = useState({} as TabStatesI);
+  const [windowHover, setWindowHover] = useState(false);
 
   const addHoverProp = (): TabState[] => {
     return props.tabs.map((tab): TabState => {
       const key = tab.id!.toString();
-      const hoverState = hover[key];
+      const hoverState = tabHoverStates[key];
       let hoverProp = typeof hoverState === 'undefined' ? false : hoverState;
+
       return {
         ...tab,
+        key,
         hover: hoverProp,
       };
     });
   };
 
-  const tabData = useMemo(addHoverProp, [props.tabs, hover]);
+  const tabData = useMemo(addHoverProp, [props.tabs, tabHoverStates]);
 
   const windowHoverHandler = (mouse: boolean) => {
-    const newStates = { ...hover };
+    setWindowHover(mouse);
+    const newStates = { ...tabHoverStates };
     tabData.forEach((tab) => {
       newStates[tab.key] = mouse;
     });
-    setHover(newStates);
+    setTabHoverStates(newStates);
   };
 
   const tabHoverHandler = (
@@ -55,7 +59,7 @@ export default function Window(props: WindowProps) {
     key: string,
     hover: boolean
   ) => {
-    setHover((prevState) => {
+    setTabHoverStates((prevState) => {
       return { ...prevState, [key]: hover };
     });
   };
@@ -91,7 +95,11 @@ export default function Window(props: WindowProps) {
   return (
     <Fragment>
       <span
-        className={[styles.windowLabel, props.spanClasses].join(' ')}
+        className={[
+          windowHover && props.hoverClass,
+          styles.windowLabel,
+          props.spanClasses,
+        ].join(' ')}
         onMouseEnter={windowMouseEnterHandler}
         onMouseLeave={windowMouseLeaveHandler}
         onClick={props.windowClickHandler}
