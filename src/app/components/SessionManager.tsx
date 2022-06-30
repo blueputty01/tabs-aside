@@ -84,7 +84,6 @@ export default function SessionManager() {
       <Menu
         loc={menuLoc}
         visibility={menuVisibility}
-        triggerElement={triggerElement}
         onExit={onMenuExit}
       ></Menu>
     </main>

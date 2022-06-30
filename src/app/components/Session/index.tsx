@@ -40,10 +40,12 @@ export default function Session(props: SessionComponentProps) {
     }
   };
 
-  const toggle = () => {
-    setIsOpen((isOpen) => {
-      return !isOpen;
-    });
+  const toggle = (e: React.MouseEvent) => {
+    if (e.target === divRef.current) {
+      setIsOpen((isOpen) => {
+        return !isOpen;
+      });
+    }
   };
 
   const Windows = props.windows.map((window, i) => {

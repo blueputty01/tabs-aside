@@ -4,7 +4,6 @@ import styles from './Menu.scss';
 interface MenuProps {
   visibility: boolean;
   loc: Point;
-  triggerElement: HTMLElement | null;
   onExit: () => void;
 }
 
@@ -31,6 +30,8 @@ const getHeight = () => {
 };
 
 export default function Menu(props: MenuProps) {
+  const absorbedEvent = useRef(false);
+
   const menu = useRef(null);
 
   const pageH = getHeight();
@@ -71,10 +72,18 @@ export default function Menu(props: MenuProps) {
   };
 
   const windowHandler = (e: MouseEvent) => {
-    if (e.target !== props.triggerElement) {
+    if (absorbedEvent.current) {
       props.onExit();
+    } else {
+      absorbedEvent.current = true;
     }
   };
+
+  useEffect(() => {
+    if (props.visibility == false) {
+      absorbedEvent.current = false;
+    }
+  }, [props.visibility]);
 
   useEffect(() => {
     window.addEventListener('click', windowHandler);
