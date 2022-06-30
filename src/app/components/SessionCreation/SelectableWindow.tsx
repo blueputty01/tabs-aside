@@ -101,8 +101,6 @@ export default function SelectableWindow(props: SelectableWindowProps) {
     }
   }, [selected]);
 
-  console.log(windowSelected);
-
   return (
     <Window
       tabs={tabData}
