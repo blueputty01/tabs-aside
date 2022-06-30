@@ -4,7 +4,10 @@
   width: 100%;
   display: inline-block;
   padding: 0.5rem;
-  background-color: var(--main-background);
-
   cursor: pointer;
+}
+
+.window {
+  border-radius: 10px;
+  overflow: hidden;
 }

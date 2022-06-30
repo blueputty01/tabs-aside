@@ -10,6 +10,8 @@ interface Props {
   onMouseLeave: MouseEventHandler;
   url: string;
   hoverClass?: string;
+  top?: boolean;
+  bottom?: boolean;
   // favIconUrl: string; manifest v3
 }
 
@@ -19,7 +21,7 @@ export default function Tab(props: Props) {
       className={[
         styles.tab,
         props.hover && !props.selected ? props.hoverClass : null,
-        props.selected ? styles.active : null,
+        props.selected ? styles.selected : null,
       ].join(' ')}
       onClick={props.onClick}
       onMouseEnter={props.onMouseEnter}

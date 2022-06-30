@@ -11,6 +11,7 @@ import styles from './SelectableWindow.scss';
 
 import { useIsMount } from 'shared/utils/utils';
 import { TabData } from 'shared/types/Tab';
+import OpenTabs from './OpenTabs';
 
 interface SelectableWindowProps extends WindowProps {
   tabs: TabData[];
@@ -70,15 +71,13 @@ export default function SelectableWindow(props: SelectableWindowProps) {
       if (!windowSelected) {
         const stateKeys = Object.keys(newStates);
 
-        let all = true;
-
+        let selectedCount = 0;
         for (const key of stateKeys) {
-          if (!newStates[key]) {
-            all = false;
-            break;
+          if (newStates[key]) {
+            selectedCount++;
           }
         }
-        if (all) {
+        if (selectedCount === tabData.length) {
           setWindowSelection(true);
         }
       }
@@ -109,6 +108,7 @@ export default function SelectableWindow(props: SelectableWindowProps) {
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
       spanClasses={windowSelected && styles.selected}
+      containerClass={windowSelected && styles.selected}
       hoverClass={!windowSelected && styles.hover}
     ></Window>
   );

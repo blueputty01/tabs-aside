@@ -2,7 +2,7 @@ import { MouseEventHandler, useRef, useState } from 'react';
 import styles from './index.scss';
 import SessionData from 'shared/types/Session';
 import { TabData, TabStore } from 'shared/types/Tab';
-import Window from './SessionWindow';
+import Window, { openWindow } from './SessionWindow';
 
 export type actionHandler = (
   e: React.MouseEvent<HTMLButtonElement>,
@@ -23,10 +23,7 @@ export default function Session(props: SessionComponentProps) {
   const openAll = () => {
     console.log(props);
     props.windows.forEach((savedWindow: TabStore[]) => {
-      const urls = savedWindow.map((tab: TabStore) => {
-        return tab.url;
-      });
-      chrome.windows.create({ url: urls });
+      openWindow(savedWindow);
     });
   };
 
@@ -50,9 +47,7 @@ export default function Session(props: SessionComponentProps) {
     });
   };
 
-  console.log(props.windows);
-
-  const Tabs = props.windows.map((window, i) => {
+  const Windows = props.windows.map((window, i) => {
     const idSet = new Set();
 
     const tabData = window.map((tab): TabData => {
@@ -102,7 +97,7 @@ export default function Session(props: SessionComponentProps) {
           </button>
         </div>
       </div>
-      {isOpen && <div className={styles.windows}>{Tabs}</div>}
+      {isOpen && <div className={styles.windows}>{Windows}</div>}
     </div>
   );
 }

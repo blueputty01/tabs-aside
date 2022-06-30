@@ -17,6 +17,7 @@ export interface WindowProps {
 interface WindowChildProps extends WindowProps {
   tabClickHandler: (event: React.MouseEvent, key: string) => void;
   windowClickHandler: (event: React.MouseEvent) => void;
+  containerClass?: string;
   spanClasses?: string[];
   hoverClass?: string;
 }
@@ -47,11 +48,6 @@ export default function Window(props: WindowChildProps) {
 
   const windowHoverHandler = (mouse: boolean) => {
     setWindowHover(mouse);
-    const newStates = { ...tabHoverStates };
-    tabData.forEach((tab) => {
-      newStates[tab.key] = mouse;
-    });
-    setTabHoverStates(newStates);
   };
 
   const tabHoverHandler = (
@@ -94,13 +90,15 @@ export default function Window(props: WindowChildProps) {
   const TabList = useMemo(getTabComps, [tabData]);
 
   return (
-    <Fragment>
+    <div
+      className={[
+        props.containerClass,
+        styles.window,
+        windowHover && props.hoverClass,
+      ].join(' ')}
+    >
       <span
-        className={[
-          windowHover && props.hoverClass,
-          styles.windowLabel,
-          props.spanClasses,
-        ].join(' ')}
+        className={[styles.windowLabel, props.spanClasses].join(' ')}
         onMouseEnter={windowMouseEnterHandler}
         onMouseLeave={windowMouseLeaveHandler}
         onClick={props.windowClickHandler}
@@ -108,6 +106,6 @@ export default function Window(props: WindowChildProps) {
         {props.index == -1 ? 'Current Window' : `Window ${props.index}`}
       </span>
       {TabList}
-    </Fragment>
+    </div>
   );
 }

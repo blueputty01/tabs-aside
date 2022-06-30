@@ -1,5 +1,6 @@
 .tab {
   overflow: hidden;
+  border-radius: 10px;
   height: 2rem;
   /* fit to w/ or w/o scrollbar */
   width: auto;
@@ -8,12 +9,17 @@
   cursor: pointer;
 }
 
-.active {
-  background-color: var(--accent-active);
-}
-
 .selected {
-  background-color: var(--accent-selected) !important;
+  background-color: var(--accent-active);
+  border-radius: 0;
+
+  .top {
+    border-radius: 2px 2px 0 0;
+  }
+
+  .bottom {
+    border-radius: 0 0 2px 2px;
+  }
 }
 
 .title {

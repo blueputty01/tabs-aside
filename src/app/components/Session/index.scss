@@ -13,7 +13,7 @@
     padding: 0.5rem;
 
     .title {
-      padding: 1rem 0 1rem 0;
+      padding: 1rem 0 1rem 0.5rem;
     }
 
     .buttonContainer {
@@ -39,4 +39,8 @@
     box-shadow: var(--shadow);
     border: none;
   }
+}
+
+.windows {
+  padding: 0 0.5rem 0 0.5rem;
 }
