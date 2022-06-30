@@ -9,7 +9,7 @@ interface Props {
   onMouseEnter: MouseEventHandler;
   onMouseLeave: MouseEventHandler;
   url: string;
-  favIconUrl: string;
+  // favIconUrl: string; manifest v3
 }
 
 export default function Tab(props: Props) {

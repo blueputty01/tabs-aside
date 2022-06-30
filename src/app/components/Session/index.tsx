@@ -1,8 +1,8 @@
 import { MouseEventHandler, useRef, useState } from 'react';
-import styles from './Session.scss';
+import styles from './index.scss';
 import SessionData from 'shared/types/Session';
-import { TabStore } from 'shared/types/Tab';
-import { ifError } from 'assert';
+import { TabData, TabStore } from 'shared/types/Tab';
+import Window from './SessionWindow';
 
 export type actionHandler = (
   e: React.MouseEvent<HTMLButtonElement>,
@@ -39,7 +39,6 @@ export default function Session(props: SessionComponentProps) {
   };
 
   const mouseOut = (e: React.MouseEvent) => {
-    const div = divRef.current! as HTMLElement;
     if (e.target === divRef.current) {
       setHover(false);
     }
@@ -50,6 +49,44 @@ export default function Session(props: SessionComponentProps) {
       return !isOpen;
     });
   };
+
+  console.log(props.windows);
+
+  const Tabs = props.windows.map((window) => {
+    const idSet = new Set();
+
+    const tabData = window.map((tab): TabData => {
+      let id = tab.title;
+      if (!idSet.has(id)) {
+        let i = 0;
+        let newId = id;
+        while (idSet.has(newId)) {
+          newId = `${id} ${i}`;
+          i++;
+        }
+        id = newId;
+      }
+      idSet.add(id);
+      return {
+        ...tab,
+        id,
+      };
+    }) as TabData[] as chrome.tabs.Tab[];
+
+    return (
+      <Window
+        key={window.length}
+        i={0}
+        selectionHandler={function (tabs: TabData[], id: number): void {
+          throw new Error('Function not implemented.');
+        }}
+        focused={false}
+        alwaysOnTop={false}
+        incognito={false}
+        tabs={tabData}
+      ></Window>
+    );
+  });
 
   return (
     <div
@@ -77,6 +114,7 @@ export default function Session(props: SessionComponentProps) {
           </button>
         </div>
       </div>
+      {isOpen && <div className={styles.windows}>{Tabs}</div>}
     </div>
   );
 }
