@@ -1,25 +1,24 @@
 import { MouseEvent } from 'react';
-import Window, { TabStatesI } from '../shared/Window';
+import { TabData } from 'shared/types/Tab';
+import Window, { WindowProps } from '../shared/Window';
+import styles from './SessionWindow.scss';
 
-export default function SessionWindow() {
+interface SessionWindowProps extends WindowProps {
+  tabs: TabData[];
+  index: number;
+}
+
+export default function SessionWindow(props: SessionWindowProps) {
+  const tabClickHandler = (event: MouseEvent, key: string) => {};
+  const windowClickHandler = (event: MouseEvent) => {};
+
   return (
     <Window
-      index={0}
-      tabClickHandler={function (
-        event: MouseEvent<Element, MouseEvent>,
-        key: string,
-        i: number
-      ): void {
-        throw new Error('Function not implemented.');
-      }}
-      windowClickHandler={function (
-        event: MouseEvent<Element, MouseEvent>
-      ): void {
-        throw new Error('Function not implemented.');
-      }}
-      defaultTabPropHandler={function (tabs: TabStatesI): void {
-        throw new Error('Function not implemented.');
-      }}
+      index={props.index}
+      tabClickHandler={tabClickHandler}
+      windowClickHandler={windowClickHandler}
+      tabs={props.tabs}
+      hoverClass={styles.hover}
     ></Window>
   );
 }

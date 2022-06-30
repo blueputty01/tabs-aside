@@ -77,7 +77,7 @@ export default function OpenTabs(props: OpenTabProps) {
     return (
       <SelectableWindow
         key={window.id}
-        index={i}
+        index={i == 0 ? -1 : i + 1}
         selectionHandler={onSelectionChange}
         tabs={window.tabs as unknown as TabData[]}
       ></SelectableWindow>

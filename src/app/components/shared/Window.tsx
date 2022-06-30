@@ -86,6 +86,7 @@ export default function Window(props: WindowChildProps) {
           onClick={(event) => {
             props.tabClickHandler(event, tab.key);
           }}
+          hoverClass={props.hoverClass}
         ></Tab>
       );
     });
@@ -104,7 +105,7 @@ export default function Window(props: WindowChildProps) {
         onMouseLeave={windowMouseLeaveHandler}
         onClick={props.windowClickHandler}
       >
-        {props.index == 0 ? 'Current Window' : `Window ${props.index + 1}`}
+        {props.index == -1 ? 'Current Window' : `Window ${props.index}`}
       </span>
       {TabList}
     </Fragment>

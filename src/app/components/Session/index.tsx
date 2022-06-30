@@ -52,7 +52,7 @@ export default function Session(props: SessionComponentProps) {
 
   console.log(props.windows);
 
-  const Tabs = props.windows.map((window) => {
+  const Tabs = props.windows.map((window, i) => {
     const idSet = new Set();
 
     const tabData = window.map((tab): TabData => {
@@ -71,21 +71,9 @@ export default function Session(props: SessionComponentProps) {
         ...tab,
         id,
       };
-    }) as TabData[] as chrome.tabs.Tab[];
+    }) as TabData[];
 
-    return (
-      <Window
-        key={window.length}
-        i={0}
-        selectionHandler={function (tabs: TabData[], id: number): void {
-          throw new Error('Function not implemented.');
-        }}
-        focused={false}
-        alwaysOnTop={false}
-        incognito={false}
-        tabs={tabData}
-      ></Window>
-    );
+    return <Window key={window.length} index={i + 1} tabs={tabData}></Window>;
   });
 
   return (
