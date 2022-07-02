@@ -25,29 +25,12 @@
 }
 
 .title {
+  color: inherit;
+  width: 100%;
   flex-grow: 1;
   overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  background: linear-gradient(
-    90deg,
-    var(--main-text-color) calc(100% - 20px),
-    transparent
-  );
-  background-clip: initial;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.title.shortened {
-  width: calc(100% - 35px - 10px - 30px);
-  background: linear-gradient(
-    90deg,
-    var(--main-text-color) calc(100% - 20px),
-    transparent
-  );
-  background-clip: initial;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .tab .close {
