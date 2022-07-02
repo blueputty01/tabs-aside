@@ -1,1 +1,14 @@
 @import 'shared/scss/global.scss';
+
+body {
+  display: flex;
+}
+
+main {
+  width: 70vw;
+  max-width: 70rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
