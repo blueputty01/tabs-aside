@@ -5,7 +5,7 @@ import { TabData } from 'shared/types/Tab';
 import React from 'react';
 
 interface props {
-  save: (title: string, checked: boolean, tabs: TabData[][]) => void;
+  save: (title: string, checked: boolean, tabs: chrome.tabs.Tab[][]) => void;
 }
 
 export default function SessionManager(props: props) {
@@ -22,7 +22,7 @@ export default function SessionManager(props: props) {
   const submitNewSession = (
     title: string,
     checked: boolean,
-    tabs: TabData[][]
+    tabs: chrome.tabs.Tab[][]
   ) => {
     props.save(title, checked, tabs);
     setOpen(false);

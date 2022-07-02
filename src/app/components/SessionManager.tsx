@@ -25,16 +25,18 @@ export default function SessionManager() {
   const saveSession = (
     title: string,
     checked: boolean,
-    windows: TabData[][]
+    windows: chrome.tabs.Tab[][]
   ) => {
     const ids: number[] = [];
-    const cleanWindows = windows.map((window: TabData[]): TabStore[] => {
-      const cleanWindow = window.map((tab: TabData): TabStore => {
-        ids.push(tab.id);
-        return { title: tab.title, url: tab.url };
-      });
-      return cleanWindow;
-    });
+    const cleanWindows = windows.map(
+      (window: chrome.tabs.Tab[]): TabStore[] => {
+        const cleanWindow = window.map((tab: chrome.tabs.Tab): TabStore => {
+          ids.push(tab.id!);
+          return { title: tab.title!, url: tab.url! };
+        });
+        return cleanWindow;
+      }
+    );
     setSessions((prev: SessionData[]): SessionData[] => {
       return [
         ...prev,

@@ -19,7 +19,7 @@ import { TabData } from 'shared/types/Tab';
 interface props {
   isOpen: boolean;
   closeModal: MouseEventHandler;
-  save: (title: string, checked: boolean, tabs: TabData[][]) => void;
+  save: (title: string, checked: boolean, tabs: chrome.tabs.Tab[][]) => void;
 }
 
 Modal.setAppElement('#root');
@@ -30,7 +30,7 @@ export default function CreateModal(props: props) {
 
   const [title, setTitle] = useState(defaultTitle);
   const [closeAll, setChecked] = useState(defaultChecked);
-  const [selected, setSelected] = useState([] as TabData[][]);
+  const [selected, setSelected] = useState([] as chrome.tabs.Tab[][]);
 
   useEffect(() => {
     if (!props.isOpen) {
@@ -50,7 +50,7 @@ export default function CreateModal(props: props) {
   };
 
   const onSelectionChange: SelectionHandler = (tabs: TabData[][]) => {
-    setSelected(tabs);
+    setSelected(tabs as chrome.tabs.Tab[][]);
   };
 
   const save = () => {
