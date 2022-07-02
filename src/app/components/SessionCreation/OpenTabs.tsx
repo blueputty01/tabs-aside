@@ -12,11 +12,15 @@ interface OpenTabProps {
 // Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
 Modal.setAppElement('#root');
 
+interface WindowStore {
+  [key: number]: TabData[];
+}
+
 export default function OpenTabs(props: OpenTabProps) {
   const [windows, setWindows] = useState([] as chrome.windows.Window[]);
   const [currWin, setCurr] = useState(-1);
 
-  const selRef = useRef([] as TabData[][]);
+  const selRef = useRef({} as WindowStore);
 
   const addListeners = () => {
     chrome.tabs.onUpdated.addListener(
@@ -70,7 +74,8 @@ export default function OpenTabs(props: OpenTabProps) {
 
   const onSelectionChange = (tabs: TabData[], id: number) => {
     selRef.current[id] = tabs;
-    props.onSelectionChange(selRef.current);
+    const vals = Object.values(selRef.current);
+    props.onSelectionChange(vals);
   };
 
   const Windows = reordered.map((window, i) => {

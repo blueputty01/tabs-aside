@@ -28,6 +28,8 @@ export default function SessionManager() {
     windows: chrome.tabs.Tab[][]
   ) => {
     const ids: number[] = [];
+    console.log(windows);
+
     const cleanWindows = windows.map(
       (window: chrome.tabs.Tab[]): TabStore[] => {
         const cleanWindow = window.map((tab: chrome.tabs.Tab): TabStore => {
@@ -49,7 +51,7 @@ export default function SessionManager() {
     }
   };
 
-  const handler: actionHandler = (
+  const menuActionHandler: actionHandler = (
     e: React.MouseEvent<HTMLButtonElement>,
     id: string
   ) => {
@@ -67,9 +69,9 @@ export default function SessionManager() {
 
   const Sessions = sessions.map((session: SessionData) => (
     <Session
-      deleteHandler={handler}
-      rightClickHandler={handler}
-      overflowClickHandler={handler}
+      deleteHandler={menuActionHandler}
+      rightClickHandler={menuActionHandler}
+      overflowClickHandler={menuActionHandler}
       key={session.id}
       {...session}
     ></Session>
