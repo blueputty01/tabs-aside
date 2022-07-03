@@ -67,10 +67,18 @@ export default function SessionManager() {
     setMenuVisibility(true);
   };
 
+  const contextHandler: actionHandler = (e: React.MouseEvent, id: string) => {
+    e.preventDefault();
+
+    setTriggerId(id);
+    setTrigger(null as unknown as HTMLElement);
+    setMenuLoc([e.clientX, e.clientY]);
+    setMenuVisibility(true);
+  };
+
   const Sessions = sessions.map((session: SessionData) => (
     <Session
-      deleteHandler={menuActionHandler}
-      rightClickHandler={menuActionHandler}
+      contextHandler={contextHandler}
       overflowClickHandler={menuActionHandler}
       key={session.id}
       {...session}
@@ -88,7 +96,7 @@ export default function SessionManager() {
   };
 
   const renameSession = (id: string) => {
-
+    const session = sessions.find((session: SessionData) => session.id === id);
   };
 
   type MenuHandler = (id: string) => void;
@@ -99,8 +107,8 @@ export default function SessionManager() {
   }
 
   const menuMap: menuItem[] = [
-    { label: 'Delete', handler: deleteSession },
     { label: 'Rename', handler: renameSession },
+    { label: 'Delete', handler: deleteSession },
   ];
 
   const MenuItems = menuMap.map((item: menuItem) => {

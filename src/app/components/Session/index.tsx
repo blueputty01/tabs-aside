@@ -4,13 +4,9 @@ import SessionData from 'shared/types/Session';
 import { TabData, TabStore } from 'shared/types/Tab';
 import Window, { openWindow } from './SessionWindow';
 
-export type actionHandler = (
-  e: React.MouseEvent<HTMLButtonElement>,
-  id: string
-) => void;
+export type actionHandler = (e: React.MouseEvent<any>, id: string) => void;
 interface SessionComponentProps extends SessionData {
-  deleteHandler: actionHandler;
-  rightClickHandler: actionHandler;
+  contextHandler: actionHandler;
   overflowClickHandler: actionHandler;
 }
 
@@ -84,6 +80,9 @@ export default function Session(props: SessionComponentProps) {
         onMouseOver={mouseIn}
         onMouseOut={mouseOut}
         onClick={toggle}
+        onContextMenu={(e: React.MouseEvent) => {
+          props.contextHandler(e, props.id);
+        }}
         className={[styles.titleBar, hover ? styles.hover : ''].join(' ')}
       >
         <div className={styles.title}>{props.title}</div>

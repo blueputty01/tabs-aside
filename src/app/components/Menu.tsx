@@ -1,3 +1,4 @@
+import { loadPartialConfig } from '@babel/core';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styles from './Menu.scss';
 
@@ -75,7 +76,7 @@ export default function Menu(props: MenuProps) {
   };
 
   const windowHandler = (e: MouseEvent) => {
-    if (absorbedEvent.current) {
+    if (absorbedEvent.current || props.trigger == null) {
       absorbedEvent.current = false;
       props.onExit();
     } else {
