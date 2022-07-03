@@ -1,25 +1,24 @@
 import React from 'react';
-import { useState } from 'react';
 import './App.scss';
 import Header from './Header';
 import SessionManager from './SessionManager';
 
 export default function App() {
-  function fullscreen(): boolean {
+  const isPopup = (): boolean => {
     const urlParams = new URLSearchParams(window.location.search);
     const popup = urlParams.get('popup') === 'true';
     return popup;
-  }
+  };
 
-  const full = fullscreen();
+  const isPop = isPopup();
 
-  if (full) {
+  if (isPop) {
     import('../styles/popup.scss');
   }
 
   return (
     <React.Fragment>
-      <Header fullscreen={full}></Header>
+      <Header isPopup={isPop}></Header>
       <SessionManager></SessionManager>
     </React.Fragment>
   );

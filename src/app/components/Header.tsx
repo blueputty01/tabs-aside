@@ -3,7 +3,7 @@ import Header from 'shared/components/header/Header';
 import Icon from 'shared/components/Icon';
 
 interface props {
-  fullscreen: boolean;
+  isPopup: boolean;
 }
 
 export default function PopupHeader(props: props) {
@@ -25,7 +25,7 @@ export default function PopupHeader(props: props) {
   const buttons = (
     <React.Fragment>
       <Icon type="settings" onClick={settingsHandler}></Icon>
-      {props.fullscreen && (
+      {props.isPopup && (
         <Icon type="fullscreen" onClick={fullscreenHandler}></Icon>
       )}
     </React.Fragment>

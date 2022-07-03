@@ -8,6 +8,7 @@ export type actionHandler = (e: React.MouseEvent<any>, id: string) => void;
 interface SessionComponentProps extends SessionData {
   contextHandler: actionHandler;
   overflowClickHandler: actionHandler;
+  renameMode: boolean;
 }
 
 export default function Session(props: SessionComponentProps) {
@@ -68,6 +69,25 @@ export default function Session(props: SessionComponentProps) {
     return <Window key={window.length} index={i + 1} tabs={tabData}></Window>;
   });
 
+  const ButtonContainer = (
+    <div className={styles.buttonContainer}>
+      <button onClick={openAll}>Open All</button>
+      <button
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          props.overflowClickHandler(e, props.id);
+        }}
+      >
+        ⋮
+      </button>
+    </div>
+  );
+
+  const Title = (
+    <div className={styles.title} contentEditable={props.renameMode}>
+      {props.title}
+    </div>
+  );
+
   return (
     <div
       className={[
@@ -85,17 +105,8 @@ export default function Session(props: SessionComponentProps) {
         }}
         className={[styles.titleBar, hover ? styles.hover : ''].join(' ')}
       >
-        <div className={styles.title}>{props.title}</div>
-        <div className={styles.buttonContainer}>
-          <button onClick={openAll}>Open All</button>
-          <button
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              props.overflowClickHandler(e, props.id);
-            }}
-          >
-            ⋮
-          </button>
-        </div>
+        {Title}
+        {ButtonContainer}
       </div>
       {isOpen && <div className={styles.windows}>{Windows}</div>}
     </div>
