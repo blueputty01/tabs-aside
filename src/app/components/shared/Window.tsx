@@ -19,7 +19,6 @@ interface WindowChildProps extends WindowProps {
   windowClickHandler: (event: React.MouseEvent) => void;
   containerClass?: string;
   spanClasses?: string[];
-  activeClass?: string;
   hoverClass?: string;
 }
 
@@ -84,7 +83,6 @@ export default function Window(props: WindowChildProps) {
             props.tabClickHandler(event, tab.key);
           }}
           hoverClass={props.hoverClass}
-          activeClass={props.activeClass}
         ></Tab>
       );
     });
