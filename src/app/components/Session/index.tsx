@@ -1,14 +1,16 @@
-import { MouseEventHandler, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import styles from './index.scss';
 import SessionData from 'shared/types/Session';
 import { TabData, TabStore } from 'shared/types/Tab';
 import Window, { openWindow } from './SessionWindow';
+import Title from './Title';
 
 export type actionHandler = (e: React.MouseEvent<any>, id: string) => void;
 interface SessionComponentProps extends SessionData {
   contextHandler: actionHandler;
   overflowClickHandler: actionHandler;
   renameMode: boolean;
+  saveRename: (title: string) => void;
 }
 
 export default function Session(props: SessionComponentProps) {
@@ -38,7 +40,7 @@ export default function Session(props: SessionComponentProps) {
   };
 
   const toggle = (e: React.MouseEvent) => {
-    if (e.target === divRef.current) {
+    if ((e.target as HTMLElement).tagName !== 'BUTTON') {
       setIsOpen((isOpen) => {
         return !isOpen;
       });
@@ -69,24 +71,20 @@ export default function Session(props: SessionComponentProps) {
     return <Window key={window.length} index={i + 1} tabs={tabData}></Window>;
   });
 
-  const ButtonContainer = (
-    <div className={styles.buttonContainer}>
-      <button onClick={openAll}>Open All</button>
-      <button
-        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-          props.overflowClickHandler(e, props.id);
-        }}
-      >
-        ⋮
-      </button>
-    </div>
-  );
-
-  const Title = (
-    <div className={styles.title} contentEditable={props.renameMode}>
-      {props.title}
-    </div>
-  );
+  function ButtonContainer() {
+    return (
+      <div className={styles.buttonContainer}>
+        <button onClick={openAll}>Open All</button>
+        <button
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            props.overflowClickHandler(e, props.id);
+          }}
+        >
+          ⋮
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -103,10 +101,18 @@ export default function Session(props: SessionComponentProps) {
         onContextMenu={(e: React.MouseEvent) => {
           props.contextHandler(e, props.id);
         }}
-        className={[styles.titleBar, hover ? styles.hover : ''].join(' ')}
+        className={[
+          styles.titleBar,
+          !props.renameMode && hover && styles.hover,
+        ].join(' ')}
       >
-        {Title}
-        {ButtonContainer}
+        <Title
+          title={props.title}
+          renameMode={props.renameMode}
+          className={styles.title}
+          saveRename={props.saveRename}
+        ></Title>
+        <ButtonContainer></ButtonContainer>
       </div>
       {isOpen && <div className={styles.windows}>{Windows}</div>}
     </div>

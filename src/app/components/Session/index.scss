@@ -8,18 +8,27 @@
   cursor: pointer;
 
   .titleBar {
+    height: 3.5rem;
     display: flex;
     align-items: center;
+    column-gap: 0.5rem;
     padding: 0.5rem;
 
     .title {
-      padding: 1rem 0 1rem 0.5rem;
+      padding: 0.5rem 0 0.5rem 0.5rem;
+      flex-grow: 1;
+    }
+
+    input.title {
+      border-radius: 10px;
+      outline: none;
+      border: 2px solid var(--accent-color);
+      background: none;
     }
 
     .buttonContainer {
       display: flex;
       column-gap: 0.25rem;
-      margin-left: auto;
 
       button {
         padding: 0.5rem;
