@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import styles from './Tab.scss';
 
 interface Props {
@@ -22,8 +22,8 @@ export default function Tab(props: Props) {
         props.top && styles.top,
         props.bottom && styles.bottom,
         styles.tab,
-        props.hover && !props.selected ? props.hoverClass : null,
-        props.selected ? styles.selected : null,
+        props.hover && !props.selected && props.hoverClass,
+        props.selected && styles.selected,
       ].join(' ')}
       onClick={props.onClick}
       onMouseEnter={props.onMouseEnter}

@@ -1,5 +1,7 @@
 .hover {
   background: var(--hover);
-  border-radius: 10px;
-  overflow: hidden;
+}
+
+.active {
+  background: var(--gray);
 }

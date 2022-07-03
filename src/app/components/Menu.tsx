@@ -72,11 +72,7 @@ export default function Menu(props: MenuProps) {
     display: props.visibility ? 'flex' : 'none',
   };
 
-  console.log(props.visibility);
-
   const windowHandler = (e: MouseEvent) => {
-    console.log(e, absorbedEvent.current, props.visibility);
-
     if (absorbedEvent.current) {
       absorbedEvent.current = false;
       props.onExit();
