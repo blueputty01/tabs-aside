@@ -20,15 +20,12 @@ export default function SessionManager() {
   const [menuLoc, setMenuLoc] = useState([0, 0] as Point);
   const [triggerElement, setTrigger] = useState(null as unknown as HTMLElement);
 
-  console.log(sessions);
-
   const saveSession = (
     title: string,
     checked: boolean,
     windows: chrome.tabs.Tab[][]
   ) => {
     const ids: number[] = [];
-    console.log(windows);
 
     const cleanWindows = windows.map(
       (window: chrome.tabs.Tab[]): TabStore[] => {
@@ -87,6 +84,7 @@ export default function SessionManager() {
       <div>{Sessions}</div>
       <Menu
         loc={menuLoc}
+        trigger={triggerElement}
         visibility={menuVisibility}
         onExit={onMenuExit}
       ></Menu>

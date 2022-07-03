@@ -32,8 +32,6 @@ export default function CreateModal(props: props) {
   const [closeAll, setChecked] = useState(defaultChecked);
   const [selected, setSelected] = useState([] as chrome.tabs.Tab[][]);
 
-  console.log(selected);
-
   useEffect(() => {
     if (!props.isOpen) {
       setTitle(defaultTitle);

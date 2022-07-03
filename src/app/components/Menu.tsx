@@ -4,6 +4,7 @@ import styles from './Menu.scss';
 interface MenuProps {
   visibility: boolean;
   loc: Point;
+  trigger: HTMLElement;
   onExit: () => void;
 }
 
@@ -71,19 +72,20 @@ export default function Menu(props: MenuProps) {
     display: props.visibility ? 'flex' : 'none',
   };
 
+  console.log(props.visibility);
+
   const windowHandler = (e: MouseEvent) => {
+    console.log(e, absorbedEvent.current, props.visibility);
+
     if (absorbedEvent.current) {
+      absorbedEvent.current = false;
       props.onExit();
     } else {
-      absorbedEvent.current = true;
+      if (e.target === props.trigger) {
+        absorbedEvent.current = true;
+      }
     }
   };
-
-  useEffect(() => {
-    if (props.visibility == false) {
-      absorbedEvent.current = false;
-    }
-  }, [props.visibility]);
 
   useEffect(() => {
     window.addEventListener('click', windowHandler);
