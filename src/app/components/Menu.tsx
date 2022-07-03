@@ -5,6 +5,8 @@ interface MenuProps {
   visibility: boolean;
   loc: Point;
   trigger: HTMLElement;
+  children: React.ReactNode;
+  id: string;
   onExit: () => void;
 }
 
@@ -90,10 +92,33 @@ export default function Menu(props: MenuProps) {
     };
   }, [props.onExit]);
 
+  const iDItems = React.Children.map(props.children, (child) => {
+    if (React.isValidElement(child)) {
+      return React.cloneElement(child, { id: props.id });
+    }
+    return null;
+  });
+
   return (
     <div ref={menu} className={styles.menu} style={locStyles}>
-      <span>Rename</span>
-      <span>Delete</span>
+      {iDItems}
     </div>
+  );
+}
+
+interface MenuItemProps {
+  label: string;
+  onClick: Function;
+  id?: string;
+}
+
+export function MenuItem(props: MenuItemProps) {
+  const clickHandler = () => {
+    props.onClick(props.id);
+  };
+  return (
+    <span key={props.label} onClick={clickHandler}>
+      {props.label}
+    </span>
   );
 }
