@@ -29,6 +29,11 @@
     &.hover {
       background: var(--hover);
     }
+
+    // make sure it's not button in child that's clicked
+    &:active.hover {
+      background-color: var(--gray);
+    }
   }
 
   &.collapsed {
