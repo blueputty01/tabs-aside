@@ -68,7 +68,7 @@ export default function Window(props: WindowChildProps) {
     windowHoverHandler(false);
   };
 
-  const getTabComps = () =>
+  const tabComp = () =>
     tabData.map((tab) => {
       return (
         <Tab
@@ -87,7 +87,7 @@ export default function Window(props: WindowChildProps) {
       );
     });
 
-  const TabList = useMemo(getTabComps, [tabData]);
+  const TabList = useMemo(tabComp, [tabData]);
 
   return (
     <div
