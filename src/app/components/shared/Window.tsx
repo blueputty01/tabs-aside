@@ -1,8 +1,10 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, MouseEvent, useMemo, useState } from 'react';
 import Tab from './Tab';
 import styles from './Window.scss';
 
 import { TabData } from 'shared/types/Tab';
+import Icon from 'shared/components/Icon';
+import CloseButton from './CloseButton';
 
 interface TabState extends TabData {
   key: string;
@@ -20,7 +22,7 @@ interface WindowChildProps extends WindowProps {
   containerClass?: string;
   spanClasses?: string[];
   hoverClass?: string;
-  closable?: boolean;
+  onClose?: Function;
 }
 
 export interface TabStatesI {
@@ -84,7 +86,7 @@ export default function Window(props: WindowChildProps) {
             props.tabClickHandler(event, tab.key);
           }}
           hoverClass={props.hoverClass}
-          closable={props.closable}
+          onClose={props.onClose}
         ></Tab>
       );
     });
@@ -99,14 +101,17 @@ export default function Window(props: WindowChildProps) {
         windowHover && props.hoverClass,
       ].join(' ')}
     >
-      <span
+      <div
         className={[styles.windowLabel, props.spanClasses].join(' ')}
         onMouseEnter={windowMouseEnterHandler}
         onMouseLeave={windowMouseLeaveHandler}
         onClick={props.windowClickHandler}
       >
-        {props.index == -1 ? 'Current Window' : `Window ${props.index}`}
-      </span>
+        <span>
+          {props.index == -1 ? 'Current Window' : `Window ${props.index}`}
+        </span>
+        {props.onClose && <CloseButton></CloseButton>}
+      </div>
       {TabList}
     </div>
   );
