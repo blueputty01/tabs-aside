@@ -10,10 +10,6 @@ import Menu, { MenuItem, Point } from './Menu';
 
 import styles from './SessionManager.scss';
 
-interface SessionState extends SessionData {
-  renameMode: boolean;
-}
-
 export default function SessionManager() {
   const [sessions, setSessions, isPersistent, error] = useChromeStorageLocal(
     'sessions',
@@ -21,19 +17,10 @@ export default function SessionManager() {
   );
 
   const [menuVisibility, setMenuVisibility] = useState(false);
-  const [sessionStates, setSessionStates] = useState([] as SessionState[]);
+  const [renaming, setRenaming] = useState([] as string[]);
   const [triggerId, setTriggerId] = useState('');
   const [menuLoc, setMenuLoc] = useState([0, 0] as Point);
   const [triggerElement, setTrigger] = useState(null as unknown as HTMLElement);
-
-  useEffect(() => {
-    setSessionStates(
-      sessions.map((session: SessionData) => ({
-        ...session,
-        renameMode: false,
-      }))
-    );
-  }, [sessions]);
 
   const saveSession = (
     title: string,
@@ -90,38 +77,37 @@ export default function SessionManager() {
   };
 
   const saveRename = (title: string, id: string) => {
-    setSessions((prev: SessionState[]) => {
+    setSessions((prev: SessionData[]) => {
       const session = prev.find((session) => session.id === id);
       if (typeof session !== 'undefined') {
-        if (session.title == title) {
-          setSessionStates((prev) => {
-            const session = prev.find((session) => session.id === id);
-            session.renameMode = false;
-            return prev;
-          });
-        } else {
-          session.title = title;
-        }
+        session.title = title;
       } else {
         throw new Error('Session not found');
       }
       return prev;
     });
+    setRenaming((prev: string[]) => {
+      return prev.filter((id) => id !== id);
+    });
   };
 
-  console.log(sessionStates);
+  console.log(renaming);
 
-  const Sessions = sessionStates.map((session: SessionState) => (
-    <Session
-      contextHandler={contextHandler}
-      overflowClickHandler={menuActionHandler}
-      key={session.id}
-      saveRename={(title: string) => {
-        saveRename(title, session.id);
-      }}
-      {...session}
-    ></Session>
-  ));
+  const Sessions = sessions.map((session: SessionData) => {
+    const r = renaming.includes(session.id);
+    return (
+      <Session
+        renameMode={r}
+        contextHandler={contextHandler}
+        overflowClickHandler={menuActionHandler}
+        key={session.id}
+        saveRename={(title: string) => {
+          saveRename(title, session.id);
+        }}
+        {...session}
+      ></Session>
+    );
+  });
 
   const onMenuExit = () => {
     setMenuVisibility(false);
@@ -134,10 +120,8 @@ export default function SessionManager() {
   };
 
   const renameSession = (id: string) => {
-    setSessionStates((prev: SessionState[]) => {
-      const i = prev.findIndex((session) => session.id === id);
-      prev[i].renameMode = true;
-      return prev;
+    setRenaming((prev: string[]) => {
+      return [...prev, id];
     });
   };
 
