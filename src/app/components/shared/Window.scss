@@ -2,9 +2,14 @@
   position: sticky;
   top: 0;
   width: 100%;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   padding: 0.5rem;
   cursor: pointer;
+
+  span {
+    flex-grow: 1;
+  }
 }
 
 .window {

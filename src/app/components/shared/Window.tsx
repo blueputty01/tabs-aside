@@ -3,7 +3,6 @@ import Tab from './Tab';
 import styles from './Window.scss';
 
 import { TabData } from 'shared/types/Tab';
-import Icon from 'shared/components/Icon';
 import CloseButton from './CloseButton';
 
 interface TabState extends TabData {
