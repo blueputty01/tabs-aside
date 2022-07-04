@@ -36,6 +36,7 @@ export default function SessionWindow(props: SessionWindowProps) {
       windowClickHandler={windowClickHandler}
       tabs={props.tabs}
       hoverClass={styles.hover}
+      closable={true}
     ></Window>
   );
 }

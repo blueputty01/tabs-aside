@@ -20,6 +20,7 @@ interface WindowChildProps extends WindowProps {
   containerClass?: string;
   spanClasses?: string[];
   hoverClass?: string;
+  closable?: boolean;
 }
 
 export interface TabStatesI {
@@ -83,6 +84,7 @@ export default function Window(props: WindowChildProps) {
             props.tabClickHandler(event, tab.key);
           }}
           hoverClass={props.hoverClass}
+          closable={props.closable}
         ></Tab>
       );
     });
