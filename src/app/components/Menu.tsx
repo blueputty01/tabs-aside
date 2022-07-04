@@ -5,7 +5,7 @@ import styles from './Menu.scss';
 interface MenuProps {
   visibility: boolean;
   loc: Point;
-  trigger: HTMLElement;
+  trigger: HTMLElement | null;
   children: React.ReactNode;
   id: string;
   onExit: () => void;

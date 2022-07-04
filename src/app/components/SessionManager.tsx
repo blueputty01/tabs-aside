@@ -20,7 +20,7 @@ export default function SessionManager() {
   const [renaming, setRenaming] = useState([] as string[]);
   const [triggerId, setTriggerId] = useState('');
   const [menuLoc, setMenuLoc] = useState([0, 0] as Point);
-  const [triggerElement, setTrigger] = useState(null as unknown as HTMLElement);
+  const [triggerElement, setTrigger] = useState<HTMLElement | null>(null);
 
   const saveSession = (
     title: string,
@@ -50,6 +50,18 @@ export default function SessionManager() {
     }
   };
 
+  const showMenu = (
+    target: HTMLElement | null,
+    id: string,
+    x: number,
+    y: number
+  ) => {
+    setTriggerId(id);
+    setTrigger(target);
+    setMenuLoc([x, y]);
+    setMenuVisibility(true);
+  };
+
   const menuActionHandler: actionHandler = (
     e: React.MouseEvent<HTMLButtonElement>,
     id: string
@@ -61,19 +73,12 @@ export default function SessionManager() {
     let snapX = rect.right - rect.width / 2;
     let snapY = rect.bottom - rect.height / 2;
 
-    setTriggerId(id);
-    setTrigger(target);
-    setMenuLoc([snapX, snapY]);
-    setMenuVisibility(true);
+    showMenu(target, id, snapX, snapY);
   };
 
   const contextHandler: actionHandler = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
-
-    setTriggerId(id);
-    setTrigger(null as unknown as HTMLElement);
-    setMenuLoc([e.clientX, e.clientY]);
-    setMenuVisibility(true);
+    showMenu(null, id, e.clientX, e.clientY);
   };
 
   const saveRename = (title: string, id: string) => {
