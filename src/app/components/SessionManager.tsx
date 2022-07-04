@@ -91,8 +91,8 @@ export default function SessionManager() {
     });
   };
 
-  const sessionComp = sessions.map(
-    (session: SessionData): React.ReactElement => {
+  const sessionComp = () =>
+    sessions.map((session: SessionData): React.ReactElement => {
       const r = renaming.includes(session.id);
       return (
         <Session
@@ -106,8 +106,7 @@ export default function SessionManager() {
           {...session}
         ></Session>
       );
-    }
-  );
+    });
 
   const Sessions: React.ReactElement[] = useMemo(sessionComp, [
     sessions,
