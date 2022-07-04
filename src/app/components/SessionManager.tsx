@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation';
 
@@ -91,23 +91,28 @@ export default function SessionManager() {
     });
   };
 
-  console.log(renaming);
+  const sessionComp = sessions.map(
+    (session: SessionData): React.ReactElement => {
+      const r = renaming.includes(session.id);
+      return (
+        <Session
+          renameMode={r}
+          contextHandler={contextHandler}
+          overflowClickHandler={menuActionHandler}
+          key={session.id}
+          saveRename={(title: string) => {
+            saveRename(title, session.id);
+          }}
+          {...session}
+        ></Session>
+      );
+    }
+  );
 
-  const Sessions = sessions.map((session: SessionData) => {
-    const r = renaming.includes(session.id);
-    return (
-      <Session
-        renameMode={r}
-        contextHandler={contextHandler}
-        overflowClickHandler={menuActionHandler}
-        key={session.id}
-        saveRename={(title: string) => {
-          saveRename(title, session.id);
-        }}
-        {...session}
-      ></Session>
-    );
-  });
+  const Sessions: React.ReactElement[] = useMemo(sessionComp, [
+    sessions,
+    renaming,
+  ]);
 
   const onMenuExit = () => {
     setMenuVisibility(false);
