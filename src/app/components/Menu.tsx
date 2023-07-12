@@ -117,9 +117,10 @@ export function MenuItem(props: MenuItemProps) {
   const clickHandler = () => {
     props.onClick(props.id);
   };
+
   return (
-    <span key={props.label} onClick={clickHandler}>
+    <button key={props.label} onClick={clickHandler} tabIndex={0}>
       {props.label}
-    </span>
+    </button>
   );
 }
