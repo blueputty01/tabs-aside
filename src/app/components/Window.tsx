@@ -37,7 +37,6 @@ export default function Window({
   index,
 }: WindowChildProps) {
   const [tabHoverStates, setTabHoverStates] = useState({} as TabStatesI);
-  const [windowHover, setWindowHover] = useState(false);
 
   const addHoverProp = (): TabState[] =>
     tabs.map((tab): TabState => {
@@ -54,24 +53,12 @@ export default function Window({
 
   const tabData = useMemo(addHoverProp, [tabs, tabHoverStates]);
 
-  const windowHoverHandler = (mouse: boolean) => {
-    setWindowHover(mouse);
-  };
-
   const tabHoverHandler = (
     event: React.MouseEvent,
     key: string,
     hover: boolean
   ) => {
     setTabHoverStates((prevState) => ({ ...prevState, [key]: hover }));
-  };
-
-  const windowMouseEnterHandler = () => {
-    windowHoverHandler(true);
-  };
-
-  const windowMouseLeaveHandler = () => {
-    windowHoverHandler(false);
   };
 
   const tabComp = () =>
@@ -96,11 +83,7 @@ export default function Window({
   const TabList = useMemo(tabComp, [tabData]);
 
   return (
-    <div
-      onMouseEnter={windowMouseEnterHandler}
-      onMouseLeave={windowMouseLeaveHandler}
-      className="mb-1 rounded-md last:mb-0"
-    >
+    <div className="mb-1 rounded-md last:mb-0 hover:bg-blue-200">
       <div className="block w-full px-2 text-slate-500">
         <button
           onClick={windowClickHandler}

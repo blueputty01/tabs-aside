@@ -9,6 +9,11 @@
     "plugin:import/typescript",
     "prettier"
   ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
   "parserOptions": {
     "project": "./tsconfig.json"
   },

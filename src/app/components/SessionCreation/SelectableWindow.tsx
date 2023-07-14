@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import Window, { TabStatesI, WindowProps } from '../Window';
-
+import Window from '../Window';
 import { useIsMount } from 'shared/utils/utils';
-import { TabData } from 'shared/types/Tab';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+import type { TabStatesI, WindowProps } from '../Window';
+import type { TabData } from 'shared/types/Tab';
 
 interface SelectableWindowProps extends WindowProps {
   tabs: TabData[];
@@ -17,21 +18,25 @@ interface SelectableTabProps extends TabData {
   bottom: boolean;
 }
 
-export default function SelectableWindow(props: SelectableWindowProps) {
+export default function SelectableWindow({
+  tabs,
+  selectionHandler,
+  index,
+}: SelectableWindowProps) {
   const [windowSelected, setWindowSelection] = useState(false);
   const [selected, setSelected] = useState({} as TabStatesI);
 
-  const addSelectedProp = () => {
-    return props.tabs!.map((tab, i): SelectableTabProps => {
+  const addSelectedProp = () =>
+    tabs!.map((tab, i): SelectableTabProps => {
       const key = tab.id!.toString();
 
       let top = false;
       let bottom = false;
-      const prevTab = props.tabs![i - 1];
+      const prevTab = tabs![i - 1];
       if (!selected[prevTab?.id.toString()]) {
         top = true;
       }
-      const nextTab = props.tabs![i + 1];
+      const nextTab = tabs![i + 1];
       if (!selected[nextTab?.id.toString()]) {
         bottom = true;
       }
@@ -43,18 +48,17 @@ export default function SelectableWindow(props: SelectableWindowProps) {
         selected: selected[key] || false,
         top,
         bottom,
-        key: key,
+        key,
       };
     });
-  };
 
-  const tabData = useMemo(addSelectedProp, [props.tabs, selected]);
+  const tabData = useMemo(addSelectedProp, [tabs, selected]);
 
   const isMount = useIsMount();
 
   const selectionsRef = useRef([] as TabData[]);
 
-  const windowClickHandler = (event: React.MouseEvent) => {
+  const windowClickHandler = () => {
     const newStates = { ...selected };
     tabData.forEach((tab) => {
       newStates[tab.key] = !windowSelected;
@@ -73,39 +77,37 @@ export default function SelectableWindow(props: SelectableWindowProps) {
         const stateKeys = Object.keys(newStates);
 
         let selectedCount = 0;
-        for (const key of stateKeys) {
-          if (newStates[key]) {
+
+        stateKeys.forEach((k) => {
+          if (newStates[k]) {
             selectedCount++;
           }
-        }
+        });
+
         if (selectedCount === tabData.length) {
           setWindowSelection(true);
         }
       }
-    } else {
-      if (windowSelected) {
-        setWindowSelection(false);
-      }
+    } else if (windowSelected) {
+      setWindowSelection(false);
     }
 
-    setSelected((prevStates) => {
-      return { ...prevStates, ...newStates };
-    });
+    setSelected((prevStates) => ({ ...prevStates, ...newStates }));
   };
 
   useEffect(() => {
     if (!isMount) {
-      //possibly inefficient (requires remap every selection)
-      const tabs: TabData[] = tabData.filter((tab) => tab.selected);
-      selectionsRef.current = tabs;
-      props.selectionHandler(tabs, props.index);
+      // possibly inefficient (requires remap every selection)
+      const selectedTabs: TabData[] = tabData.filter((tab) => tab.selected);
+      selectionsRef.current = selectedTabs;
+      selectionHandler(selectedTabs, index);
     }
   }, [selected]);
 
   return (
     <Window
       tabs={tabData}
-      index={props.index}
+      index={index}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
     />
