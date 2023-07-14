@@ -1,5 +1,4 @@
 import { FormEvent, useRef, useState } from 'react';
-import styles from './index.scss';
 import SessionData from 'shared/types/Session';
 import { TabData, TabStore } from 'shared/types/Tab';
 import Window, { openWindow } from './SessionWindow';
@@ -73,7 +72,7 @@ export default function Session(props: SessionComponentProps) {
 
   function ButtonContainer() {
     return (
-      <div className={styles.buttonContainer}>
+      <div>
         <button onClick={openAll}>Open All</button>
         <button
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -89,8 +88,8 @@ export default function Session(props: SessionComponentProps) {
   return (
     <div
       className={[
-        styles.session,
-        isOpen ? styles.selected : styles.collapsed,
+        // styles.session,
+        // isOpen ? styles.selected : styles.collapsed,
       ].join(' ')}
     >
       <div
@@ -102,19 +101,19 @@ export default function Session(props: SessionComponentProps) {
           props.contextHandler(e, props.id);
         }}
         className={[
-          styles.titleBar,
-          !props.renameMode && hover && styles.hover,
+          // styles.titleBar,
+          // !props.renameMode && hover && styles.hover,
         ].join(' ')}
       >
         <Title
           title={props.title}
           renameMode={props.renameMode}
-          className={styles.title}
+          //
           saveRename={props.saveRename}
         ></Title>
         <ButtonContainer></ButtonContainer>
       </div>
-      {isOpen && <div className={styles.windows}>{Windows}</div>}
+      {isOpen && <div>{Windows}</div>}
     </div>
   );
 }

@@ -5,7 +5,11 @@ import { TabData } from 'shared/types/Tab';
 import React from 'react';
 
 interface props {
-  save: (title: string, checked: boolean, tabs: chrome.tabs.Tab[][]) => void;
+  saveHandler: (
+    title: string,
+    checked: boolean,
+    tabs: chrome.tabs.Tab[][]
+  ) => void;
 }
 
 export default function SessionManager(props: props) {
@@ -24,18 +28,18 @@ export default function SessionManager(props: props) {
     checked: boolean,
     tabs: chrome.tabs.Tab[][]
   ) => {
-    props.save(title, checked, tabs);
+    props.saveHandler(title, checked, tabs);
     setOpen(false);
   };
 
   return (
     <React.Fragment>
-      <CreateButton autoFocus={true} onClick={addHandler}></CreateButton>
+      <CreateButton autoFocus={true} onClick={addHandler} />
       <CreateModal
         isOpen={isOpen}
         closeModal={closeModal}
-        save={submitNewSession}
-      ></CreateModal>
+        saveHandler={submitNewSession}
+      />
     </React.Fragment>
   );
 }

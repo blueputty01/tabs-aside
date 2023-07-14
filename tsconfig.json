@@ -25,7 +25,9 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "shared/*": ["./src/shared/*"]
+      "shared/*": ["./src/shared/*"],
+      "app/*": ["./src/app/*"],
+      "options/*": ["./src/options/*"]
     }
   },
   "exclude": [
@@ -34,9 +36,8 @@
     "scripts",
     "acceptance-tests",
     "webpack",
-    "jest",
-    "src/setupTests.ts"
+    "jest"
   ],
   "types": ["typePatches", "chrome", "webpack"],
-  "include": ["src"]
+  "include": ["src", "webpack.config.ts"]
 }

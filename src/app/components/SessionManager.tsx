@@ -8,8 +8,6 @@ import SessionData from 'shared/types/Session';
 import { v4 as uuidv4 } from 'uuid';
 import Menu, { MenuItem, Point } from './Menu';
 
-import styles from './SessionManager.scss';
-
 export default function SessionManager() {
   const [sessions, setSessions, isPersistent, error] = useChromeStorageLocal(
     'sessions',
@@ -157,9 +155,12 @@ export default function SessionManager() {
   });
 
   return (
-    <main>
-      <SessionCreation save={saveSession}></SessionCreation>
-      <div className={styles.sessionContainer}>{Sessions}</div>
+    <main className="section-outer relative">
+      <section className="section-inner my-5">
+        <SessionCreation saveHandler={saveSession} />
+      </section>
+
+      <div className="section-inner">{Sessions}</div>
       <Menu
         loc={menuLoc}
         trigger={triggerElement}

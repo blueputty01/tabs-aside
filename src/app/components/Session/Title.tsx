@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 interface TitleProps {
   title: string;
   renameMode: boolean;
-  className: string;
+  className?: string;
   saveRename: (title: string) => void;
 }
 
@@ -50,6 +50,6 @@ export default function Title(props: TitleProps) {
       ref={ref}
     ></input>
   ) : (
-    <div className={props.className}>{props.title}</div>
+    <div>{props.title}</div>
   );
 }

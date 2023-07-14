@@ -1,6 +1,4 @@
-import { loadPartialConfig } from '@babel/core';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import styles from './Menu.scss';
 
 interface MenuProps {
   visibility: boolean;
@@ -101,7 +99,7 @@ export default function Menu(props: MenuProps) {
   });
 
   return (
-    <div ref={menu} className={styles.menu} style={locStyles}>
+    <div ref={menu} style={locStyles}>
       {iDItems}
     </div>
   );

@@ -1,17 +1,8 @@
-import {
-  Fragment,
-  MouseEvent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import Window, { TabStatesI, WindowProps } from '../shared/Window';
-import styles from './SelectableWindow.scss';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import Window, { TabStatesI, WindowProps } from '../Window';
 
 import { useIsMount } from 'shared/utils/utils';
 import { TabData } from 'shared/types/Tab';
-import OpenTabs from './OpenTabs';
 
 interface SelectableWindowProps extends WindowProps {
   tabs: TabData[];
@@ -20,7 +11,6 @@ interface SelectableWindowProps extends WindowProps {
 }
 
 interface SelectableTabProps extends TabData {
-  favIconUrl: string;
   key: string;
   selected: boolean;
   top: boolean;
@@ -35,9 +25,6 @@ export default function SelectableWindow(props: SelectableWindowProps) {
     return props.tabs!.map((tab, i): SelectableTabProps => {
       const key = tab.id!.toString();
 
-      if (tab.favIconUrl === undefined) {
-        tab.favIconUrl = `chrome://favicon/${tab.url}`;
-      }
       let top = false;
       let bottom = false;
       const prevTab = props.tabs![i - 1];
@@ -52,7 +39,6 @@ export default function SelectableWindow(props: SelectableWindowProps) {
       return {
         title: tab.title!,
         url: tab.url!,
-        favIconUrl: tab.favIconUrl!,
         id: tab.id!,
         selected: selected[key] || false,
         top,
@@ -122,9 +108,6 @@ export default function SelectableWindow(props: SelectableWindowProps) {
       index={props.index}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
-      spanClasses={windowSelected && styles.selected}
-      containerClass={windowSelected && styles.selected}
-      hoverClass={!windowSelected && styles.hover}
-    ></Window>
+    />
   );
 }

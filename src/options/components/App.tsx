@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import './App.scss';
-import Header from 'shared/components/header/Header';
+import 'shared/global.css';
+import Header from 'shared/components/Header';
 import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionData from 'shared/types/Session';
 import Section from './Section';
@@ -27,7 +27,7 @@ export default function App() {
               <a href="https://chrome.google.com/webstore/detail/tabs-aside/nboikgnmjgjcnnhencinblbaikdccdlb">
                 Tabs Aside{' '}
               </a>
-              by <a href="https://blueputty01.github.io">Blue Putty</a>
+              by <a href="https://blueputty01.github.io">Alexander Yang</a>
             </p>
             <p>
               Problem/cool idea? Contact the developer by emailing{' '}
@@ -37,7 +37,7 @@ export default function App() {
               <a href="https://chrome.google.com/webstore/detail/tabs-aside/nboikgnmjgjcnnhencinblbaikdccdlb">
                 Chrome Web Store listing
               </a>{' '}
-              (I won't get notified of posts here).
+              (I won't get notified of posts there).
             </p>
           </div>
         </Section>

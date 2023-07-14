@@ -1,35 +1,40 @@
 import React from 'react';
-import Header from 'shared/components/header/Header';
-import Icon from 'shared/components/Icon';
+import Header from 'shared/components/Header';
+import { IoMdSettings } from '@react-icons/all-files/io/IoMdSettings';
+import { MdFullscreen } from '@react-icons/all-files/md/MdFullscreen';
 
-interface props {
+interface HeaderProps {
   isPopup: boolean;
 }
 
-export default function PopupHeader(props: props) {
-  const settingsHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    link('options.html');
-  };
+const settingsHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  link('options.html');
+};
 
-  const fullscreenHandler = () => {
-    link('app.html');
-  };
+const fullscreenHandler = () => {
+  link('app.html');
+};
 
-  const link = (url: string): void => {
-    chrome.tabs.create({
-      url: url,
-      active: true,
-    });
-  };
+const link = (url: string): void => {
+  chrome.tabs.create({
+    url: url,
+    active: true,
+  });
+};
 
+export default function PopupHeader(props: HeaderProps) {
   const buttons = (
     <React.Fragment>
-      <Icon type="settings" onClick={settingsHandler}></Icon>
+      <button onClick={settingsHandler} className="rounded-button">
+        <IoMdSettings />
+      </button>
       {props.isPopup && (
-        <Icon type="fullscreen" onClick={fullscreenHandler}></Icon>
+        <button onClick={fullscreenHandler} className="rounded-button">
+          <MdFullscreen />
+        </button>
       )}
     </React.Fragment>
   );
 
-  return <Header buttons={buttons}></Header>;
+  return <Header buttons={buttons} />;
 }

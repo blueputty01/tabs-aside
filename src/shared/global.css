@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .section-outer {
+    @apply px-5 sm:px-7;
+  }
+  .section-inner {
+    @apply mx-auto w-full max-w-7xl;
+  }
+  .button {
+    @apply hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
+  .rounded-button {
+    @apply button flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xl;
+  }
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 0.1s ease-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--after-open {
+  @apply animate-zoom-in;
+}
+
+.ReactModal__Content--before-close {
+  @apply animate-zoom-out;
+}
+
+body {
+  @apply m-0 min-h-[30rem] min-w-[24rem] p-0 text-sm text-slate-900;
+}

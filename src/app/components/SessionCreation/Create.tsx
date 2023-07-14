@@ -1,22 +1,19 @@
 import {
   MouseEventHandler,
   MutableRefObject,
-  ReactElement,
   useEffect,
   useRef,
   useState,
 } from 'react';
-import styles from './Create.scss';
-import utils from 'shared/scss/utils.scss';
 
-import AddIcon from './add.svg';
+import { IoMdAdd } from '@react-icons/all-files/io/IoMdAdd';
 
-interface props {
+interface CreateProps {
   autoFocus?: boolean;
   onClick?: MouseEventHandler;
 }
 
-export default function CreateButton(props: props) {
+export default function CreateButton(props: CreateProps) {
   const ref = useRef() as MutableRefObject<HTMLInputElement>;
   const [hasFocus, setFocus] = useState(false);
 
@@ -29,13 +26,13 @@ export default function CreateButton(props: props) {
   return (
     <button
       title="Crate a session"
-      className={[styles.add, utils.accent].join(' ')}
+      className="button flex w-full items-center justify-center gap-2 rounded-lg px-4 py-3 shadow-md"
       onClick={props.onClick}
       onFocus={() => setFocus(true)}
       onBlur={() => setFocus(false)}
       autoFocus={props.autoFocus}
     >
-      <AddIcon />
+      <IoMdAdd size={25} />
       Add Session
     </button>
   );

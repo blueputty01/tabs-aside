@@ -1,8 +1,7 @@
 import { MouseEvent } from 'react';
 import { TabData, TabStore } from 'shared/types/Tab';
 import OpenTabs from '../SessionCreation/OpenTabs';
-import Window, { WindowProps } from '../shared/Window';
-import styles from './SessionWindow.scss';
+import Window, { WindowProps } from '../Window';
 
 interface SessionWindowProps extends WindowProps {
   tabs: TabData[];
@@ -35,7 +34,6 @@ export default function SessionWindow(props: SessionWindowProps) {
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
       tabs={props.tabs}
-      hoverClass={styles.hover}
       onClose={() => {}}
     ></Window>
   );

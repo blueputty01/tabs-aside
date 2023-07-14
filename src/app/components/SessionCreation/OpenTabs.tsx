@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import Modal from 'react-modal';
 import { TabData } from 'shared/types/Tab';
@@ -5,7 +6,7 @@ import SelectableWindow from './SelectableWindow';
 
 type SelectionHandler = (tabs: TabData[][]) => void;
 interface OpenTabProps {
-  className: string;
+  // className: string;
   onSelectionChange: SelectionHandler;
 }
 
@@ -85,11 +86,15 @@ export default function OpenTabs(props: OpenTabProps) {
         index={i == 0 ? -1 : i + 1}
         selectionHandler={onSelectionChange}
         tabs={window.tabs as unknown as TabData[]}
-      ></SelectableWindow>
+      />
     );
   });
 
-  return <div className={props.className}>{Windows}</div>;
+  return (
+    <div className="flex flex-col overflow-y-auto rounded-lg border-2 border-slate-300">
+      {Windows}
+    </div>
+  );
 }
 
 export type { SelectionHandler };
