@@ -1,24 +1,20 @@
-import { useEffect, useMemo, useState } from 'react';
-import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 import SessionCreation from './SessionCreation';
+import Session from './Session';
+import { useChromeStorageLocal } from 'shared/utils/chrome.storage';
 
-import Session, { actionHandler } from './Session';
-import { TabStore } from 'shared/types/Tab';
-import SessionData from 'shared/types/Session';
 import { v4 as uuidv4 } from 'uuid';
-import Menu, { MenuItem, Point } from './Menu';
+import { useMemo, useState } from 'react';
+import type { TabStore } from 'shared/types/Tab';
+import type SessionData from 'shared/types/Session';
 
 export default function SessionManager() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sessions, setSessions, isPersistent, error] = useChromeStorageLocal(
     'sessions',
     [] as SessionData[]
   );
 
-  const [menuVisibility, setMenuVisibility] = useState(false);
   const [renaming, setRenaming] = useState([] as string[]);
-  const [triggerId, setTriggerId] = useState('');
-  const [menuLoc, setMenuLoc] = useState([0, 0] as Point);
-  const [triggerElement, setTrigger] = useState<HTMLElement | null>(null);
 
   const saveSession = (
     title: string,
@@ -36,52 +32,19 @@ export default function SessionManager() {
         return cleanWindow;
       }
     );
-    setSessions((prev: SessionData[]): SessionData[] => {
-      return [
-        ...prev,
-        { title, windows: cleanWindows, id: uuidv4() } as SessionData,
-      ];
-    });
+    setSessions((prev: SessionData[]): SessionData[] => [
+      ...prev,
+      { title, windows: cleanWindows, id: uuidv4() } as SessionData,
+    ]);
 
     if (checked) {
       chrome.tabs.remove(ids);
     }
   };
 
-  const showMenu = (
-    target: HTMLElement | null,
-    id: string,
-    x: number,
-    y: number
-  ) => {
-    setTriggerId(id);
-    setTrigger(target);
-    setMenuLoc([x, y]);
-    setMenuVisibility(true);
-  };
-
-  const menuActionHandler: actionHandler = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    id: string
-  ) => {
-    const target = e.target as HTMLElement;
-
-    const rect = target.getBoundingClientRect();
-
-    let snapX = rect.right - rect.width / 2;
-    let snapY = rect.bottom - rect.height / 2;
-
-    showMenu(target, id, snapX, snapY);
-  };
-
-  const contextHandler: actionHandler = (e: React.MouseEvent, id: string) => {
-    e.preventDefault();
-    showMenu(null, id, e.clientX, e.clientY);
-  };
-
   const saveRename = (title: string, id: string) => {
     setSessions((prev: SessionData[]) => {
-      const session = prev.find((session) => session.id === id);
+      const session = prev.find((prevSession) => prevSession.id === id);
       if (typeof session !== 'undefined') {
         session.title = title;
       } else {
@@ -89,25 +52,19 @@ export default function SessionManager() {
       }
       return prev;
     });
-    setRenaming((prev: string[]) => {
-      return prev.filter((id) => id !== id);
-    });
+    setRenaming((prev: string[]) => prev.filter((localId) => localId !== id));
   };
 
   const sessionComp = () =>
     sessions.map((session: SessionData): React.ReactElement => {
-      const r = renaming.includes(session.id);
       return (
         <Session
-          renameMode={r}
-          contextHandler={contextHandler}
-          overflowClickHandler={menuActionHandler}
           key={session.id}
           saveRename={(title: string) => {
             saveRename(title, session.id);
           }}
           {...session}
-        ></Session>
+        />
       );
     });
 
@@ -121,55 +78,21 @@ export default function SessionManager() {
   };
 
   const deleteSession = (id: string) => {
-    setSessions((prev: SessionData[]) => {
-      return prev.filter((session: SessionData) => session.id !== id);
-    });
+    setSessions((prev: SessionData[]) =>
+      prev.filter((session: SessionData) => session.id !== id)
+    );
   };
 
   const renameSession = (id: string) => {
-    setRenaming((prev: string[]) => {
-      return [...prev, id];
-    });
+    setRenaming((prev: string[]) => [...prev, id]);
   };
 
-  type MenuHandler = (id: string) => void;
-
-  interface menuItem {
-    label: string;
-    handler: MenuHandler;
-  }
-
-  const menuMap: menuItem[] = [
-    { label: 'Rename', handler: renameSession },
-    { label: 'Delete', handler: deleteSession },
-  ];
-
-  const MenuItems = menuMap.map((item: menuItem) => {
-    return (
-      <MenuItem
-        key={item.label}
-        onClick={item.handler}
-        label={item.label}
-      ></MenuItem>
-    );
-  });
-
   return (
-    <main className="section-outer relative">
-      <section className="section-inner my-5">
+    <main className="section-outer relative min-h-fit ">
+      <div className="section-inner flex min-h-fit flex-col gap-3 py-7 md:grid md:grid-cols-2 md:items-start md:py-12 lg:grid-cols-3">
         <SessionCreation saveHandler={saveSession} />
-      </section>
-
-      <div className="section-inner">{Sessions}</div>
-      <Menu
-        loc={menuLoc}
-        trigger={triggerElement}
-        visibility={menuVisibility}
-        onExit={onMenuExit}
-        id={triggerId}
-      >
-        {MenuItems}
-      </Menu>
+        {Sessions}
+      </div>
     </main>
   );
 }

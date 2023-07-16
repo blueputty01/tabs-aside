@@ -108,6 +108,7 @@ export default function SelectableWindow({
     <Window
       tabs={tabData}
       index={index}
+      selected={windowSelected}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
     />

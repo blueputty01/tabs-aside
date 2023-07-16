@@ -21,6 +21,8 @@
     "Chrome > 4 and > 0.1%"
   ],
   "dependencies": {
+    "@floating-ui/react": "^0.24.8",
+    "@headlessui/react": "^1.7.15",
     "@react-icons/all-files": "^4.1.0",
     "@types/webpack": "^5.28.1",
     "classnames": "^2.3.2",

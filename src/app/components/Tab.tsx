@@ -1,18 +1,12 @@
 import classnames from 'classnames';
-import { MouseEventHandler } from 'react';
 import { IoMdClose } from '@react-icons/all-files/io/IoMdClose';
+import type { MouseEventHandler } from 'react';
 
 interface Props {
   title: string;
-  hover?: boolean;
   selected?: boolean;
   onClick?: MouseEventHandler;
-  onMouseEnter: MouseEventHandler;
-  onMouseLeave: MouseEventHandler;
   url: string;
-  hoverClass?: string;
-  top?: boolean;
-  bottom?: boolean;
   onClose?: Function;
 }
 
@@ -23,36 +17,30 @@ function faviconURL(u: string) {
   return url.toString();
 }
 
-export default function Tab({
-  url,
-  title,
-  onClick,
-  onMouseEnter,
-  onMouseLeave,
-  onClose,
-  selected,
-}: Props) {
+export default function Tab({ url, title, onClick, onClose, selected }: Props) {
   return (
     <div
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
       className={classnames(
-        'relative flex w-full cursor-pointer items-center space-x-2 overflow-hidden rounded-md px-2 py-1 hover:bg-gray-100',
-        selected && 'bg-gray-200'
+        'relative flex w-full items-center space-x-2 overflow-hidden rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
+        selected ? 'bg-blue-200' : 'hover:bg-blue-100'
       )}
       title={`${title}\n${url}`}
     >
-      <img src={faviconURL(url)} className="h-4"></img>
-      <span
+      <button
+        onClick={onClick}
+        type="button"
         className={classnames(
-          'grow overflow-hidden text-clip whitespace-nowrap bg-gradient-to-r from-slate-900 from-95% to-transparent bg-clip-text text-transparent'
+          'flex grow cursor-pointer items-center gap-2 overflow-hidden text-clip whitespace-nowrap bg-gradient-to-r from-slate-900 from-95% to-transparent bg-clip-text text-left text-transparent dark:from-slate-100'
         )}
       >
+        <img src={faviconURL(url)} alt="favicon" className="h-4" />
         {title}
-      </span>
+      </button>
       {onClose && (
-        <button className="rounded-button text-xl">
+        <button
+          className="button rounded-full p-1 text-slate-500"
+          type="button"
+        >
           <IoMdClose />
         </button>
       )}

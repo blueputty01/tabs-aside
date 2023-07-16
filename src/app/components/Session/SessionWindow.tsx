@@ -1,4 +1,3 @@
-import OpenTabs from '../SessionCreation/OpenTabs';
 import Window from '../Window';
 import type { MouseEvent } from 'react';
 import type { TabData, TabStore } from 'shared/types/Tab';
@@ -14,26 +13,24 @@ export function openWindow(tabs: TabStore[]) {
   chrome.windows.create({ url: urls });
 }
 
-export default function SessionWindow(props: SessionWindowProps) {
+export default function SessionWindow({ tabs, index }: SessionWindowProps) {
   const tabClickHandler = (event: MouseEvent, key: string) => {
     // possibly add helper method later to generate id?
-    const [{ url }] = props.tabs.filter(
-      (tab: TabData) => tab.id.toString() === key
-    );
+    const [{ url }] = tabs.filter((tab: TabData) => tab.id.toString() === key);
     chrome.tabs.create({ url, active: false });
   };
 
-  const windowClickHandler = (event: MouseEvent) => {
-    openWindow(props.tabs);
+  const windowClickHandler = () => {
+    openWindow(tabs);
   };
 
   return (
     <Window
-      index={props.index}
+      index={index}
       tabClickHandler={tabClickHandler}
       windowClickHandler={windowClickHandler}
-      tabs={props.tabs}
+      tabs={tabs}
       onClose={() => {}}
-     />
+    />
   );
 }

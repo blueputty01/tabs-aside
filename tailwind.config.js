@@ -1,8 +1,15 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const colors = require('tailwindcss/colors');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        tabHover: colors.blue[200],
+      },
       boxShadow: {
         md: '0 1px 2px 0 hsla(206, 6%, 25%, 0.3), 0 2px 6px 2px hsla(206, 6%, 25%, 0.1)',
       },

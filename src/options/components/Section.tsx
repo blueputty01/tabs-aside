@@ -1,15 +1,15 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface SectionProps {
   title: string;
   children?: ReactNode;
 }
 
-export default function Section(props: SectionProps) {
+export default function Section({ title, children }: SectionProps) {
   return (
-    <section>
-      <h1>{props.title}</h1>
-      {props.children}
+    <section className="section-inner py-10">
+      <h1 className="text-2xl font-semibold">{title}</h1>
+      {children}
     </section>
   );
 }

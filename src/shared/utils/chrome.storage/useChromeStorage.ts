@@ -1,5 +1,6 @@
-import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import storage from './storage';
+import { useCallback, useEffect, useState } from 'react';
+import type { SetStateAction} from 'react';
 
 /**
  * Basic hook for storage
@@ -13,13 +14,11 @@ export default function useChromeStorage(
   initialValue: any,
   storageArea: 'sync' | 'local' | 'managed'
 ) {
-  const [INITIAL_VALUE] = useState(() => {
-    return typeof initialValue === 'function' ? initialValue() : initialValue;
-  });
+  const [INITIAL_VALUE] = useState(() => typeof initialValue === 'function' ? initialValue() : initialValue);
   const [STORAGE_AREA] = useState(storageArea);
   const [state, setState] = useState(INITIAL_VALUE);
   const [isPersistent, setIsPersistent] = useState(true);
-  const [error, setError] = useState('');
+  const [globalError, setError] = useState('');
 
   useEffect(() => {
     storage
@@ -72,5 +71,5 @@ export default function useChromeStorage(
     };
   }, [key, STORAGE_AREA]);
 
-  return [state, updateValue, isPersistent, error];
+  return [state, updateValue, isPersistent, globalError];
 }

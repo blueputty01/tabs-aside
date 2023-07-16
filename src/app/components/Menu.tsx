@@ -11,27 +11,32 @@ interface MenuProps {
 
 export type Point = [number, number];
 
-const getWidth = () => {
-  return Math.max(
+const getWidth = () =>
+  Math.max(
     document.body.scrollWidth,
     document.documentElement.scrollWidth,
     document.body.offsetWidth,
     document.documentElement.offsetWidth,
     document.documentElement.clientWidth
   );
-};
 
-const getHeight = () => {
-  return Math.max(
+const getHeight = () =>
+  Math.max(
     document.body.scrollHeight,
     document.documentElement.scrollHeight,
     document.body.offsetHeight,
     document.documentElement.offsetHeight,
     document.documentElement.clientHeight
   );
-};
 
-export default function Menu(props: MenuProps) {
+export default function Menu({
+  loc,
+  trigger,
+  onExit,
+  visibility,
+  children,
+  id,
+}: MenuProps) {
   const absorbedEvent = useRef(false);
 
   const menu = useRef(null);
@@ -39,8 +44,8 @@ export default function Menu(props: MenuProps) {
   const pageH = getHeight();
   const pageW = getWidth();
 
-  const clickX = props.loc[0];
-  const clickY = props.loc[1];
+  const clickX = loc[0];
+  const clickY = loc[1];
 
   const [left, setLeft] = useState(clickX);
   const [top, setTop] = useState(clickY);
@@ -67,20 +72,18 @@ export default function Menu(props: MenuProps) {
     }
   }, [clickX, clickY]);
 
-  let locStyles = {
+  const locStyles = {
     top,
     left,
-    display: props.visibility ? 'flex' : 'none',
+    display: visibility ? 'flex' : 'none',
   };
 
   const windowHandler = (e: MouseEvent) => {
-    if (absorbedEvent.current || props.trigger == null) {
+    if (absorbedEvent.current || trigger == null) {
       absorbedEvent.current = false;
-      props.onExit();
-    } else {
-      if (e.target === props.trigger) {
-        absorbedEvent.current = true;
-      }
+      onExit();
+    } else if (e.target === trigger) {
+      absorbedEvent.current = true;
     }
   };
 
@@ -89,11 +92,11 @@ export default function Menu(props: MenuProps) {
     return () => {
       window.removeEventListener('click', windowHandler);
     };
-  }, [props.onExit]);
+  }, [onExit]);
 
-  const iDItems = React.Children.map(props.children, (child) => {
+  const iDItems = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, { id: props.id });
+      return React.cloneElement(child, { id });
     }
     return null;
   });
@@ -111,14 +114,14 @@ interface MenuItemProps {
   id?: string;
 }
 
-export function MenuItem(props: MenuItemProps) {
+export function MenuItem({ id, onClick, label }: MenuItemProps) {
   const clickHandler = () => {
-    props.onClick(props.id);
+    onClick(id);
   };
 
   return (
-    <button key={props.label} onClick={clickHandler} tabIndex={0}>
-      {props.label}
+    <button key={label} type="button" onClick={clickHandler} tabIndex={0}>
+      {label}
     </button>
   );
 }

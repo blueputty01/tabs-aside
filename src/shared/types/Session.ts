@@ -1,4 +1,4 @@
-import { TabStore } from './Tab';
+import type { TabStore } from './Tab';
 
 export default interface SessionData {
   id: string;

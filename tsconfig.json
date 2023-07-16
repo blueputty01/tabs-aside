@@ -39,5 +39,5 @@
     "jest"
   ],
   "types": ["typePatches", "chrome", "webpack"],
-  "include": ["src", "webpack.config.ts"]
+  "include": ["./src", "./webpack.config.ts", "./tailwind.config.js"]
 }
